@@ -1,0 +1,15 @@
+.Menu-drinksButton {
+  position: absolute;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 20px;
+  color: #202329;
+  font-weight: 400;
+  width: auto;
+  height: 48px;
+  border-radius: 2px;
+  border: none;
+  font-family: 'Montserrat';
+  z-index: 2;
+  background: rgba(127, 255, 212, 0.783);
+}
