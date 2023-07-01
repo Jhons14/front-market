@@ -4,7 +4,7 @@ import { ProductList } from "../ProductList";
 import { ProductItem } from "../ProductItem";
 import { DrinksMenu } from "../DrinksMenu";
 import { Title } from "../Title";
-import { MenuButton } from "../MenuButton";
+import { MainMenu } from "../MainMenu";
 import {CloseMenuButton} from "../CloseMenuButton"
 
 function AppUI() {
@@ -17,10 +17,11 @@ function AppUI() {
   } = useProducts();
   return (
   <React.Fragment>   
-    {!productsActive && <MenuButton
-      productsActive = {productsActive}
-      setProductsActive = {setProductsActive}
-    />}
+    {!productsActive && <MainMenu
+    productsActive = {productsActive}
+    setProductsActive = {setProductsActive}
+    />
+    }
 
     <DrinksMenu
     productsActive = {productsActive}
