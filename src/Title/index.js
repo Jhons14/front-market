@@ -1,11 +1,7 @@
-import "./index.css"
+import "./index.css";
 
-function Title(props){
-  return (
-    <h1 
-    className="Title">
-    Menu de bebidas</h1>
-  )
+function Title(props) {
+  return <h1 className="Title">{props.typeProductActive}</h1>;
 }
 
-export {Title};
+export { Title };

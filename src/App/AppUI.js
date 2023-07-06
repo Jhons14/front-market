@@ -5,49 +5,59 @@ import { ProductItem } from "../ProductItem";
 import { DrinksMenu } from "../DrinksMenu";
 import { Title } from "../Title";
 import { MainMenu } from "../MainMenu";
-import {CloseMenuButton} from "../CloseMenuButton"
+import { CloseMenuButton } from "../CloseMenuButton";
+import { ScreenLoading } from "../ScreenLoading";
+import { Menus } from "../Menus";
+import { ScreenError } from "../ScreenError";
 
-function AppUI() {
-
+function AppUI(props) {
   const {
     products,
-    getProducts,
     productsActive,
-    setProductsActive
+    setProductsActive,
+    typeProductActive,
+    setTypeProductActive,
+    loading,
+    setLoading,
+    error,
   } = useProducts();
   return (
-  <React.Fragment>   
-    {!productsActive && <MainMenu
-    productsActive = {productsActive}
-    setProductsActive = {setProductsActive}
-    />
-    }
-
-    <DrinksMenu
-    productsActive = {productsActive}
-    >     
-    <CloseMenuButton
-      productsActive = {productsActive}
-      setProductsActive = {setProductsActive}
-    />       
-      <Title/>     
-      <ProductList
-        getProducts = {getProducts}
-        products = {products}
-        productsActive = {productsActive}
+    <React.Fragment>
+      {console.log(productsActive)}
+      <MainMenu
+        error={error}
+        onError={() => <ScreenError />}
+        typeProductActive={typeProductActive}
+        onShowMenus={() => (
+          <Menus
+            setProductsActive={setProductsActive}
+            setTypeProductActive={setTypeProductActive}
+            setLoading={setLoading}
+          />
+        )}
+      />
+      <DrinksMenu
+        productsActive={productsActive}
+        loading={loading}
+        onLoading={() => <ScreenLoading />}
       >
-        {product=>(
+        <CloseMenuButton
+          typeProductActive={typeProductActive}
+          setTypeProductActive={setTypeProductActive}
+        />
+        <Title typeProductActive={typeProductActive} />
+        <ProductList products={products} productsActive={productsActive}>
+          {(product) => (
             <ProductItem
-              key = {product.productId}
-              name = {product.name}
-              price = {product.price}
-              id = {product.id}            
+              key={product.productId}
+              name={product.name}
+              price={product.price}
+              id={product.id}
             />
-          )   
-        }
-      </ProductList> 
-    </DrinksMenu>
-  </React.Fragment>
-  )
+          )}
+        </ProductList>
+      </DrinksMenu>
+    </React.Fragment>
+  );
 }
-export {AppUI};
+export { AppUI };

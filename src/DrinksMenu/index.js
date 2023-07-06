@@ -1,11 +1,13 @@
-import ReactDOM  from "react-dom"
-import "./DrinksMenu.css"
+import ReactDOM from "react-dom";
+import "./DrinksMenu.css";
 
 function DrinksMenu(props) {
-  return ReactDOM.createPortal(    
-    <div className="MenuContainer">{!!props.productsActive && props.children}</div>,
-    document.getElementById("menu")
-  )
+  return (
+    <div className="MenuContainer">
+      {!!props.loading && props.onLoading()}
+      {!props.loading && !!props.productsActive && props.children}
+    </div>
+  );
 }
 
-export {DrinksMenu}
+export { DrinksMenu };

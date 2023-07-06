@@ -1,49 +1,84 @@
-
 import React from "react";
 
-function useProducts(){
-    
-    const [products, setProducts]= React.useState([""]);    
-    const [productsActive, setProductsActive] = React.useState(false);
-    const authAPI = "http://localhost:2020/platzi-market/api/auth/authenticate"
-    const getAllProdAPI = "http://localhost:2020/platzi-market/api/products/all";
-  
+function useProducts() {
+  const [products, setProducts] = React.useState([""]);
+  const [productsActive, setProductsActive] = React.useState(false);
+  const [typeProductActive, setTypeProductActive] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(false);
 
-    const credentials={
-      method: "POST",
-      headers:{
-        "Content-Type":"application/json",
-      },
-      body:JSON.stringify({
-        "username" : "jhon",
-        "password" : "Platzi#14"
-      })
+  const authAPI = "http://localhost:2020/platzi-market/api/auth/authenticate";
+  const getAllProdAPI = "http://localhost:2020/platzi-market/api/products/all";
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      const chooseCategory = () => {
+        let categoryActive = "";
+        if (typeProductActive === "Bebidas") {
+          categoryActive = 5;
+        } else if (typeProductActive === "Comidas") {
+          categoryActive = 2;
+        } else if (typeProductActive === "Postres") {
+          categoryActive = 3;
+        }
+        return categoryActive;
       };
 
-    
-      
-    async function getProducts(){     
-      const responseAuth = await fetch(authAPI, credentials);
-      const token = await responseAuth.json();
-      const parsedToken = token.jwt;
+      const getProductByCategoryURL = `http://localhost:2020/platzi-market/api/products/category/${chooseCategory()}`;
 
-      const response = await fetch(getAllProdAPI, {
-        method: "GET",
-        headers: {
-          "Authorization":`Bearer ${parsedToken}`,
+      async function getProducts() {
+        console.log("antes");
+        const credentials = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: "jhon",
+            password: "Platzi#14",
+          }),
+        };
+        const responseAuth = await fetch(authAPI, credentials).catch((error) =>
+          setError(error)
+        );
+        const token = await responseAuth.json();
+        const parsedToken = token.jwt;
+
+        await fetch(getProductByCategoryURL, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${parsedToken}`,
+          },
+        })
+          .then((data) => (data = data.json()))
+          .then((data) => setProducts(data))
+          .catch((error) => setError(error));
+        setLoading(false);
+        setProductsActive(true);
+        console.log("despues");
+      }
+
+      if (typeProductActive) {
+        try {
+          getProducts();
+        } catch (error) {
+          setError(error);
+          console.log(error);
         }
-      });
-      const data = await response.json();
-      setProducts (data);  
-    }
+      }
+    }, 1000);
+  }, [typeProductActive]);
 
-  return ({      
-    getProducts,
+  return {
     products,
     productsActive,
-    setProductsActive
-  }
-  )
+    setProductsActive,
+    typeProductActive,
+    setTypeProductActive,
+    loading,
+    setLoading,
+    error,
+  };
 }
 
-export {useProducts};
+export { useProducts };

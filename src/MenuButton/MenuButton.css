@@ -1,15 +1,19 @@
-.Menu-drinksButton {
-  position: absolute;
+.MenuButton {
+  height: 70px;
   cursor: pointer;
-  display: inline-block;
   font-size: 20px;
   color: #202329;
   font-weight: 400;
-  width: auto;
-  height: 48px;
-  border-radius: 2px;
+  border-radius: 20px;
   border: none;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   z-index: 2;
+}
+
+.BebidasButton {
   background: rgba(127, 255, 212, 0.783);
+}
+
+.ComidasButton {
+  background: rgba(247, 112, 245, 0.625);
 }

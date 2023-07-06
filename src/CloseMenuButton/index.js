@@ -1,12 +1,14 @@
-import "./CloseMenuButton.css"
+import "./CloseMenuButton.css";
 
 function CloseMenuButton(props) {
   return (
-    <button 
+    <button
       className="CloseMenuButton"
-      onClick = {( )=> props.setProductsActive(false)}
-    >X</button>
-  )
+      onClick={() => props.setTypeProductActive("")}
+    >
+      X
+    </button>
+  );
 }
 
-export {CloseMenuButton}
+export { CloseMenuButton };

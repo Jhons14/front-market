@@ -1,13 +1,17 @@
-import "./MenuButton.css"
+import "./MenuButton.css";
 
 function MenuButton(props) {
-
   return (
-    <button className={`Menu-drinksButton`}
-    onClick={()=>props.setProductsActive(prevState=>!prevState)}>
-    Menu de bebidas
+    <button
+      className={`MenuButton ${props.category}Button`}
+      onClick={() => {
+        props.setTypeProductActive(props.category);
+        props.setLoading(true);
+      }}
+    >
+      {`Menu ${props.category}`}
     </button>
-  )
+  );
 }
 
-export {MenuButton}
+export { MenuButton };
