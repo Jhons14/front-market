@@ -3,12 +3,12 @@ import { useProducts } from "./useProducts";
 import { ProductList } from "../ProductList";
 import { ProductItem } from "../ProductItem";
 import { DrinksMenu } from "../DrinksMenu";
-import { Title } from "../Title";
+import { Title } from "../MenuTitle";
 import { MainMenu } from "../MainMenu";
 import { CloseMenuButton } from "../CloseMenuButton";
-import { ScreenLoading } from "../ScreenLoading";
+import { ScreenLoading } from "../common/ScreenLoading";
 import { Menus } from "../Menus";
-import { ScreenError } from "../ScreenError";
+import { ScreenError } from "../common/ScreenLoading/ScreenError";
 
 function AppUI(props) {
   const {
