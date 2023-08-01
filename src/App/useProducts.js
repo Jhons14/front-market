@@ -27,7 +27,6 @@ function useProducts() {
       const getProductByCategoryURL = `http://localhost:2020/platzi-market/api/products/category/${chooseCategory()}`;
 
       async function getProducts() {
-        console.log("antes");
         const credentials = {
           method: "POST",
           headers: {
@@ -38,12 +37,11 @@ function useProducts() {
             password: "Platzi#14",
           }),
         };
-        const responseAuth = await fetch(authAPI, credentials).catch((error) =>
-          setError(error)
-        );
-        const token = await responseAuth.json();
-        const parsedToken = token.jwt;
-
+        const parsedToken = await fetch(authAPI, credentials)
+          .then((res) => res.json().then((res) => res.jwt))
+          .catch((error) => {
+            setError(error);
+          });
         await fetch(getProductByCategoryURL, {
           method: "GET",
           headers: {
@@ -51,11 +49,14 @@ function useProducts() {
           },
         })
           .then((data) => (data = data.json()))
-          .then((data) => setProducts(data))
-          .catch((error) => setError(error));
-        setLoading(false);
+          .then((data) => {
+            setProducts(data);
+          })
+          .catch((error) => {
+            setError(error);
+          });
         setProductsActive(true);
-        console.log("despues");
+        setLoading(false);
       }
 
       if (typeProductActive) {

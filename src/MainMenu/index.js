@@ -1,17 +1,19 @@
 import "./MainMenu.css";
 function MainMenu(props) {
-  if (!props.typeProductActive) {
+  const onSuccess = () => {
     return (
-      <div className="MainMenu-Container">
+      <section className="success">
         <div className="orders">
           <h1>Pedidos</h1>
         </div>
         {props.onShowMenus()}
-      </div>
+      </section>
     );
-  }
-  if (!!props.error) {
-    return props.onError;
-  }
+  };
+  return (
+    <div className="MainMenu-Container">
+      {!props.error && !props.typeProductActive && onSuccess()}
+    </div>
+  );
 }
 export { MainMenu };

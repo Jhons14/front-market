@@ -1,8 +1,9 @@
 .Menus {
+  height: border-box;
   display: grid;
-  padding: 20px;
   grid-template-columns: repeat(2, 1fr);
-  height: 100vh;
+  height: 95vh;
   align-content: center;
   gap: 20px;
+  padding: 20px;
 }

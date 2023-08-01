@@ -23,10 +23,8 @@ function AppUI(props) {
   } = useProducts();
   return (
     <React.Fragment>
-      {console.log(productsActive)}
       <MainMenu
         error={error}
-        onError={() => <ScreenError />}
         typeProductActive={typeProductActive}
         onShowMenus={() => (
           <Menus
@@ -40,6 +38,8 @@ function AppUI(props) {
         productsActive={productsActive}
         loading={loading}
         onLoading={() => <ScreenLoading />}
+        error={error}
+        onError={() => <ScreenError error={error} />}
       >
         <CloseMenuButton
           typeProductActive={typeProductActive}

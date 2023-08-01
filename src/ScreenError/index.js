@@ -1,5 +1,5 @@
-function ScreenError(props) {
-  return <h1>Error</h1>;
+function ScreenError({ error }) {
+  return <h1>{`${error}`}</h1>;
 }
 
 export { ScreenError };
