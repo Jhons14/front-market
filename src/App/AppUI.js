@@ -2,13 +2,13 @@ import React from "react";
 import { useProducts } from "./useProducts";
 import { ProductList } from "../ProductList";
 import { ProductItem } from "../ProductItem";
-import { DrinksMenu } from "../DrinksMenu";
+import { ProductMenu } from "../ProductMenu";
 import { Title } from "../MenuTitle";
 import { MainMenu } from "../MainMenu";
 import { CloseMenuButton } from "../CloseMenuButton";
 import { ScreenLoading } from "../common/ScreenLoading";
 import { Menus } from "../Menus";
-import { ScreenError } from "../common/ScreenLoading/ScreenError";
+import { ScreenError } from "../common/ScreenError";
 
 function AppUI(props) {
   const {
@@ -34,8 +34,8 @@ function AppUI(props) {
           />
         )}
       />
-      <DrinksMenu
-        productsActive={productsActive}
+      <ProductMenu
+        typeProductsActive={typeProductActive}
         loading={loading}
         onLoading={() => <ScreenLoading />}
         error={error}
@@ -56,7 +56,7 @@ function AppUI(props) {
             />
           )}
         </ProductList>
-      </DrinksMenu>
+      </ProductMenu>
     </React.Fragment>
   );
 }

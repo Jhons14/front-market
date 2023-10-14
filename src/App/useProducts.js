@@ -64,7 +64,6 @@ function useProducts() {
           getProducts();
         } catch (error) {
           setError(error);
-          console.log(error);
         }
       }
     }, 1000);

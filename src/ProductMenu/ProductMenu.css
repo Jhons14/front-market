@@ -1,0 +1,7 @@
+.MenuContainer--true {
+  background-color: rgba(249, 238, 164, 0.434);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
