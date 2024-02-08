@@ -1,0 +1,5 @@
+.Menus {
+  display: grid;
+  grid-template-columns: repeat(1, 380px);
+  gap: 20px;
+}

@@ -1,25 +1,25 @@
-import { MenuButton } from "../MenuButton";
-import "./Menus.css";
+import { MenuButton } from '../MenuButton';
+import './Menus.css';
 
 function Menus(props) {
   return (
-    <div className="Menus">
+    <div className='Menus'>
       <MenuButton
         setProductsActive={props.setProductsActive}
         setTypeProductActive={props.setTypeProductActive}
-        category="Bebidas"
+        category='Bebidas'
         setLoading={props.setLoading}
       />
       <MenuButton
         setProductsActive={props.setProductsActive}
         setTypeProductActive={props.setTypeProductActive}
-        category="Comidas"
+        category='Comidas'
         setLoading={props.setLoading}
       />
       <MenuButton
         setProductsActive={props.setProductsActive}
         setTypeProductActive={props.setTypeProductActive}
-        category="Postres"
+        category='Postres'
         setLoading={props.setLoading}
       />
     </div>

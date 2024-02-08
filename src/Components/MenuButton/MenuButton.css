@@ -1,0 +1,31 @@
+.MenuButton {
+  display: flex;
+  height: 120px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #202329;
+  font-weight: 400;
+  border: none;
+  font-family: 'Montserrat';
+  z-index: 2;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.MenuButton > span {
+  color: rgb(0, 0, 0);
+  font-size: xx-large;
+  font-weight: bolder;
+  font-family: 'Protest Riot', sans-serif;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.MenuImg {
+  border-radius: 20px;
+  position: absolute;
+  opacity: 0.7;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
