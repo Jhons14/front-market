@@ -11,9 +11,6 @@ export function MainProvider({ children }) {
   const onSetProducts = (products) =>
     dispatch({ type: actionTypes.setProducts, payload: products });
 
-  const onSetMenuToShow = (menu) =>
-    dispatch({ type: actionTypes.setMenuToShow, payload: menu });
-
   const onSetLoading = (isActive) =>
     dispatch({ type: actionTypes.setLoading, payload: isActive });
 
@@ -22,6 +19,9 @@ export function MainProvider({ children }) {
   };
   const onSetProductsActive = () => {
     dispatch({ type: actionTypes.setProductsActive });
+  };
+  const onSetTypeProductActive = () => {
+    dispatch({ type: actionTypes.setTypeProductsActive });
   };
 
   const getActiveCategory = () => {
@@ -96,10 +96,8 @@ export function MainProvider({ children }) {
       value={{
         error: state.error,
         loading: state.loading,
-        menuToShow: state.menuToShow,
         products: state.products,
         typeProductActive: state.typeProductActive,
-        setMenuToShow: onSetMenuToShow,
         setError: onSetError,
         setLoading: onSetLoading,
         setProducts: onSetProducts,
@@ -115,7 +113,7 @@ const initialState = () => {
   return {
     error: false,
     loading: false,
-    menuToShow: '',
+    productActive: '',
     products: [],
   };
 };
@@ -128,9 +126,9 @@ const reducerObject = (state, payload) => ({
     ...state,
     loading: payload,
   },
-  [actionTypes.setMenuToShow]: {
+  [actionTypes.setTypeProductActive]: {
     ...state,
-    menuToShow: payload,
+    typeProductActive: payload,
   },
   [actionTypes.setProducts]: {
     ...state,
@@ -145,7 +143,7 @@ const reducerObject = (state, payload) => ({
 const actionTypes = {
   setError: 'SET_ERROR',
   setLoading: 'SET_LOADING',
-  setMenuToShow: 'MENU_TO_SHOW',
+  setTypeProductActive: 'SET_TYPE_PRODUCT_ACTIVE',
   setProducts: 'SET_PRODUCTS',
   setProductsActive: 'SET_PRODUCTS_ACTIVE',
 };

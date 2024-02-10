@@ -1,10 +1,11 @@
+import { useContext } from 'react';
+import Layout from '../../Components/Layout';
+import { MainContext } from '../../Context';
 import { useNavigate } from 'react-router-dom';
-import { useProducts } from '../../Utils/useProducts';
 import { ProductList } from '../../Components/ProductList';
 import { ProductItem } from '../../Components/ProductItem';
 import { Title } from '../../Components/MenuTitle';
 import { CloseMenuButton } from '../../Components/CloseMenuButton';
-import Layout from '../../Components/Layout';
 import { ScreenLoading } from '../../common/ScreenLoading';
 import { ScreenError } from '../../common/ScreenError';
 import './ProductMenu.css';
@@ -34,7 +35,12 @@ import './ProductMenu.css';
   )}
 </ProductList> */
 }
+
 function ProductMenu(props) {
+  const { typeProductActive, setTypeProductActive, productsActive, products } =
+    useContext(MainContext);
+
+  console.log(products);
   const navigate = useNavigate();
 
   return (
@@ -45,14 +51,11 @@ function ProductMenu(props) {
       </Layout>
       <div className={`MenuContainer`}>
         <CloseMenuButton
-          typeProductActive={props.typeProductActive}
-          setTypeProductActive={props.setTypeProductActive}
+          typeProductActive={typeProductActive}
+          setTypeProductActive={setTypeProductActive}
         />
-        <Title typeProductActive={props.typeProductActive} />
-        <ProductList
-          products={props.products}
-          productsActive={props.productsActive}
-        >
+        <Title typeProductActive={typeProductActive} />
+        <ProductList products={products} productsActive={productsActive}>
           {(product) => (
             <ProductItem
               key={product.productId}

@@ -5,10 +5,11 @@ import { NavBar } from '../../Components/NavBar';
 import { MainMenu } from '../../Components/MainMenu';
 import { ScreenError } from '../../common/ScreenError';
 import { ScreenLoading } from '../../common/ScreenLoading';
+import { ProductMenu } from '../ProductMenu';
 function AppRoutes() {
   let routes = useRoutes([
     { path: '/', element: <Home /> },
-    { path: '/bebidas', element: <MainMenu /> },
+    { path: '/bebidas', element: <ProductMenu /> },
     { path: '/error', element: <ScreenError /> },
   ]);
 
