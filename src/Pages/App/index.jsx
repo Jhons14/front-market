@@ -1,4 +1,5 @@
 import { useRoutes, BrowserRouter } from 'react-router-dom';
+import { MainProvider } from '../../Context';
 import { Home } from '../Home';
 import { NavBar } from '../../Components/NavBar';
 import { MainMenu } from '../../Components/MainMenu';
@@ -16,10 +17,12 @@ function AppRoutes() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <NavBar />
-      <AppRoutes />
-    </BrowserRouter>
+    <MainProvider>
+      <BrowserRouter>
+        <NavBar />
+        <AppRoutes />
+      </BrowserRouter>
+    </MainProvider>
   );
 }
 export { App };
