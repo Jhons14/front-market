@@ -3,20 +3,24 @@ import './MenuButton.css';
 
 function MenuButton(props) {
   const navigate = useNavigate();
-  const IMG_DRINKS_URL =
-    'src/assets/bebidas_espirituosas-alcohol-nutricion_388473428_119607645_1706x1280.webp';
-  const IMG_FOOD_URL = 'src/assets/world-food-day-2020.png';
-  const IMG_DESSERT_URL = 'src/assets/Classic-French-Macarons-490.jpg';
-  const getCategoryImg = () => {
-    if (props.category === 'Bebidas') {
-      return IMG_DRINKS_URL;
-    }
-    if (props.category === 'Comidas') {
-      return IMG_FOOD_URL;
-    }
-    if (props.category === 'Postres') {
-      return IMG_DESSERT_URL;
-    }
+
+  const imgUrls = [
+    {
+      productCategory: 'bebidas',
+      url: 'src/assets/bebidas_espirituosas-alcohol-nutricion_388473428_119607645_1706x1280.webp',
+    },
+    {
+      productCategory: 'comidas',
+      url: 'src/assets/world-food-day-2020.png',
+    },
+    {
+      productCategory: 'postres',
+      url: 'src/assets/Classic-French-Macarons-490.jpg',
+    },
+  ];
+  const getCategoryImg = (category) => {
+    const img = imgUrls.find((imgUrl) => imgUrl.productCategory === category);
+    return img.url;
   };
   return (
     <div
@@ -29,7 +33,7 @@ function MenuButton(props) {
     >
       <img
         className={`MenuImg MenuImg-${props.category}`}
-        src={getCategoryImg()}
+        src={getCategoryImg(props.category)}
         alt={props.category}
       />
       <span to='/ProductMenu'>{props.category}</span>;

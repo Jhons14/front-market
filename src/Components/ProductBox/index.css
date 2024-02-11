@@ -1,0 +1,7 @@
+.ProductBox {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  background-color: #eef5ff;
+  border-radius: 10px;
+  height: 250px;
+}

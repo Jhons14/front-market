@@ -20,20 +20,33 @@ export function MainProvider({ children }) {
   const onSetProductsActive = () => {
     dispatch({ type: actionTypes.setProductsActive });
   };
-  const onSetTypeProductActive = () => {
-    dispatch({ type: actionTypes.setTypeProductsActive });
+  const onSetTypeProductActive = (typeProductActive) => {
+    dispatch({
+      type: actionTypes.setTypeProductActive,
+      payload: typeProductActive,
+    });
   };
 
+  const categoryHomologation = [
+    {
+      name: 'bebidas',
+      categoryId: 5,
+    },
+    {
+      name: 'comidas',
+      categoryId: 2,
+    },
+    {
+      name: 'postres',
+      categoryId: 3,
+    },
+  ];
+
   const getActiveCategory = () => {
-    let categoryActive;
-    if (state.typeProductActive === 'Bebidas') {
-      categoryActive = 5;
-    } else if (state.typeProductActive === 'Comidas') {
-      categoryActive = 2;
-    } else if (state.typeProductActive === 'Postres') {
-      categoryActive = 3;
-    }
-    return categoryActive;
+    const category = categoryHomologation.find(
+      (category) => category.name === state.typeProductActive
+    );
+    return category?.categoryId;
   };
 
   const PRODUCT_BY_CATEGORY_URL = `http://localhost:2020/platzi-market/api/products/category/${getActiveCategory()}`;
@@ -50,7 +63,6 @@ export function MainProvider({ children }) {
   };
 
   async function authenticate() {
-    onSetLoading(true);
     const parsedToken = await fetch(AUTHENTICATION_URL, credentials)
       .then((res) => res.json().then((res) => res.jwt))
       .catch((error) => {
@@ -61,17 +73,19 @@ export function MainProvider({ children }) {
 
   async function getProducts() {
     const parsedToken = await authenticate();
+
     await fetch(PRODUCT_BY_CATEGORY_URL, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${parsedToken}`,
       },
     })
+      .then((data) => (data = data.json()))
       .then((data) => {
-        parsedData = data.json();
-        onSetProducts(parsedData);
+        onSetProducts(data);
       })
       .catch((error) => {
+        console.log(error);
         onSetError(error);
       });
 
@@ -81,7 +95,7 @@ export function MainProvider({ children }) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (state.menuToShow) {
+      if (state.typeProductActive !== '') {
         try {
           getProducts();
         } catch (error) {
@@ -97,11 +111,13 @@ export function MainProvider({ children }) {
         error: state.error,
         loading: state.loading,
         products: state.products,
+        productsActive: state.productsActive,
         typeProductActive: state.typeProductActive,
+        setProductsActive: onSetProductsActive,
         setError: onSetError,
         setLoading: onSetLoading,
         setProducts: onSetProducts,
-        setTypeProductActive: onSetProductsActive,
+        setTypeProductActive: onSetTypeProductActive,
       }}
     >
       {children}
@@ -113,8 +129,9 @@ const initialState = () => {
   return {
     error: false,
     loading: false,
-    productActive: '',
+    productsActive: '',
     products: [],
+    typeProductActive: '',
   };
 };
 const reducerObject = (state, payload) => ({

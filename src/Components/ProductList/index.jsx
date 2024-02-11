@@ -1,8 +1,17 @@
-import React from "react";
-import "./index.css";
+import React from 'react';
+import './index.css';
+import { ProductBox } from '../ProductBox';
 
-function ProductList(props) {
-  return <ul className="ProductList">{props.products.map(props.children)}</ul>;
+function ProductList({ products }) {
+  const renderView = () =>
+    products.map((product) => (
+      <ProductBox
+        key={product.productId}
+        name={product.name}
+        price={product.price}
+      />
+    ));
+  return renderView();
 }
 
 export { ProductList };

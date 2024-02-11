@@ -7,19 +7,19 @@ function Menus(props) {
       <MenuButton
         setProductsActive={props.setProductsActive}
         setTypeProductActive={props.setTypeProductActive}
-        category='Bebidas'
+        category='bebidas'
         setLoading={props.setLoading}
       />
       <MenuButton
         setProductsActive={props.setProductsActive}
         setTypeProductActive={props.setTypeProductActive}
-        category='Comidas'
+        category='comidas'
         setLoading={props.setLoading}
       />
       <MenuButton
         setProductsActive={props.setProductsActive}
         setTypeProductActive={props.setTypeProductActive}
-        category='Postres'
+        category='postres'
         setLoading={props.setLoading}
       />
     </div>

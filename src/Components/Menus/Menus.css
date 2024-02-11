@@ -1,5 +1,6 @@
 .Menus {
-  display: grid;
-  grid-template-columns: repeat(1, 380px);
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }

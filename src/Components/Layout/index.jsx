@@ -1,6 +1,6 @@
 function Layout({ children }) {
   const layerStyle = {
-    marginTop: '80px',
+    marginTop: '55px',
   };
   return <div style={layerStyle}>{children}</div>;
 }

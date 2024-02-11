@@ -5,8 +5,12 @@ import { ScreenLoading } from '../../common/ScreenLoading';
 import { useProducts } from '../../Utils/useProducts';
 import { MainMenu } from '../../Components/MainMenu';
 import { Menus } from '../../Components/Menus';
+import './index.css';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 function Home(props) {
+  const location = useLocation();
+
   const {
     products,
     menuToShow,
@@ -18,22 +22,17 @@ function Home(props) {
     setLoading,
     error,
   } = React.useContext(MainContext);
+
   return (
     <Layout>
-      <MainMenu
-        products={products}
-        error={error}
-        typeProductActive={typeProductActive}
-        loading={loading}
-        onLoading={() => <ScreenLoading />}
-        onShowMenus={() => (
-          <Menus
-            setProductsActive={setProductsActive}
-            setTypeProductActive={setTypeProductActive}
-            setLoading={setLoading}
-          />
-        )}
-      />
+      <div className='home-container'>
+        <Menus
+          setProductsActive={setProductsActive}
+          setTypeProductActive={setTypeProductActive}
+          setLoading={setLoading}
+        />
+        <Outlet />
+      </div>
     </Layout>
   );
 }
