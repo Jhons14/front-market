@@ -26,8 +26,6 @@ function MenuButton(props) {
     <div
       className={`MenuButton ${props.category}Button`}
       onClick={() => {
-        props.setTypeProductActive(props.category);
-        props.setLoading(true);
         navigate(props.category.toLowerCase());
       }}
     >

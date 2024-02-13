@@ -2,6 +2,5 @@
   display: grid;
   grid-template-columns: 1fr 3fr 2fr;
   height: calc(100vh - 55px);
-  gap: 20px;
   box-sizing: border-box;
 }

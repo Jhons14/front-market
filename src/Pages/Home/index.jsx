@@ -2,8 +2,6 @@ import React from 'react';
 import { MainContext } from '../../Context';
 import Layout from '../../Components/Layout';
 import { ScreenLoading } from '../../common/ScreenLoading';
-import { useProducts } from '../../Utils/useProducts';
-import { MainMenu } from '../../Components/MainMenu';
 import { Menus } from '../../Components/Menus';
 import './index.css';
 import { Link, Outlet, useLocation } from 'react-router-dom';
@@ -31,7 +29,11 @@ function Home(props) {
           setTypeProductActive={setTypeProductActive}
           setLoading={setLoading}
         />
-        <Outlet />
+
+        <div className='product-menu-container'>
+          <Outlet />
+        </div>
+        <div className='order-resume'>order-resume</div>
       </div>
     </Layout>
   );

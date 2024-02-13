@@ -14,18 +14,20 @@ export function MainProvider({ children }) {
   const onSetLoading = (isActive) =>
     dispatch({ type: actionTypes.setLoading, payload: isActive });
 
-  const onSetError = (error) => {
+  const onSetError = (error) =>
     dispatch({ type: actionTypes.setError, payload: error });
-  };
-  const onSetProductsActive = () => {
+
+  const onSetProductsActive = () =>
     dispatch({ type: actionTypes.setProductsActive });
-  };
-  const onSetTypeProductActive = (typeProductActive) => {
+
+  const onSetTypeProductActive = (typeProductActive) =>
     dispatch({
       type: actionTypes.setTypeProductActive,
       payload: typeProductActive,
     });
-  };
+
+  const onSetCartProducts = (products) =>
+    dispatch({ type: actionTypes.setCartProducts, payload: products });
 
   const categoryHomologation = [
     {
@@ -82,18 +84,18 @@ export function MainProvider({ children }) {
     })
       .then((data) => (data = data.json()))
       .then((data) => {
+        console.log(data);
         onSetProducts(data);
       })
       .catch((error) => {
-        console.log(error);
         onSetError(error);
       });
-
     onSetLoading(false);
     onSetProductsActive();
   }
 
   useEffect(() => {
+    onSetLoading(true);
     setTimeout(() => {
       if (state.typeProductActive !== '') {
         try {
@@ -102,6 +104,7 @@ export function MainProvider({ children }) {
           onSetError(error);
         }
       }
+      onSetLoading(false);
     }, 1000);
   }, [state.typeProductActive]);
 
@@ -113,11 +116,13 @@ export function MainProvider({ children }) {
         products: state.products,
         productsActive: state.productsActive,
         typeProductActive: state.typeProductActive,
+        cartProducts: state.cartProducts,
         setProductsActive: onSetProductsActive,
         setError: onSetError,
         setLoading: onSetLoading,
         setProducts: onSetProducts,
         setTypeProductActive: onSetTypeProductActive,
+        setCartProducts: onSetCartProducts,
       }}
     >
       {children}
@@ -132,6 +137,7 @@ const initialState = () => {
     productsActive: '',
     products: [],
     typeProductActive: '',
+    cartProducts: [],
   };
 };
 const reducerObject = (state, payload) => ({
@@ -155,6 +161,10 @@ const reducerObject = (state, payload) => ({
     ...state,
     isActive: true,
   },
+  [actionTypes.setCartProducts]: {
+    ...state,
+    products: payload,
+  },
 });
 
 const actionTypes = {
@@ -163,6 +173,7 @@ const actionTypes = {
   setTypeProductActive: 'SET_TYPE_PRODUCT_ACTIVE',
   setProducts: 'SET_PRODUCTS',
   setProductsActive: 'SET_PRODUCTS_ACTIVE',
+  setCartProducts: 'SET_CART_PRODUCTS',
 };
 
 const reducer = (state, action) => {

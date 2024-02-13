@@ -1,5 +1,7 @@
 .Menus {
-  margin-top: 20px;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
