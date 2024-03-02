@@ -9,16 +9,16 @@ import './index.css';
 
 function ProductMenu() {
   const {
-    setCartProducts,
-    cartProduts,
+    setOrderList,
+    orderList,
     error,
     productsActive,
     typeProductActive,
     setTypeProductActive,
     products,
     loading,
+    tableActive,
   } = useContext(MainContext);
-
   if (typeProductActive !== location.pathname.substring(1)) {
     setTypeProductActive(location.pathname.substring(1));
   }
@@ -31,14 +31,16 @@ function ProductMenu() {
       return <ScreenLoading />;
     } else {
       return (
-        <div className={`product-menu`}>
+        <div className={`product-menu-container`}>
           <ProductList products={products} productsActive={productsActive}>
             {(product) => (
               <ProductBox
                 key={product.productId}
-                name={product.name}
+                productName={product.name}
                 price={product.price}
-                setCartProducts={setCartProducts}
+                setOrderList={setOrderList}
+                orderList={orderList}
+                tableActive={tableActive}
               />
             )}
           </ProductList>

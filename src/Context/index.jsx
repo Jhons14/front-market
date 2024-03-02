@@ -26,8 +26,11 @@ export function MainProvider({ children }) {
       payload: typeProductActive,
     });
 
-  const onSetCartProducts = (products) =>
-    dispatch({ type: actionTypes.setCartProducts, payload: products });
+  const onSetOrderList = (products) =>
+    dispatch({ type: actionTypes.setOrderList, payload: products });
+
+  const onSetTableActive = (tableActive) =>
+    dispatch({ type: actionTypes.setTableActive, payload: tableActive });
 
   const categoryHomologation = [
     {
@@ -84,7 +87,6 @@ export function MainProvider({ children }) {
     })
       .then((data) => (data = data.json()))
       .then((data) => {
-        console.log(data);
         onSetProducts(data);
       })
       .catch((error) => {
@@ -116,13 +118,16 @@ export function MainProvider({ children }) {
         products: state.products,
         productsActive: state.productsActive,
         typeProductActive: state.typeProductActive,
-        cartProducts: state.cartProducts,
+        orderList: state.orderList,
+        tableActive: state.tableActive,
         setProductsActive: onSetProductsActive,
         setError: onSetError,
         setLoading: onSetLoading,
         setProducts: onSetProducts,
         setTypeProductActive: onSetTypeProductActive,
-        setCartProducts: onSetCartProducts,
+        setOrderList: onSetOrderList,
+        setTableActive: onSetTableActive,
+        state,
       }}
     >
       {children}
@@ -137,7 +142,7 @@ const initialState = () => {
     productsActive: '',
     products: [],
     typeProductActive: '',
-    cartProducts: [],
+    orderList: [],
   };
 };
 const reducerObject = (state, payload) => ({
@@ -161,9 +166,13 @@ const reducerObject = (state, payload) => ({
     ...state,
     isActive: true,
   },
-  [actionTypes.setCartProducts]: {
+  [actionTypes.setOrderList]: {
     ...state,
-    products: payload,
+    orderList: payload,
+  },
+  [actionTypes.setTableActive]: {
+    ...state,
+    tableActive: payload,
   },
 });
 
@@ -173,7 +182,8 @@ const actionTypes = {
   setTypeProductActive: 'SET_TYPE_PRODUCT_ACTIVE',
   setProducts: 'SET_PRODUCTS',
   setProductsActive: 'SET_PRODUCTS_ACTIVE',
-  setCartProducts: 'SET_CART_PRODUCTS',
+  setOrderList: 'SET_ORDER_LIST',
+  setTableActive: 'SET_TABLE_ACTIVE',
 };
 
 const reducer = (state, action) => {

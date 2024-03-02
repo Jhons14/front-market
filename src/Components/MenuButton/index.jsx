@@ -34,7 +34,7 @@ function MenuButton(props) {
         src={getCategoryImg(props.category)}
         alt={props.category}
       />
-      <span to='/ProductMenu'>{props.category}</span>;
+      <span to='/ProductMenu'>{props.category}</span>
     </div>
   );
 }

@@ -5,20 +5,14 @@ import { ScreenLoading } from '../../common/ScreenLoading';
 import { Menus } from '../../Components/Menus';
 import './index.css';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import { OrderSection } from '../OrderSection';
 
-function Home(props) {
-  const location = useLocation();
-
+function Home() {
   const {
-    products,
-    menuToShow,
-    setMenuToShow,
     setProductsActive,
-    typeProductActive,
     setTypeProductActive,
-    loading,
     setLoading,
-    error,
+    setTableActive,
   } = React.useContext(MainContext);
 
   return (
@@ -29,11 +23,8 @@ function Home(props) {
           setTypeProductActive={setTypeProductActive}
           setLoading={setLoading}
         />
-
-        <div className='product-menu-container'>
           <Outlet />
-        </div>
-        <div className='order-resume'>order-resume</div>
+        <OrderSection setTableActive={setTableActive} />
       </div>
     </Layout>
   );

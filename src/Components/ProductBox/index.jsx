@@ -1,5 +1,6 @@
 import './index.css';
 import { ProductAdditions } from '../ProductAdditions';
+import { useState } from 'react';
 
 function ProductBox(props) {
   const ProductDetail = () => (
@@ -20,11 +21,33 @@ function ProductBox(props) {
   );
 
   const handleAdd = () => {
-    props.setCartProducts({ productName: props.name });
+    props.setOrderList([
+      ...props.orderList,
+      { products: props.productName, table: props.tableActive },
+    ]);
+
+    // props.orderList.map((order) =>
+    {
+      //   console.log(order);
+      //   if (!!order.table === props.tableActive) {
+      //     order.products.push(props.productName);
+      //     console.log(newOrderList);
+      //     console.log('1234');
+      //   } else {
+      //     props.setOrderList([
+      //       ...props.orderList,
+      //       { products: props.productName, table: props.tableActive },
+      //       console.log('123'),
+      //     ]);
+      //   }
+      // });
+    }
   };
+  props.orderList.map((order) => console.log(order));
+
   return (
     <div className={`ProductBox`}>
-      <p className='product-title'>{props.name}</p>
+      <p className='product-title'>{props.productName}</p>
       <div className='product-interface'>
         <section className='product-specifics'>
           <div style={{ border: 'solid 1px' }}>photo</div>
@@ -39,7 +62,11 @@ function ProductBox(props) {
               justifyContent: 'flex-end',
             }}
           >
-            <button className='addToCart-button' onClick={handleAdd}>
+            <button
+              className='addToCart-button'
+              style={{ cursor: 'pointer' }}
+              onClick={() => handleAdd()}
+            >
               add to cart
             </button>
           </div>
