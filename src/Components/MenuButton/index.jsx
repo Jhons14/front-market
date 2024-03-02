@@ -27,6 +27,7 @@ function MenuButton(props) {
       className={`MenuButton ${props.category}Button`}
       onClick={() => {
         navigate(props.category.toLowerCase());
+        props.setTypeProductActive(location.pathname.substring(1));
       }}
     >
       <img

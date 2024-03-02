@@ -10,44 +10,35 @@ import './index.css';
 function ProductMenu() {
   const {
     setCartProducts,
-    cartProduts,
     error,
-    productsActive,
     typeProductActive,
     setTypeProductActive,
     products,
     loading,
   } = useContext(MainContext);
 
-  if (typeProductActive !== location.pathname.substring(1)) {
-    setTypeProductActive(location.pathname.substring(1));
-  }
-
   const renderView = () => {
     if (!!error && !loading) {
       return <ScreenError />;
-    }
-    if (!!loading) {
+    } else if (!!loading) {
       return <ScreenLoading />;
-    } else {
+    } else if (!error && !loading) {
       return (
-        <div className={`product-menu`}>
-          <ProductList products={products} productsActive={productsActive}>
-            {(product) => (
-              <ProductBox
-                key={product.productId}
-                name={product.name}
-                price={product.price}
-                setCartProducts={setCartProducts}
-              />
-            )}
-          </ProductList>
-        </div>
+        <ProductList products={products}>
+          {(product) => (
+            <ProductBox
+              key={product.productId}
+              name={product.name}
+              price={product.price}
+              setCartProducts={setCartProducts}
+            />
+          )}
+        </ProductList>
       );
     }
   };
 
-  return renderView();
+  return <div className={`product-menu`}>{renderView()}</div>;
 }
 
 export { ProductMenu };

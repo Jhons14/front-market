@@ -8,6 +8,8 @@ export function MainProvider({ children }) {
 
   const [state, dispatch] = useReducer(reducer, initialState());
 
+  const currentPath = window.location.pathname;
+
   const onSetProducts = (products) =>
     dispatch({ type: actionTypes.setProducts, payload: products });
 
@@ -36,11 +38,11 @@ export function MainProvider({ children }) {
     },
     {
       name: 'comidas',
-      categoryId: 2,
+      categoryId: 3,
     },
     {
       name: 'postres',
-      categoryId: 3,
+      categoryId: 2,
     },
   ];
 
@@ -51,7 +53,8 @@ export function MainProvider({ children }) {
     return category?.categoryId;
   };
 
-  const PRODUCT_BY_CATEGORY_URL = `http://localhost:2020/platzi-market/api/products/category/${getActiveCategory()}`;
+  const PRODUCT_BY_CATEGORY_URL = () =>
+    `http://localhost:2020/platzi-market/api/products/category/${getActiveCategory()}`;
 
   const credentials = {
     method: 'POST',
@@ -64,19 +67,17 @@ export function MainProvider({ children }) {
     }),
   };
 
-  async function authenticate() {
-    const parsedToken = await fetch(AUTHENTICATION_URL, credentials)
-      .then((res) => res.json().then((res) => res.jwt))
-      .catch((error) => {
-        onSetError(error);
-      });
+  function authenticate() {
+    const parsedToken = fetch(AUTHENTICATION_URL, credentials)
+      .then((res) => res.json())
+      .then((res) => res.jwt)
+      .catch((error) => console.log(error));
     return parsedToken;
   }
 
   async function getProducts() {
     const parsedToken = await authenticate();
-
-    await fetch(PRODUCT_BY_CATEGORY_URL, {
+    await fetch(PRODUCT_BY_CATEGORY_URL(), {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${parsedToken}`,
@@ -84,25 +85,20 @@ export function MainProvider({ children }) {
     })
       .then((data) => (data = data.json()))
       .then((data) => {
-        console.log(data);
         onSetProducts(data);
       })
       .catch((error) => {
         onSetError(error);
       });
-    onSetLoading(false);
+
     onSetProductsActive();
   }
 
   useEffect(() => {
     onSetLoading(true);
-    setTimeout(() => {
-      if (state.typeProductActive !== '') {
-        try {
-          getProducts();
-        } catch (error) {
-          onSetError(error);
-        }
+    setTimeout(async () => {
+      if (window.location.pathname !== '/') {
+        await getProducts();
       }
       onSetLoading(false);
     }, 1000);
@@ -131,13 +127,15 @@ export function MainProvider({ children }) {
 }
 
 const initialState = () => {
+  const currentPath = window.location.pathname;
+
   return {
-    error: false,
     loading: false,
+    error: '',
     productsActive: '',
     products: [],
-    typeProductActive: '',
     cartProducts: [],
+    typeProductActive: currentPath.substring(1),
   };
 };
 const reducerObject = (state, payload) => ({
