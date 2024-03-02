@@ -9,13 +9,18 @@ import './index.css';
 
 function ProductMenu() {
   const {
-    setCartProducts,
+    setOrderList,
+    orderList,
     error,
     typeProductActive,
     setTypeProductActive,
     products,
     loading,
+    tableActive,
   } = useContext(MainContext);
+  if (typeProductActive !== location.pathname.substring(1)) {
+    setTypeProductActive(location.pathname.substring(1));
+  }
 
   const renderView = () => {
     if (!!error && !loading) {
@@ -24,16 +29,20 @@ function ProductMenu() {
       return <ScreenLoading />;
     } else if (!error && !loading) {
       return (
-        <ProductList products={products}>
-          {(product) => (
-            <ProductBox
-              key={product.productId}
-              name={product.name}
-              price={product.price}
-              setCartProducts={setCartProducts}
-            />
-          )}
-        </ProductList>
+        <div className={`product-menu-container`}>
+          <ProductList products={products} productsActive={productsActive}>
+            {(product) => (
+              <ProductBox
+                key={product.productId}
+                productName={product.name}
+                price={product.price}
+                setOrderList={setOrderList}
+                orderList={orderList}
+                tableActive={tableActive}
+              />
+            )}
+          </ProductList>
+        </div>
       );
     }
   };

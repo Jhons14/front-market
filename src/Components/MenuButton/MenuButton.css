@@ -11,7 +11,13 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  opacity: 0.7;
 }
+
+.MenuButton:hover {
+  opacity: 1;
+}
+
 .MenuButton > span {
   color: rgb(0, 0, 0);
   font-size: xx-large;
@@ -24,7 +30,6 @@
 .MenuImg {
   border-radius: 20px;
   position: absolute;
-  opacity: 0.7;
   height: 100%;
   width: 100%;
   object-fit: cover;

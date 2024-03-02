@@ -7,19 +7,12 @@ import './index.css';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { BillSection } from '../../Components/BillSection';
 
-function Home(props) {
-  const location = useLocation();
-
+function Home() {
   const {
-    products,
-    menuToShow,
-    setMenuToShow,
     setProductsActive,
-    typeProductActive,
     setTypeProductActive,
-    loading,
     setLoading,
-    error,
+    setTableActive,
   } = React.useContext(MainContext);
 
   return (
@@ -30,11 +23,8 @@ function Home(props) {
           setTypeProductActive={setTypeProductActive}
           setLoading={setLoading}
         />
-
-        <div className='product-menu-container'>
-          <Outlet />
-        </div>
-        <BillSection />
+        <Outlet />
+        <BillSection setTableActive={setTableActive} />
       </div>
     </Layout>
   );
