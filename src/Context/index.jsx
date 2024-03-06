@@ -39,11 +39,11 @@ export function MainProvider({ children }) {
     },
     {
       name: 'comidas',
-      categoryId: 2,
+      categoryId: 3,
     },
     {
       name: 'postres',
-      categoryId: 3,
+      categoryId: 2,
     },
   ];
 

@@ -12,7 +12,9 @@ function Home() {
     setProductsActive,
     setTypeProductActive,
     setLoading,
+    tableActive,
     setTableActive,
+    orderList,
   } = React.useContext(MainContext);
 
   return (
@@ -23,8 +25,12 @@ function Home() {
           setTypeProductActive={setTypeProductActive}
           setLoading={setLoading}
         />
-          <Outlet />
-        <OrderSection setTableActive={setTableActive} />
+        <Outlet />
+        <OrderSection
+          tableActive={tableActive}
+          setTableActive={setTableActive}
+          orderList={orderList}
+        />
       </div>
     </Layout>
   );
