@@ -22,6 +22,15 @@ function ProductBox(props) {
     </section>
   );
 
+  function searchIdProduct(idToSearch, list) {
+    for (let i = 0; i < list.length; i++) {
+      if (idToSearch === list[props.tableActive - 1].products[i].id) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   const handleAdd = () => {
     //Esta funcion es generica para los datos que se usan de test en este proyecto,
     //al momento de conectarlo con base de datos sera necesario realizar inserts desde aqui para mantener la base de datos sincronizada
@@ -29,73 +38,39 @@ function ProductBox(props) {
       const indexToModify = props.orderList.findIndex(
         (order) => order.table === props.tableActive
       );
+      //crea una copia del arrglo en el estado para evitar modificar el estado de manera directa
       const newOrder = [...props.orderList];
-
+      //Si existe una orden que modificar
       if (indexToModify !== -1) {
+        const idProduct = searchIdProduct(props.productId, props.orderList);
+        console.log(idProduct);
+        console.log(props.orderList);
+        //asigna un nuevo elemento en la orden exitente
         const orderUpdated = {
           ...newOrder[indexToModify],
-          products: [...newOrder[indexToModify].products, props.productName],
+          products: [
+            ...newOrder[indexToModify].products,
+            { id: props.productId, name: props.productName, quantity: 0 },
+          ],
         };
+        //Actualiza estado
         newOrder[indexToModify] = orderUpdated;
-
         props.setOrderList(newOrder);
-        // props.orderList.map((order) => {
-        //   if (order.table === props.tableActive) {
-        //     const orderToModify = order;
-        //     if (!!orderToModify) {
-        //       const newProductArray= [
-        //         ...orderToModify.products,
-        //         props.productName,
-        //       ];
-
-        //       console.log(indexToModify);
-        //       console.log(props.orderList[indexToModify]);
-        //       props.setOrderList([orderToModify]);
-        //     } else {
-        //       props.setOrderList([
-        //         ...props.orderList,
-        //         {
-        //           orderId: IDIdentator,
-        //           table: props.tableActive,
-        //           id: props.productId,
-        //           products: [props.productName],
-        //         },
-        //       ]);
-        //       setIDIdentator(IDIdentator + 1);
-        //       console.log(props.orderList);
-        //     }
-        //   }
-        // });
       } else {
         props.setOrderList([
           ...props.orderList,
           {
             orderId: IDIdentator,
             table: props.tableActive,
-            id: props.productId,
-            products: [props.productName],
+            products: [
+              { id: props.productId, name: props.productName, quantity: 0 },
+            ],
           },
         ]);
       }
       setIDIdentator(IDIdentator + 1);
     } else {
       console.log('Please select a table');
-    }
-    // props.orderList.map((order) =>
-    {
-      //   console.log(order);
-      //   if (!!order.table === props.tableActive) {
-      //     order.products.push(props.productName);
-      //     console.log(newOrderList);
-      //     console.log('1234');
-      //   } else {
-      //     props.setOrderList([
-      //       ...props.orderList,
-      //       { products: props.productName, table: props.tableActive },
-      //       console.log('123'),
-      //     ]);
-      //   }
-      // );
     }
   };
 

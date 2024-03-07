@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 
-function OrderSection({ tableActive, setTableActive, orderList }) {
-  console.log(orderList);
+function OrderSection({ tableActive, setTableActive, orderList, children }) {
+  console.log(children);
   const formRef = useRef();
-  const [openCreateTableBill, setOpenCreateBill] = useState(false);
+  const [openCreateOrder, setOpenCreateOrder] = useState(false);
   const [mesas, setMesas] = useState([
     {
       id: '1',
@@ -24,37 +24,41 @@ function OrderSection({ tableActive, setTableActive, orderList }) {
   ]);
   const checkInTable = () => {
     const formData = new FormData(formRef.current);
-    console.log(tableActive);
-    mesas[tableActive.id - 1].nombreCliente = formData.get('nombre-cliente');
-    setOpenCreateBill(false);
+    mesas[tableActive - 1].nombreCliente = formData.get('nombre-cliente');
+    setOpenCreateOrder(false);
   };
   const createBill = () => {
     return (
       <form ref={formRef}>
         <p>Nombre del cliente</p>
         <input type='text' name='nombre-cliente' id='nombre-cliente' />
-        <button type='button' onClick={() => checkInTable()}>
-          Registrar
-        </button>
+        <button onClick={() => checkInTable()}>Registrar</button>
       </form>
     );
   };
+  const listRender = () => {
+    if (!!orderList[tableActive - 1]) {
+      console.log(orderList[tableActive - 1].products);
+      tableActive && orderList[tableActive - 1].products.map(<div>holi</div>);
+    }
+    return;
+  };
   return (
-    <div className='bill-section-container'>
+    <div className='order-section-container'>
       {!!tableActive && (
         <section>
-          <p className='bill-section-title'>{`Mesa ${tableActive} - ${
+          <p className='order-section-title'>{`Mesa ${tableActive} - ${
             mesas.find((element) => tableActive === element.id).nombreCliente
           }`}</p>
           {!tableActive.nombreCliente && (
-            <button onClick={() => setOpenCreateBill(true)}>
+            <button onClick={() => setOpenCreateOrder(true)}>
               Registrar cuenta en mesa
             </button>
           )}
         </section>
       )}
-      <section>{!!openCreateTableBill && createBill()}</section>
-      <div>
+      <section>{!!openCreateOrder && createBill()}</section>
+      <div className='tablesList'>
         <ul>
           <li>
             {mesas.map((mesa) => (
@@ -64,6 +68,9 @@ function OrderSection({ tableActive, setTableActive, orderList }) {
             ))}
           </li>
         </ul>
+        <div className='productTableList'>
+          <section>{listRender()}</section>
+        </div>
       </div>
     </div>
   );

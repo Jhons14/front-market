@@ -30,7 +30,9 @@ function Home() {
           tableActive={tableActive}
           setTableActive={setTableActive}
           orderList={orderList}
-        />
+        >
+          <div>holi</div>
+        </OrderSection>
       </div>
     </Layout>
   );
