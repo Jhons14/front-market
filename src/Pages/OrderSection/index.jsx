@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 
 function OrderSection({ tableActive, setTableActive, orderList, children }) {
-  console.log(children);
   const formRef = useRef();
   const [openCreateOrder, setOpenCreateOrder] = useState(false);
   const [mesas, setMesas] = useState([
@@ -39,9 +38,11 @@ function OrderSection({ tableActive, setTableActive, orderList, children }) {
   const listRender = () => {
     if (!!orderList[tableActive - 1]) {
       console.log(orderList[tableActive - 1].products);
-      tableActive && orderList[tableActive - 1].products.map(<div>holi</div>);
+      const newOrder = orderList[tableActive - 1].products.map((product) => (
+        <div>{product.name + product.quantity}</div>
+      ));
+      return newOrder;
     }
-    return;
   };
   return (
     <div className='order-section-container'>

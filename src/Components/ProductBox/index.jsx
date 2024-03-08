@@ -23,8 +23,8 @@ function ProductBox(props) {
   );
 
   function searchIdProduct(idToSearch, list) {
-    for (let i = 0; i < list.length; i++) {
-      if (idToSearch === list[props.tableActive - 1].products[i].id) {
+    for (let i = 0; i < list.products.length; i++) {
+      if (list.products[i].id === idToSearch) {
         return i;
       }
     }
@@ -34,28 +34,43 @@ function ProductBox(props) {
   const handleAdd = () => {
     //Esta funcion es generica para los datos que se usan de test en este proyecto,
     //al momento de conectarlo con base de datos sera necesario realizar inserts desde aqui para mantener la base de datos sincronizada
+
+    //Si la mesa ya tiene una orden en curso
     if (!!props.tableActive) {
       const indexToModify = props.orderList.findIndex(
         (order) => order.table === props.tableActive
       );
-      //crea una copia del arrglo en el estado para evitar modificar el estado de manera directa
-      const newOrder = [...props.orderList];
-      //Si existe una orden que modificar
+      //Si el producto a agregar ya existe en la lista
       if (indexToModify !== -1) {
-        const idProduct = searchIdProduct(props.productId, props.orderList);
-        console.log(idProduct);
-        console.log(props.orderList);
+        const productIndex = searchIdProduct(
+          props.product.productId,
+          props.orderList[props.tableActive - 1]
+        );
+        console.log(productIndex);
+        //crea una copia del arrglo en el estado para evitar modificar el estado de manera directa
+        const newOrder = [...props.orderList];
         //asigna un nuevo elemento en la orden exitente
-        const orderUpdated = {
-          ...newOrder[indexToModify],
-          products: [
-            ...newOrder[indexToModify].products,
-            { id: props.productId, name: props.productName, quantity: 0 },
-          ],
-        };
-        //Actualiza estado
-        newOrder[indexToModify] = orderUpdated;
-        props.setOrderList(newOrder);
+        if (productIndex != -1) {
+          let orderProducts = newOrder[indexToModify].products;
+          orderProducts[productIndex].quantity += 1;
+          //Actualiza estado
+          props.setOrderList(newOrder);
+        } else {
+          const orderUpdated = {
+            ...newOrder[indexToModify],
+            products: [
+              ...newOrder[indexToModify].products,
+              {
+                id: props.product.productId,
+                name: props.product.name,
+                quantity: 1,
+              },
+            ],
+          };
+          //Actualiza estado
+          newOrder[indexToModify] = orderUpdated;
+          props.setOrderList(newOrder);
+        }
       } else {
         props.setOrderList([
           ...props.orderList,
@@ -63,7 +78,11 @@ function ProductBox(props) {
             orderId: IDIdentator,
             table: props.tableActive,
             products: [
-              { id: props.productId, name: props.productName, quantity: 0 },
+              {
+                id: props.product.productId,
+                name: props.product.name,
+                quantity: 1,
+              },
             ],
           },
         ]);
@@ -73,10 +92,10 @@ function ProductBox(props) {
       console.log('Please select a table');
     }
   };
-
+  console.log(props.orderList);
   return (
     <div className={`ProductBox`}>
-      <p className='product-title'>{props.productName}</p>
+      <p className='product-title'>{props.product.name}</p>
       <div className='product-interface'>
         <section className='product-specifics'>
           <div style={{ border: 'solid 1px' }}>photo</div>

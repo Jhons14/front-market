@@ -36,9 +36,7 @@ function ProductMenu() {
             {(product) => (
               <ProductBox
                 key={product.productId}
-                productId={product.productId}
-                productName={product.name}
-                price={product.price}
+                product={product}
                 setOrderList={setOrderList}
                 orderList={orderList}
                 tableActive={tableActive}
