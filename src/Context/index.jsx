@@ -1,10 +1,10 @@
-import { createContext, useEffect, useReducer } from 'react';
+import { createContext, useEffect, useReducer } from "react";
 
 export const MainContext = createContext();
 
 export function MainProvider({ children }) {
   const AUTHENTICATION_URL =
-    'http://localhost:2020/platzi-market/api/auth/authenticate';
+    "http://localhost:2020/platzi-market/api/auth/authenticate";
 
   const [state, dispatch] = useReducer(reducer, initialState());
 
@@ -34,15 +34,15 @@ export function MainProvider({ children }) {
 
   const categoryHomologation = [
     {
-      name: 'bebidas',
+      name: "bebidas",
       categoryId: 5,
     },
     {
-      name: 'comidas',
+      name: "comidas",
       categoryId: 3,
     },
     {
-      name: 'postres',
+      name: "postres",
       categoryId: 2,
     },
   ];
@@ -57,13 +57,13 @@ export function MainProvider({ children }) {
   const PRODUCT_BY_CATEGORY_URL = `http://localhost:2020/platzi-market/api/products/category/${getActiveCategory()}`;
 
   const credentials = {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      username: 'jhon',
-      password: 'Platzi#14',
+      username: "jhon",
+      password: "Platzi#14",
     }),
   };
 
@@ -80,7 +80,7 @@ export function MainProvider({ children }) {
     const parsedToken = await authenticate();
 
     await fetch(PRODUCT_BY_CATEGORY_URL, {
-      method: 'GET',
+      method: "GET",
       headers: {
         Authorization: `Bearer ${parsedToken}`,
       },
@@ -99,7 +99,7 @@ export function MainProvider({ children }) {
   useEffect(() => {
     onSetLoading(true);
     setTimeout(() => {
-      if (state.typeProductActive !== '') {
+      if (state.typeProductActive !== "") {
         try {
           getProducts();
         } catch (error) {
@@ -139,9 +139,9 @@ const initialState = () => {
   return {
     error: false,
     loading: false,
-    productsActive: '',
+    productsActive: "",
     products: [],
-    typeProductActive: '',
+    typeProductActive: "",
     orderList: [],
   };
 };
@@ -177,13 +177,13 @@ const reducerObject = (state, payload) => ({
 });
 
 const actionTypes = {
-  setError: 'SET_ERROR',
-  setLoading: 'SET_LOADING',
-  setTypeProductActive: 'SET_TYPE_PRODUCT_ACTIVE',
-  setProducts: 'SET_PRODUCTS',
-  setProductsActive: 'SET_PRODUCTS_ACTIVE',
-  setOrderList: 'SET_ORDER_LIST',
-  setTableActive: 'SET_TABLE_ACTIVE',
+  setError: "SET_ERROR",
+  setLoading: "SET_LOADING",
+  setTypeProductActive: "SET_TYPE_PRODUCT_ACTIVE",
+  setProducts: "SET_PRODUCTS",
+  setProductsActive: "SET_PRODUCTS_ACTIVE",
+  setOrderList: "SET_ORDER_LIST",
+  setTableActive: "SET_TABLE_ACTIVE",
 };
 
 const reducer = (state, action) => {

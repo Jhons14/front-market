@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
+import cloneDeep from 'lodash.clonedeep';
+import './index.css';
 
-function OrderSection({ tableActive, setTableActive, orderList, children }) {
+function OrderSection({ tableActive, setTableActive, orderList }) {
   const formRef = useRef();
   const [openCreateOrder, setOpenCreateOrder] = useState(false);
   const [mesas, setMesas] = useState([
@@ -29,50 +31,96 @@ function OrderSection({ tableActive, setTableActive, orderList, children }) {
   const createBill = () => {
     return (
       <form ref={formRef}>
-        <p>Nombre del cliente</p>
+        <p>Nombre del cliente:</p>
         <input type='text' name='nombre-cliente' id='nombre-cliente' />
         <button onClick={() => checkInTable()}>Registrar</button>
       </form>
     );
   };
-  const listRender = () => {
-    if (!!orderList[tableActive - 1]) {
-      console.log(orderList[tableActive - 1].products);
-      const newOrder = orderList[tableActive - 1].products.map((product) => (
-        <div>{product.name + product.quantity}</div>
-      ));
-      return newOrder;
+
+  const orderActive = cloneDeep(
+    orderList.find((listOrder) => listOrder.table === tableActive)
+  );
+  //Calcula el total a pagar del usuario y lo agrega al estado de la orden activa
+  const totalToPay = () => {
+    const orderIndexToModify = orderList.findIndex(
+      (orderItem) => orderItem === orderActive
+    );
+    if (!!orderActive) {
+      let totalOrderPrice = 0;
+      orderActive.products.forEach((product) => {
+        totalOrderPrice += product.totalPrice;
+      });
+      console.log(orderList[orderIndexToModify]);
+      orderActive.totalOrderPrice = totalOrderPrice;
+      console.log(orderActive);
     }
   };
-  return (
-    <div className='order-section-container'>
-      {!!tableActive && (
+
+  const listRender = () => {
+    if (!!orderActive) {
+      const newOrder = orderActive.products.map((product) => (
+        <section className='order-list__products'>
+          <span>{product.name}</span>
+          <span>{product.quantity}</span>
+          <span>{product.price}</span>
+          <span>{product.totalPrice}</span>
+        </section>
+      ));
+      return (
+        <div className='order-list'>
+          <section className='order-list__titles'>
+            <span>Product</span>
+            <span>Quantity</span>
+            <span>Unity price</span>
+            <span>Total price</span>
+          </section>
+          {newOrder}
+        </div>
+      );
+    }
+  };
+  const renderCheckInOut = () => {
+    if (!!tableActive) {
+      return (
         <section>
           <p className='order-section-title'>{`Mesa ${tableActive} - ${
             mesas.find((element) => tableActive === element.id).nombreCliente
           }`}</p>
-          {!tableActive.nombreCliente && (
-            <button onClick={() => setOpenCreateOrder(true)}>
-              Registrar cuenta en mesa
-            </button>
-          )}
+          {!!openCreateOrder && createBill()}
         </section>
-      )}
-      <section>{!!openCreateOrder && createBill()}</section>
-      <div className='tablesList'>
-        <ul>
+      );
+    }
+  };
+
+  return (
+    <div className='order-section-container'>
+      {renderCheckInOut()}
+      <div className='order-list'>{listRender()}</div>
+      {!!tableActive &&
+        !mesas[tableActive - 1].nombreCliente &&
+        !openCreateOrder && (
+          <button onClick={() => setOpenCreateOrder(true)}>
+            Check In mesa
+          </button>
+        )}
+      <ul className='table-buttons-container'>
+        {mesas.map((mesa) => (
           <li>
-            {mesas.map((mesa) => (
-              <button key={mesa.id} onClick={() => setTableActive(mesa.id)}>
-                Mesa {mesa.id}
-              </button>
-            ))}
+            <button
+              className='table-button'
+              key={mesa.id}
+              onClick={() => {
+                setTableActive(mesa.id);
+                setOpenCreateOrder(false);
+              }}
+            >
+              Mesa {mesa.id}
+            </button>
           </li>
-        </ul>
-        <div className='productTableList'>
-          <section>{listRender()}</section>
-        </div>
-      </div>
+        ))}
+      </ul>
+      {totalToPay()}
     </div>
   );
 }

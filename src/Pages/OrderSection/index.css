@@ -1,0 +1,33 @@
+.order-list__products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.order-list__titles {
+  font-family: Georgia;
+  font-weight: bold;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.table-buttons-container {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  height: 32px;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-button {
+  background-color: #fda503d3;
+  padding: 2px 12px;
+  border-radius: 4px;
+  height: 32px;
+  border: solid 1px;
+  transition: transform 0.4s ease; /* Transición suave al hacer hover */
+}
+.table-button:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}

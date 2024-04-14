@@ -1,0 +1,66 @@
+.options-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  padding: 12px 6px;
+  gap: 18px;
+}
+.product-option {
+  position: relative;
+  border-radius: 8px;
+  border: solid 1px rgb(165, 180, 169);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.product-option > span {
+  position: absolute;
+  left: 12px;
+  top: -12px;
+  background: white;
+  padding: 0px 4px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  height: 32px;
+  align-items: center;
+  gap: 4px;
+}
+
+.buttons-container > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.amount-buttons-container > div {
+  height: 32px;
+  width: 28px;
+}
+.option-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  transition: transform 0.4s ease; /* Transición suave al hacer hover */
+}
+.option-button:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.size-buttons-container > div {
+  width: 80px;
+  height: 28px;
+}
+
+.size-button {
+  background-color: #fda503d3;
+  padding: 2px 12px;
+  border-radius: 4px;
+}
