@@ -31,19 +31,17 @@ function ProductMenu() {
       return <ScreenLoading />;
     } else {
       return (
-        <div className={`product-menu-container`}>
-          <ProductList products={products} productsActive={productsActive}>
-            {(product) => (
-              <ProductBox
-                key={product.productId}
-                product={product}
-                setOrderList={setOrderList}
-                orderList={orderList}
-                tableActive={tableActive}
-              />
-            )}
-          </ProductList>
-        </div>
+        <ProductList products={products} productsActive={productsActive}>
+          {(product) => (
+            <ProductBox
+              key={product.productId}
+              product={product}
+              setOrderList={setOrderList}
+              orderList={orderList}
+              tableActive={tableActive}
+            />
+          )}
+        </ProductList>
       );
     }
   };

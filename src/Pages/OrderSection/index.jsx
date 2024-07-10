@@ -1,8 +1,12 @@
 import { useRef, useState } from 'react';
-import cloneDeep from 'lodash.clonedeep';
 import './index.css';
 
-function OrderSection({ tableActive, setTableActive, orderList }) {
+function OrderSection({
+  tableActive,
+  setTableActive,
+  orderList,
+  setOrderList,
+}) {
   const formRef = useRef();
   const [openCreateOrder, setOpenCreateOrder] = useState(false);
   const [mesas, setMesas] = useState([
@@ -16,56 +20,104 @@ function OrderSection({ tableActive, setTableActive, orderList }) {
     },
     {
       id: '3',
-      nombreCliente: '',
     },
     {
       id: '4',
-      nombreCliente: '',
+    },
+    {
+      id: '5',
+    },
+    {
+      id: '6',
+    },
+    {
+      id: '7',
+    },
+    {
+      id: '8',
+    },
+    {
+      id: '9',
+    },
+    {
+      id: '10',
     },
   ]);
+  const renderOrderSectionTitle = () => {
+    if (!!tableActive) {
+      const clientName = mesas.find(
+        (element) => tableActive === element.id
+      ).nombreCliente;
+
+      const renderMesaTitle = () => (
+        <p className='order-section-title'>
+          <span>Mesa {tableActive}</span>
+          <span>{clientName ? clientName : 'Sin Registrar'}</span>
+        </p>
+      );
+
+      if (!!tableActive) {
+        return (
+          <section>
+            {renderMesaTitle()}
+            {createBill()}
+          </section>
+        );
+      }
+    }
+  };
+  const createBill = () => {
+    if (!!openCreateOrder) {
+      return (
+        <form className='register-client-form' ref={formRef}>
+          <p>Nombre del cliente:</p>
+          <input type='text' name='nombre-cliente' id='nombre-cliente' />
+          <button onClick={() => checkInTable()}>Registrar</button>
+        </form>
+      );
+    }
+  };
+
   const checkInTable = () => {
     const formData = new FormData(formRef.current);
     mesas[tableActive - 1].nombreCliente = formData.get('nombre-cliente');
     setOpenCreateOrder(false);
   };
-  const createBill = () => {
-    return (
-      <form ref={formRef}>
-        <p>Nombre del cliente:</p>
-        <input type='text' name='nombre-cliente' id='nombre-cliente' />
-        <button onClick={() => checkInTable()}>Registrar</button>
-      </form>
-    );
-  };
 
-  const orderActive = cloneDeep(
-    orderList.find((listOrder) => listOrder.table === tableActive)
+  const orderActive = orderList.find(
+    (listItem) => listItem.table === tableActive
   );
+
   //Calcula el total a pagar del usuario y lo agrega al estado de la orden activa
   const totalToPay = () => {
-    const orderIndexToModify = orderList.findIndex(
-      (orderItem) => orderItem === orderActive
-    );
     if (!!orderActive) {
-      let totalOrderPrice = 0;
+      let totalToPayValue = 0;
       orderActive.products.forEach((product) => {
-        totalOrderPrice += product.totalPrice;
+        totalToPayValue += product.totalPrice;
       });
-      console.log(orderList[orderIndexToModify]);
-      orderActive.totalOrderPrice = totalOrderPrice;
-      console.log(orderActive);
+
+      const newOrderListArray = orderList.map((listItem) => {
+        if (listItem === orderActive) {
+          return { ...listItem, totalToPay: totalToPayValue };
+        }
+        return listItem;
+      });
+      if (orderList == !newOrderListArray) {
+        setOrderList(newOrderListArray);
+      }
+      return totalToPayValue;
     }
   };
 
   const listRender = () => {
     if (!!orderActive) {
-      const newOrder = orderActive.products.map((product) => (
-        <section className='order-list__products'>
+      const renderOrderValues = orderActive.products.map((product) => (
+        <div className='order-list__product'>
           <span>{product.name}</span>
           <span>{product.quantity}</span>
-          <span>{product.price}</span>
-          <span>{product.totalPrice}</span>
-        </section>
+          <span>${product.price}</span>
+          <span>${product.totalPrice}</span>
+        </div>
       ));
       return (
         <div className='order-list'>
@@ -75,27 +127,23 @@ function OrderSection({ tableActive, setTableActive, orderList }) {
             <span>Unity price</span>
             <span>Total price</span>
           </section>
-          {newOrder}
+          <section className='order-list__products-list'>
+            {renderOrderValues}
+          </section>
+          <section className='order-list__total-to-pay'>
+            <span>Total to pay</span>
+            <span></span>
+            <span></span>
+            <span> ${totalToPay()}</span>
+          </section>
         </div>
-      );
-    }
-  };
-  const renderCheckInOut = () => {
-    if (!!tableActive) {
-      return (
-        <section>
-          <p className='order-section-title'>{`Mesa ${tableActive} - ${
-            mesas.find((element) => tableActive === element.id).nombreCliente
-          }`}</p>
-          {!!openCreateOrder && createBill()}
-        </section>
       );
     }
   };
 
   return (
     <div className='order-section-container'>
-      {renderCheckInOut()}
+      {renderOrderSectionTitle()}
       <div className='order-list'>{listRender()}</div>
       {!!tableActive &&
         !mesas[tableActive - 1].nombreCliente &&
@@ -120,7 +168,6 @@ function OrderSection({ tableActive, setTableActive, orderList }) {
           </li>
         ))}
       </ul>
-      {totalToPay()}
     </div>
   );
 }

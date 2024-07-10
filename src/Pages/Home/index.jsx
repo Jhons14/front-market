@@ -14,6 +14,7 @@ function Home() {
     setLoading,
     tableActive,
     setTableActive,
+    setOrderList,
     orderList,
   } = React.useContext(MainContext);
 
@@ -25,14 +26,15 @@ function Home() {
           setTypeProductActive={setTypeProductActive}
           setLoading={setLoading}
         />
-        <Outlet />
+        <div className={`product-menu-container`}>
+          <Outlet />
+        </div>
         <OrderSection
           tableActive={tableActive}
           setTableActive={setTableActive}
           orderList={orderList}
-        >
-          <div>holi</div>
-        </OrderSection>
+          setOrderList={setOrderList}
+        ></OrderSection>
       </div>
     </Layout>
   );

@@ -4,7 +4,6 @@
   background-color: white;
   padding: 24px;
   border-radius: 10px;
-  font-family: "Zeyada", cursive;
 }
 .product-title {
   margin-top: 0;
@@ -19,18 +18,18 @@
   height: 100%;
 }
 
-.product-specifics {
+.product-details {
   display: grid;
   grid-template-columns: 1fr 2fr;
 }
 
-.product-details {
+.product-specification {
   border-radius: 8px;
   margin-top: 20px;
   position: relative;
   border: solid 1px rgb(165, 180, 169);
 }
-.product-details > span {
+.product-specification > span {
   font-weight: bold;
   padding: 0px 4px;
   background-color: white;
@@ -40,13 +39,14 @@
 }
 
 .addToCart-button {
+  width: 100%;
   cursor: pointer;
   font-size: medium;
   font-weight: bolder;
   color: #000000;
   padding: 8px 12px;
   border-radius: 8px;
-  font-family: "Zeyada", cursive;
+  font-family: 'Zeyada', cursive;
   background-color: #fda503d3;
   border: none;
 }

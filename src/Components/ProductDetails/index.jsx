@@ -6,14 +6,11 @@ function ProductDetails({ productOptionsData, setProductOptionsData }) {
   const sizesToShow = ['Small', 'Medium', 'Largue'];
   const setClickedSize = (size) => {
     const newProductOptionsData = [...productOptionsData];
-    console.log(size);
     newProductOptionsData[1].value = size;
     setProductOptionsData(newProductOptionsData);
-    console.log(newProductOptionsData);
-    console.log(productOptionsData);
   };
 
-  const handleOption = (event, option, payload) => {
+  const handleOption = (option, payload) => {
     const optionIndex = productOptionsData.findIndex(
       (add) => add.id === option.id
     );
@@ -35,23 +32,35 @@ function ProductDetails({ productOptionsData, setProductOptionsData }) {
       setProductOptionsData(newProductOptionsData);
     };
 
-    switch (event) {
-      case 'amount':
-        switch (optionIndex) {
-          case 0:
-            amountOption();
-            break;
-          case 1:
-            sizeOption();
-            break;
-        }
-      default:
+    switch (optionIndex) {
+      case 0:
+        amountOption();
+        break;
+      case 1:
+        sizeOption();
         break;
     }
   };
+  function uploadImg() {
+    var formData = new FormData();
+    var fileInput = document.getElementById('fileInput');
+    formData.append('file', fileInput.files[0]);
 
-  const renderOption = (optionType, productOption) => {
-    switch (optionType) {
+    fetch('http://localhost:2020/platzi-market/api/files/upload', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  const renderOption = (productOption) => {
+    switch (productOption.name) {
       case 'amount':
         return (
           <div className='product-option amount-option'>
@@ -59,9 +68,7 @@ function ProductDetails({ productOptionsData, setProductOptionsData }) {
             <section className='buttons-container amount-buttons-container'>
               <div>
                 <img
-                  onClick={() =>
-                    handleOption(optionType, productOption, 'subtrack')
-                  }
+                  onClick={() => handleOption(productOption, 'subtrack')}
                   className='option-button amount-button'
                   src='src\assets\minus.svg'
                 ></img>
@@ -77,9 +84,7 @@ function ProductDetails({ productOptionsData, setProductOptionsData }) {
                 <img
                   className='option-button amount-button'
                   src='src\assets\add.svg'
-                  onClick={() =>
-                    handleOption(optionType, productOption, 'plus')
-                  }
+                  onClick={() => handleOption(productOption, 'plus')}
                 ></img>
               </div>
             </section>
@@ -109,10 +114,28 @@ function ProductDetails({ productOptionsData, setProductOptionsData }) {
 
   const renderOptionList = () => (
     <div className='options-container'>
-      {renderOption('amount', productOptionsData[0])}
-      {renderOption('size', productOptionsData[1])}
+      {renderOption(productOptionsData[0])}
+      {renderOption(productOptionsData[1])}
     </div>
   );
-  return renderOptionList();
+
+  return (
+    <>
+      {renderOptionList()}
+      <>
+        <div className='product-option size-option'>
+          <span>Upload</span>
+          <section className='buttons-container size-buttons-container'>
+            <form id='uploadForm' enctype='multipart/form-data'>
+              <input type='file' name='file' id='fileInput' />
+              <button type='button' onClick={() => uploadImg()}>
+                Upload
+              </button>
+            </form>
+          </section>
+        </div>
+      </>
+    </>
+  );
 }
 export { ProductDetails };

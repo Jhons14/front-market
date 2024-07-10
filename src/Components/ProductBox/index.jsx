@@ -1,24 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ProductDetails } from '../ProductDetails';
 import './index.css';
 
 function ProductBox(props) {
   const [IDIdentator, setIDIdentator] = useState(0);
+  const [imgURL, setImgURL] = useState();
   const [productOptionsData, setProductOptionsData] = useState([
     {
       id: 1,
-      name: 'Amount',
+      name: 'amount',
       value: 0,
     },
     {
       id: 2,
-      name: 'Size',
+      name: 'size',
+      value: '',
+    },
+    {
+      id: 3,
+      name: 'uploadImg',
       value: '',
     },
   ]);
 
+  useEffect(() => {
+    const res = props.product.img_url;
+    setImgURL(res);
+  });
+
   const productDetail = () => (
-    <section className='product-details'>
+    <section className='product-specification'>
       <span>Details</span>
       <section style={{ padding: '8px' }}>
         Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -34,6 +45,7 @@ function ProductBox(props) {
     </section>
   );
 
+  //Funcion para obtener el id del producto que se agregara (El ID, no el index)
   function searchIdProduct(idToSearch, list) {
     const orderToModify = list.find(
       (listOrder) => listOrder.table === props.tableActive
@@ -66,62 +78,82 @@ function ProductBox(props) {
       );
       //Si ya existe la orden en la mesa activa
       if (indexInOrderToModify !== -1) {
+        //Obtener el id del producto que se agregara (El ID, no el index)
         const productIndex = searchIdProduct(
           props.product.productId,
           props.orderList
         );
-        //crea una copia del arrglo en el estado para evitar modificar el estado de manera directa
-        const newOrder = [...props.orderList];
 
-        //Si el producto ya existe en la lista activa, suma la cantidad seleccionada en el menu de adicones a la orden exitente
+        //Si el producto ya existe en la lista activa, s
         if (productIndex != -1) {
-          let orderProducts = newOrder[indexInOrderToModify].products;
-          orderProducts[productIndex].quantity += productAmount;
-          restartAmountCounter();
+          //crea una copia del arreglo y hace las modificaciones pertinentes en el estado para evitar modificar el estado de manera directa
+
+          const newOrderListArray = props.orderList.map((listItem) => {
+            if (listItem.orderId === indexInOrderToModify) {
+              const newProductsArray = listItem.products.map((product, i) => {
+                if (i === productIndex) {
+                  return {
+                    ...product,
+                    quantity: product.quantity + productAmount,
+                    totalPrice:
+                      (product.quantity + productAmount) * product.price,
+                  };
+                }
+                return product;
+              });
+              return { ...listItem, products: newProductsArray };
+            }
+            return listItem;
+          });
           //Actualiza estado
-          props.setOrderList(newOrder);
+          props.setOrderList(newOrderListArray);
+          //Reinicia contador de catidad a agregar
+          restartAmountCounter();
         } else {
           //Si el producto no existe en la lista activa, se hace necesario crearlo
           //Si la cantidad a agregar es diferente a cero, de lo contrario no suma nada ya que la seleccion es de cero
           if (productAmount !== 0) {
-            const orderUpdated = {
-              ...newOrder[indexInOrderToModify],
-              products: [
-                ...newOrder[indexInOrderToModify].products,
-                {
-                  id: props.product.productId,
-                  name: props.product.name,
-                  quantity: productAmount,
-                  price: props.product.price,
-                  totalPrice: productAmount * props.product.price,
-                },
-              ],
-            };
+            let newOrderListArray = props.orderList.map((orderItem) => {
+              if (orderItem.orderId === indexInOrderToModify) {
+                const newProductsArray = [
+                  ...orderItem.products,
+                  {
+                    id: props.product.productId,
+                    name: props.product.name,
+                    quantity: productAmount,
+                    price: props.product.price,
+                    totalPrice: productAmount * props.product.price,
+                  },
+                ];
+                return { ...orderItem, products: newProductsArray };
+              }
+              return orderItem;
+            });
             //Actualiza estado
+            props.setOrderList(newOrderListArray);
+            //Reinicia contador de catidad a agregar
             restartAmountCounter();
-            newOrder[indexInOrderToModify] = orderUpdated;
-            props.setOrderList(newOrder);
           }
         }
       } else {
         //Si la mesa no tiene una orden activa debe crearse
         if (productAmount !== 0) {
-          props.setOrderList([
-            ...props.orderList,
-            {
-              orderId: IDIdentator,
-              table: props.tableActive,
-              products: [
-                {
-                  id: props.product.productId,
-                  name: props.product.name,
-                  quantity: productAmount,
-                  price: props.product.price,
-                  totalPrice: productAmount * props.product.price,
-                },
-              ],
-            },
-          ]);
+          const newOrderItem = {
+            orderId: IDIdentator,
+            table: props.tableActive,
+            products: [
+              {
+                id: props.product.productId,
+                name: props.product.name,
+                quantity: productAmount,
+                price: props.product.price,
+                totalPrice: productAmount * props.product.price,
+              },
+            ],
+          };
+          //No se hace necesario copiar el estado debido a que se actualiza de manera directa al no requerir modificar un objeto existente, simplemente se esta gregando uno nuevo
+          props.setOrderList([...props.orderList, newOrderItem]);
+          //Reinicia contador de catidad a agregar
           restartAmountCounter();
         }
       }
@@ -135,8 +167,15 @@ function ProductBox(props) {
     <div className={`ProductBox`}>
       <p className='product-title'>{props.product.name}</p>
       <div className='product-interface'>
-        <section className='product-specifics'>
-          <div style={{ border: 'solid 1px' }}>photo</div>
+        <section className='product-details'>
+          <div className='product-img' onClick={() => getUrl()}>
+            <img
+              src={`http://localhost:2020/platzi-market/api/images/${imgURL}`}
+              alt='photo'
+              srcset=''
+              style={{ border: 'solid 1px', width: '100%', height: '100%' }}
+            />
+          </div>
           <ProductDetails
             productOptionsData={productOptionsData}
             setProductOptionsData={setProductOptionsData}

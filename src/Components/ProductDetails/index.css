@@ -3,7 +3,7 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   padding: 12px 6px;
-  gap: 18px;
+  gap: 6px;
 }
 .product-option {
   position: relative;
