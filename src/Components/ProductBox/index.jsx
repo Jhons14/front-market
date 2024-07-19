@@ -18,7 +18,12 @@ function ProductBox(props) {
     },
     {
       id: 3,
-      name: 'uploadImg',
+      name: 'upload',
+      value: '',
+    },
+    {
+      id: 4,
+      name: 'edit',
       value: '',
     },
   ]);
@@ -26,7 +31,7 @@ function ProductBox(props) {
   useEffect(() => {
     const res = props.product.img_url;
     setImgURL(res);
-  });
+  }, []);
 
   const productDetail = () => (
     <section className='product-specification'>
@@ -171,14 +176,16 @@ function ProductBox(props) {
           <div className='product-img' onClick={() => getUrl()}>
             <img
               src={`http://localhost:2020/platzi-market/api/images/${imgURL}`}
-              alt='photo'
+              alt={imgURL}
               srcset=''
-              style={{ border: 'solid 1px', width: '100%', height: '100%' }}
             />
           </div>
           <ProductDetails
+            product={props.product}
             productOptionsData={productOptionsData}
             setProductOptionsData={setProductOptionsData}
+            optionList={props.optionList}
+            typeProductActive={props.typeProductActive}
           />
         </section>
         <div

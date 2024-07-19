@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { MainContext } from '../../Context';
 import { ProductList } from '../../Components/ProductList';
 import { ProductBox } from '../../Components/ProductBox';
@@ -6,6 +6,7 @@ import { ScreenLoading } from '../../common/ScreenLoading';
 import { ScreenError } from '../../common/ScreenError';
 
 import './index.css';
+import { Modal } from '../../Components/Modal';
 
 function ProductMenu() {
   const {
@@ -19,6 +20,7 @@ function ProductMenu() {
     loading,
     tableActive,
   } = useContext(MainContext);
+
   if (typeProductActive !== location.pathname.substring(1)) {
     setTypeProductActive(location.pathname.substring(1));
   }
@@ -39,6 +41,8 @@ function ProductMenu() {
               setOrderList={setOrderList}
               orderList={orderList}
               tableActive={tableActive}
+              typeProductActive={typeProductActive}
+              optionList={['amount', 'size', 'edit']}
             />
           )}
         </ProductList>

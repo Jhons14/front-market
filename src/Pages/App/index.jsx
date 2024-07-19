@@ -5,13 +5,18 @@ import { NavBar } from '../../Components/NavBar';
 import { ScreenError } from '../../common/ScreenError';
 import { ScreenLoading } from '../../common/ScreenLoading';
 import { ProductMenu } from '../ProductMenu';
+import { EditPage } from '../EditPage';
 
 function AppRoutes() {
   let appRoutes = useRoutes([
     {
       path: '/',
       element: <Home />,
-      children: [{ path: ':bebidas', element: <ProductMenu /> }],
+      children: [{ path: ':productCategory', element: <ProductMenu /> }],
+    },
+    {
+      path: 'product/edit',
+      element: <EditPage />,
     },
   ]);
   return appRoutes;

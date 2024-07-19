@@ -1,9 +1,18 @@
 import React from 'react';
 import { useState } from 'react';
 import './index.css';
+import { useNavigate, Link } from 'react-router-dom';
 
-function ProductDetails({ productOptionsData, setProductOptionsData }) {
+function ProductDetails({
+  optionList,
+  productOptionsData,
+  setProductOptionsData,
+  product,
+  typeProductActive,
+}) {
+  const navigate = useNavigate();
   const sizesToShow = ['Small', 'Medium', 'Largue'];
+
   const setClickedSize = (size) => {
     const newProductOptionsData = [...productOptionsData];
     newProductOptionsData[1].value = size;
@@ -41,9 +50,12 @@ function ProductDetails({ productOptionsData, setProductOptionsData }) {
         break;
     }
   };
+
   function uploadImg() {
     var formData = new FormData();
-    var fileInput = document.getElementById('fileInput');
+    var fileInput = document.getElementById(`fileInput${product.productId}`);
+    console.log(fileInput.files[0]);
+
     formData.append('file', fileInput.files[0]);
 
     fetch('http://localhost:2020/platzi-market/api/files/upload', {
@@ -57,6 +69,18 @@ function ProductDetails({ productOptionsData, setProductOptionsData }) {
       .catch((error) => {
         console.error('Error:', error);
       });
+    const productBody = { img_url: fileInput.files[0].name };
+
+    fetch(
+      `http://localhost:2020/platzi-market/api/products/update/${product.productId}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(productBody),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    ).finally(window.location.replace(`/${typeProductActive}`));
   }
 
   const renderOption = (productOption) => {
@@ -71,6 +95,7 @@ function ProductDetails({ productOptionsData, setProductOptionsData }) {
                   onClick={() => handleOption(productOption, 'subtrack')}
                   className='option-button amount-button'
                   src='src\assets\minus.svg'
+                  alt='substrack'
                 ></img>
               </div>
 
@@ -85,6 +110,7 @@ function ProductDetails({ productOptionsData, setProductOptionsData }) {
                   className='option-button amount-button'
                   src='src\assets\add.svg'
                   onClick={() => handleOption(productOption, 'plus')}
+                  alt='plus'
                 ></img>
               </div>
             </section>
@@ -109,33 +135,54 @@ function ProductDetails({ productOptionsData, setProductOptionsData }) {
             </section>
           </div>
         );
+
+      case 'edit':
+        return (
+          <div className='product-option size-option'>
+            <span>Edit</span>
+            <section className='buttons-container size-buttons-container'>
+              <button
+                type='button'
+                onClick={() =>
+                  navigate(`/product/edit`, {
+                    state: { productId: product.productId },
+                  })
+                }
+              >
+                Edit
+              </button>
+            </section>
+          </div>
+        );
+      case 'upload':
+        return (
+          <div className='product-option size-option'>
+            <span>Upload</span>
+            <section className='buttons-container size-buttons-container'>
+              <form id='uploadForm' enctype='multipart/form-data'>
+                <input
+                  type='file'
+                  name='file'
+                  id={`fileInput${product.productId}`}
+                />
+                <button type='button' onClick={() => uploadImg()}>
+                  Upload
+                </button>
+              </form>
+            </section>
+          </div>
+        );
     }
   };
+  const findOptionByName = (optionName) =>
+    productOptionsData.find((option) => option.name === optionName);
 
   const renderOptionList = () => (
     <div className='options-container'>
-      {renderOption(productOptionsData[0])}
-      {renderOption(productOptionsData[1])}
+      {optionList.map((option) => renderOption(findOptionByName(option)))}
     </div>
   );
 
-  return (
-    <>
-      {renderOptionList()}
-      <>
-        <div className='product-option size-option'>
-          <span>Upload</span>
-          <section className='buttons-container size-buttons-container'>
-            <form id='uploadForm' enctype='multipart/form-data'>
-              <input type='file' name='file' id='fileInput' />
-              <button type='button' onClick={() => uploadImg()}>
-                Upload
-              </button>
-            </form>
-          </section>
-        </div>
-      </>
-    </>
-  );
+  return renderOptionList();
 }
 export { ProductDetails };

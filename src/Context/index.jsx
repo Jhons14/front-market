@@ -32,6 +32,12 @@ export function MainProvider({ children }) {
   const onSetTableActive = (tableActive) =>
     dispatch({ type: actionTypes.setTableActive, payload: tableActive });
 
+  const onOpenModal = () =>
+    dispatch({ type: actionTypes.isModalOpen, payload: true });
+
+  const onCloseModal = () =>
+    dispatch({ type: actionTypes.isModalOpen, payload: false });
+
   const categoryHomologation = [
     {
       name: 'bebidas',
@@ -126,7 +132,6 @@ export function MainProvider({ children }) {
         setTypeProductActive: onSetTypeProductActive,
         setOrderList: onSetOrderList,
         setTableActive: onSetTableActive,
-        state,
       }}
     >
       {children}
@@ -136,6 +141,7 @@ export function MainProvider({ children }) {
 
 const initialState = () => {
   return {
+    isModalOpen: false,
     error: false,
     loading: false,
     productsActive: '',
@@ -173,6 +179,10 @@ const reducerObject = (state, payload) => ({
     ...state,
     tableActive: payload,
   },
+  [actionTypes.isModalOpen]: {
+    ...state,
+    isModalOpen: payload,
+  },
 });
 
 const actionTypes = {
@@ -183,6 +193,7 @@ const actionTypes = {
   setProductsActive: 'SET_PRODUCTS_ACTIVE',
   setOrderList: 'SET_ORDER_LIST',
   setTableActive: 'SET_TABLE_ACTIVE',
+  isModalOpen: 'IS_MODAL_OPEN',
 };
 
 const reducer = (state, action) => {

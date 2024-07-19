@@ -1,0 +1,18 @@
+.Modal-container {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  height: 100%;
+  top: 55px;
+  position: fixed;
+  z-index: 2;
+}
+.CloseModal-button {
+  background-color: red;
+  color: white;
+  right: 0;
+  padding: 4px;
+  object-fit: cover;
+}
+.CloseModal-button:hover {
+  cursor: pointer;
+}
