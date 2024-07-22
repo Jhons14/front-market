@@ -20,21 +20,24 @@ function MenuButton(props) {
   ];
   const getCategoryImg = (category) => {
     const img = imgUrls.find((imgUrl) => imgUrl.productCategory === category);
-    return img.url;
+    return img?.url;
   };
+
+  // const categoriesID = categories.map((category) => category.categoryId);
+
   return (
     <div
-      className={`MenuButton ${props.category}Button`}
+      className={`MenuButton ${props.category[0].category}Button`}
       onClick={() => {
-        navigate(props.category.toLowerCase());
+        navigate(props.category[0].categoryId.toString());
       }}
     >
       <img
-        className={`MenuImg MenuImg-${props.category}`}
-        src={getCategoryImg(props.category)}
-        alt={props.category}
+        className={`MenuImg MenuImg-${props.category[0].category}`}
+        src={getCategoryImg(props.category[0].category)}
+        alt={props.category[0].category}
       />
-      <span to='/ProductMenu'>{props.category}</span>
+      <span to='/ProductMenu'>{props.category[0].category}</span>
     </div>
   );
 }

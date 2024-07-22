@@ -167,7 +167,6 @@ function ProductBox(props) {
       console.log('Please select a table');
     }
   };
-
   return (
     <div className={`ProductBox`}>
       <p className='product-title'>{props.product.name}</p>

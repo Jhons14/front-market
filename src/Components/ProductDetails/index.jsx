@@ -58,10 +58,13 @@ function ProductDetails({
 
     formData.append('file', fileInput.files[0]);
 
-    fetch('http://localhost:2020/platzi-market/api/files/upload', {
-      method: 'POST',
-      body: formData,
-    })
+    fetch(
+      `http://localhost:2020/platzi-market/api/files/upload/${product.productId}`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    )
       .then((response) => response.text())
       .then((data) => {
         console.log(data);

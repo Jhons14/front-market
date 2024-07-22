@@ -16,16 +16,15 @@ function ProductMenu() {
     productsActive,
     typeProductActive,
     setTypeProductActive,
-    products,
+    productsByCategory,
     loading,
     tableActive,
   } = useContext(MainContext);
-
   if (typeProductActive !== location.pathname.substring(1)) {
+    console.log(location.pathname.substring(1));
     setTypeProductActive(location.pathname.substring(1));
   }
-
-  const renderView = () => {
+  const renderView = (products) => {
     if (!!error && !loading) {
       return <ScreenError />;
     }
@@ -33,7 +32,10 @@ function ProductMenu() {
       return <ScreenLoading />;
     } else {
       return (
-        <ProductList products={products} productsActive={productsActive}>
+        <ProductList
+          productsByCategory={productsByCategory}
+          productsActive={productsActive}
+        >
           {(product) => (
             <ProductBox
               key={product.productId}
@@ -49,8 +51,7 @@ function ProductMenu() {
       );
     }
   };
-
-  return renderView();
+  return renderView(productsByCategory);
 }
 
 export { ProductMenu };

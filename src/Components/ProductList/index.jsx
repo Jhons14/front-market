@@ -4,7 +4,9 @@ import { ProductBox } from '../ProductBox';
 
 const ProductList = (props) => {
   return (
-    <div className='product-list'>{props.products.map(props.children)}</div>
+    <div className='product-list'>
+      {props.productsByCategory.map(props.children)}
+    </div>
   );
 };
 

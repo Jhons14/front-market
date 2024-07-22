@@ -8,8 +8,11 @@ export function MainProvider({ children }) {
 
   const [state, dispatch] = useReducer(reducer, initialState());
 
-  const onSetProducts = (products) =>
-    dispatch({ type: actionTypes.setProducts, payload: products });
+  const onSetProducts = (productsByCategory) =>
+    dispatch({
+      type: actionTypes.setProductsByCategory,
+      payload: productsByCategory,
+    });
 
   const onSetLoading = (isActive) =>
     dispatch({ type: actionTypes.setLoading, payload: isActive });
@@ -26,8 +29,8 @@ export function MainProvider({ children }) {
       payload: typeProductActive,
     });
 
-  const onSetOrderList = (products) =>
-    dispatch({ type: actionTypes.setOrderList, payload: products });
+  const onSetOrderList = (productsByCategory) =>
+    dispatch({ type: actionTypes.setOrderList, payload: productsByCategory });
 
   const onSetTableActive = (tableActive) =>
     dispatch({ type: actionTypes.setTableActive, payload: tableActive });
@@ -48,6 +51,10 @@ export function MainProvider({ children }) {
       categoryId: 3,
     },
     {
+      name: 'pastelería',
+      categoryId: 1,
+    },
+    {
       name: 'postres',
       categoryId: 2,
     },
@@ -60,8 +67,9 @@ export function MainProvider({ children }) {
     return category?.categoryId;
   };
 
-  const PRODUCT_BY_CATEGORY_URL = `http://localhost:2020/platzi-market/api/products/category/${getActiveCategory()}`;
-
+  const GET_PRODUCTS_BY_CATEGORY_URL = `http://localhost:2020/platzi-market/api/products/category/${window.location.pathname.substring(
+    1
+  )}`;
   const credentials = {
     method: 'POST',
     headers: {
@@ -82,9 +90,9 @@ export function MainProvider({ children }) {
     return parsedToken;
   }
 
-  async function getProducts() {
+  async function getProductsByCategory() {
     const parsedToken = await authenticate();
-    await fetch(PRODUCT_BY_CATEGORY_URL, {
+    await fetch(GET_PRODUCTS_BY_CATEGORY_URL, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${parsedToken}`,
@@ -106,7 +114,7 @@ export function MainProvider({ children }) {
     setTimeout(() => {
       if (state.typeProductActive !== '') {
         try {
-          getProducts();
+          getProductsByCategory();
         } catch (error) {
           onSetError(error);
         }
@@ -120,7 +128,7 @@ export function MainProvider({ children }) {
       value={{
         error: state.error,
         loading: state.loading,
-        products: state.products,
+        productsByCategory: state.productsByCategory,
         productsActive: state.productsActive,
         typeProductActive: state.typeProductActive,
         orderList: state.orderList,
@@ -128,7 +136,7 @@ export function MainProvider({ children }) {
         setProductsActive: onSetProductsActive,
         setError: onSetError,
         setLoading: onSetLoading,
-        setProducts: onSetProducts,
+        setProductsByCategory: onSetProducts,
         setTypeProductActive: onSetTypeProductActive,
         setOrderList: onSetOrderList,
         setTableActive: onSetTableActive,
@@ -145,7 +153,7 @@ const initialState = () => {
     error: false,
     loading: false,
     productsActive: '',
-    products: [],
+    productsByCategory: [],
     typeProductActive: '',
     orderList: [],
   };
@@ -163,9 +171,9 @@ const reducerObject = (state, payload) => ({
     ...state,
     typeProductActive: payload,
   },
-  [actionTypes.setProducts]: {
+  [actionTypes.setProductsByCategory]: {
     ...state,
-    products: payload,
+    productsByCategory: payload,
   },
   [actionTypes.setProductsActive]: {
     ...state,
@@ -189,7 +197,7 @@ const actionTypes = {
   setError: 'SET_ERROR',
   setLoading: 'SET_LOADING',
   setTypeProductActive: 'SET_TYPE_PRODUCT_ACTIVE',
-  setProducts: 'SET_PRODUCTS',
+  setProductsByCategory: 'SET_PRODUCTS_BY_CATEGORY',
   setProductsActive: 'SET_PRODUCTS_ACTIVE',
   setOrderList: 'SET_ORDER_LIST',
   setTableActive: 'SET_TABLE_ACTIVE',
