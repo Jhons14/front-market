@@ -18,26 +18,30 @@ function MenuButton(props) {
     'http://localhost:2020/platzi-market/api/auth/authenticate';
   const UPDATE_CATEGORY_URL = `http://localhost:2020/platzi-market/api/category/update/${props.category[0].categoryId}`;
 
+  const category = props.category[0];
   async function authenticate(authURL) {
     const parsedToken = await fetch(authURL, credentials)
       .then((res) => res.json().then((res) => res.jwt))
       .catch((error) => {
-        onSetError(error);
+        console.log(error);
       });
     return parsedToken;
   }
 
-  function updateCategory() {
+  async function updateCategory() {
+    const parsedToken = await authenticate(AUTHENTICATION_URL);
     var formData = new FormData();
-    var fileInput = document.getElementById(`fileInput${product.productId}`);
+    var fileInput = document.getElementById(`fileInput${category.categoryId}`);
 
     formData.append('file', fileInput.files[0]);
-
     fetch(
-      `http://localhost:2020/platzi-market/api/files/upload/${product.productId}`,
+      `http://localhost:2020/platzi-market/api/files/upload/image/category/${category.categoryId}`,
       {
         method: 'POST',
         body: formData,
+        headers: {
+          Authorization: `Bearer ${parsedToken}`,
+        },
       }
     )
       .then((response) => response.text())
@@ -47,46 +51,55 @@ function MenuButton(props) {
       .catch((error) => {
         console.error('Error:', error);
       });
-    const productBody = { img_url: fileInput.files[0].name };
+    const categoryBody = { img: fileInput.files[0].name };
 
     fetch(
-      `http://localhost:2020/platzi-market/api/products/update/${product.productId}`,
+      `http://localhost:2020/platzi-market/api/category/update/${category.categoryId}`,
       {
         method: 'POST',
-        body: JSON.stringify(productBody),
+        body: JSON.stringify(categoryBody),
         headers: {
+          Authorization: `Bearer ${parsedToken}`,
           'Content-Type': 'application/json',
         },
       }
-    );
+    )
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error))
+      .finally(window.location.reload());
   }
 
   // const categoriesID = categories.map((category) => category.categoryId);
-
   return (
     <div>
       <div
-        className={`MenuButton ${props.category[0].category}Button`}
+        className={`MenuButton ${category.category}Button`}
         onClick={() => {
-          navigate(props.category[0].categoryId.toString());
+          navigate(category.categoryId.toString());
         }}
       >
         <img
-          src={`http://localhost:2020/platzi-market/api/images/categories/${props.category[0].img}`}
-          alt={props.category[0].category}
+          src={`http://localhost:2020/platzi-market/api/images/categories/${category.img}`}
+          alt={category.img}
         />
-        <span>{props.category[0].category}</span>
+        <span>{category.category}</span>
       </div>
       {!!props.isEditActive && (
         <div>
-          <input type='file' />
-          <button
-            onClick={() => {
-              updateCategory(AUTHENTICATION_URL, UPDATE_CATEGORY_URL);
-            }}
-          >
-            Upload
-          </button>
+          <form id='uploadForm' enctype='multipart/form-data'>
+            <input
+              type='file'
+              name='file'
+              id={`fileInput${category.categoryId}`}
+            />
+            <span
+              onClick={() => {
+                updateCategory(AUTHENTICATION_URL, UPDATE_CATEGORY_URL);
+              }}
+            >
+              Upload
+            </span>
+          </form>
         </div>
       )}
     </div>

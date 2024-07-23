@@ -102,6 +102,7 @@ function ProductDetails({
         console.error('Error:', error);
       });
     const productBody = { img_url: fileInput.files[0].name };
+    console.log(productBody);
 
     fetch(`${UPDATE_PRODUCT_URL + product.productId}`, {
       method: 'POST',
@@ -110,7 +111,7 @@ function ProductDetails({
         'Content-Type': 'application/json',
         Authorization: `Bearer ${parsedToken}`,
       },
-    });
+    }).finally(window.location.replace(`/${typeProductActive}`));
   }
 
   const renderOption = (productOption) => {
