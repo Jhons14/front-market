@@ -10,8 +10,28 @@ function ProductDetails({
   product,
   typeProductActive,
 }) {
+  const AUTHENTICATION_URL =
+    'http://localhost:2020/platzi-market/api/auth/authenticate';
+
+  const UPLOAD_PRODUCTIMG_URL =
+    'http://localhost:2020/platzi-market/api/files/upload/image/product/';
+
+  const UPDATE_PRODUCT_URL =
+    'http://localhost:2020/platzi-market/api/products/update/';
+
   const navigate = useNavigate();
   const sizesToShow = ['Small', 'Medium', 'Largue'];
+
+  const credentials = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username: 'jhon',
+      password: 'Platzi#14',
+    }),
+  };
 
   const setClickedSize = (size) => {
     const newProductOptionsData = [...productOptionsData];
@@ -51,20 +71,29 @@ function ProductDetails({
     }
   };
 
-  function uploadImg() {
+  async function authenticate() {
+    const parsedToken = await fetch(AUTHENTICATION_URL, credentials)
+      .then((res) => res.json().then((res) => res.jwt))
+      .catch((error) => {
+        onSetError(error);
+      });
+    return parsedToken;
+  }
+
+  async function uploadImg() {
+    const parsedToken = await authenticate();
     var formData = new FormData();
     var fileInput = document.getElementById(`fileInput${product.productId}`);
-    console.log(fileInput.files[0]);
 
     formData.append('file', fileInput.files[0]);
 
-    fetch(
-      `http://localhost:2020/platzi-market/api/files/upload/${product.productId}`,
-      {
-        method: 'POST',
-        body: formData,
-      }
-    )
+    fetch(`${UPLOAD_PRODUCTIMG_URL + product.productId}`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${parsedToken}`,
+      },
+    })
       .then((response) => response.text())
       .then((data) => {
         console.log(data);
@@ -74,16 +103,14 @@ function ProductDetails({
       });
     const productBody = { img_url: fileInput.files[0].name };
 
-    fetch(
-      `http://localhost:2020/platzi-market/api/products/update/${product.productId}`,
-      {
-        method: 'POST',
-        body: JSON.stringify(productBody),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    ).finally(window.location.replace(`/${typeProductActive}`));
+    fetch(`${UPDATE_PRODUCT_URL + product.productId}`, {
+      method: 'POST',
+      body: JSON.stringify(productBody),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${parsedToken}`,
+      },
+    });
   }
 
   const renderOption = (productOption) => {

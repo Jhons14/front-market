@@ -174,9 +174,8 @@ function ProductBox(props) {
         <section className='product-details'>
           <div className='product-img' onClick={() => getUrl()}>
             <img
-              src={`http://localhost:2020/platzi-market/api/images/${imgURL}`}
+              src={`http://localhost:2020/platzi-market/api/images/products/${imgURL}`}
               alt={imgURL}
-              srcset=''
             />
           </div>
           <ProductDetails

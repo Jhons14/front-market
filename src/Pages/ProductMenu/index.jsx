@@ -21,10 +21,9 @@ function ProductMenu() {
     tableActive,
   } = useContext(MainContext);
   if (typeProductActive !== location.pathname.substring(1)) {
-    console.log(location.pathname.substring(1));
     setTypeProductActive(location.pathname.substring(1));
   }
-  const renderView = (products) => {
+  const renderView = () => {
     if (!!error && !loading) {
       return <ScreenError />;
     }
@@ -51,7 +50,7 @@ function ProductMenu() {
       );
     }
   };
-  return renderView(productsByCategory);
+  return renderView();
 }
 
 export { ProductMenu };

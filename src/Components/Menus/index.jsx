@@ -4,7 +4,10 @@ import './Menus.css';
 
 function Menus(props) {
   const [products, setProducts] = useState([]);
+  const [isEditActive, setIsEditActive] = useState(false);
   const [categories, setCategories] = useState([]);
+
+  const GET_ALL_CATEGORIES = `http://localhost:2020/platzi-market/api/category/all`;
 
   const GET_ALL_PRODUCTS = `http://localhost:2020/platzi-market/api/products/all`;
   const AUTHENTICATION_URL =
@@ -19,8 +22,6 @@ function Menus(props) {
       password: 'Platzi#14',
     }),
   };
-
-  const GET_ALL_CATEGORIES = `http://localhost:2020/platzi-market/api/category/all`;
 
   async function authenticate() {
     const parsedToken = await fetch(AUTHENTICATION_URL, credentials)
@@ -64,7 +65,6 @@ function Menus(props) {
     getAllProducts();
     getAllCategories(GET_ALL_CATEGORIES);
   }, []);
-
   return (
     <div className='Menus'>
       {categories.map((category) => {
@@ -75,9 +75,17 @@ function Menus(props) {
             setProductsActive={props.setProductsActive}
             category={categoryArray}
             setLoading={props.setLoading}
+            isEditActive={isEditActive}
           />
         );
       })}
+      <button
+        onClick={() => {
+          setIsEditActive((prevState) => !prevState);
+        }}
+      >
+        Edit
+      </button>
     </div>
   );
 }

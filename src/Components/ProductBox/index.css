@@ -55,6 +55,8 @@
   background-color: rgb(37, 192, 37);
 }
 .product-img {
+  width: 140px;
+  height: 140px;
   padding: 8px;
   border: solid 1px rgb(165, 180, 169);
   border-radius: 12px;
