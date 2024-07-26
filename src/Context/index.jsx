@@ -35,12 +35,6 @@ export function MainProvider({ children }) {
   const onSetTableActive = (tableActive) =>
     dispatch({ type: actionTypes.setTableActive, payload: tableActive });
 
-  const onOpenModal = () =>
-    dispatch({ type: actionTypes.isModalOpen, payload: true });
-
-  const onCloseModal = () =>
-    dispatch({ type: actionTypes.isModalOpen, payload: false });
-
   const categoryHomologation = [
     {
       name: 'bebidas',
@@ -60,16 +54,10 @@ export function MainProvider({ children }) {
     },
   ];
 
-  const getActiveCategory = () => {
-    const category = categoryHomologation.find(
-      (category) => category.name === state.typeProductActive
-    );
-    return category?.categoryId;
-  };
-
   const GET_PRODUCTS_BY_CATEGORY_URL = `http://localhost:2020/platzi-market/api/products/category/${window.location.pathname.substring(
-    1
+    window.location.pathname.lastIndexOf('/') + 1
   )}`;
+
   const credentials = {
     method: 'POST',
     headers: {
@@ -120,7 +108,7 @@ export function MainProvider({ children }) {
         }
       }
       onSetLoading(false);
-    }, 1000);
+    });
   }, [state.typeProductActive]);
 
   return (
@@ -140,6 +128,7 @@ export function MainProvider({ children }) {
         setTypeProductActive: onSetTypeProductActive,
         setOrderList: onSetOrderList,
         setTableActive: onSetTableActive,
+        authenticate: authenticate,
       }}
     >
       {children}

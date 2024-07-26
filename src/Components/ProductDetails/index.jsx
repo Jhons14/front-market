@@ -83,7 +83,7 @@ function ProductDetails({
   async function uploadImg() {
     const parsedToken = await authenticate();
     var formData = new FormData();
-    var fileInput = document.getElementById(`fileInput${product.productId}`);
+    var fileInput = document.getElementById(`fileInput`);
 
     formData.append('file', fileInput.files[0]);
 
@@ -175,9 +175,12 @@ function ProductDetails({
               <button
                 type='button'
                 onClick={() =>
-                  navigate(`/product/edit`, {
-                    state: { productId: product.productId },
-                  })
+                  navigate(
+                    `/product/edit/${window.location.pathname.substring(1)}`,
+                    {
+                      state: { productId: product.productId },
+                    }
+                  )
                 }
               >
                 Edit
@@ -191,11 +194,7 @@ function ProductDetails({
             <span>Upload</span>
             <section className='buttons-container size-buttons-container'>
               <form id='uploadForm' enctype='multipart/form-data'>
-                <input
-                  type='file'
-                  name='file'
-                  id={`fileInput${product.productId}`}
-                />
+                <input type='file' name='file' id={`fileInput`} />
                 <button type='button' onClick={() => uploadImg()}>
                   Upload
                 </button>

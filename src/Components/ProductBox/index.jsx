@@ -1,10 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { ProductDetails } from '../ProductDetails';
 import './index.css';
+import { MainContext } from '../../Context';
 
 function ProductBox(props) {
+  const { authenticate } = useContext(MainContext);
+
   const [IDIdentator, setIDIdentator] = useState(0);
   const [imgURL, setImgURL] = useState();
+  const [product, setProduct] = useState(
+    props.product ? props.product : getProductByID()
+  );
   const [productOptionsData, setProductOptionsData] = useState([
     {
       id: 1,
@@ -28,11 +34,34 @@ function ProductBox(props) {
     },
   ]);
 
-  useEffect(() => {
-    const res = props.product.img_url;
-    setImgURL(res);
-  }, []);
+  // Ejemplo de uso
 
+  useEffect(() => {
+    if (!product) {
+      getProductByID();
+    }
+    const res = product?.img_url;
+    setImgURL(res);
+  }, [product]);
+
+  async function getProductByID() {
+    const parsedToken = await authenticate();
+    await fetch(
+      `http://localhost:2020/platzi-market/api/products/${product?.img_url}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${parsedToken}`,
+        },
+      }
+    )
+      .then((data) => (data = data.json()))
+      .then((data) => setProduct(data))
+
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   const productDetail = () => (
     <section className='product-specification'>
       <span>Details</span>
@@ -65,8 +94,9 @@ function ProductBox(props) {
 
   const handleAdd = () => {
     //Esta funcion es generica para los datos que se usan de test en este proyecto,
-    //al momento de conectarlo con base de datos sera necesario realizar inserts desde aqui para mantener la base de datos sincronizada
+    //Al momento de conectarlo con base de datos sera necesario realizar inserts desde aqui para mantener la base de datos sincronizada
     //Si ya se ha seleccionado una mesa, de lo contrario no podra mostrar data
+
     if (!!props.tableActive) {
       //Se copia el estado que contiene las opciones disponibles del menu de adiciones
       let newProductOptionsData = [...productOptionsData];
@@ -85,7 +115,7 @@ function ProductBox(props) {
       if (indexInOrderToModify !== -1) {
         //Obtener el id del producto que se agregara (El ID, no el index)
         const productIndex = searchIdProduct(
-          props.product.productId,
+          product.productId,
           props.orderList
         );
 
@@ -123,11 +153,11 @@ function ProductBox(props) {
                 const newProductsArray = [
                   ...orderItem.products,
                   {
-                    id: props.product.productId,
-                    name: props.product.name,
+                    id: product.productId,
+                    name: product.name,
                     quantity: productAmount,
-                    price: props.product.price,
-                    totalPrice: productAmount * props.product.price,
+                    price: product.price,
+                    totalPrice: productAmount * product.price,
                   },
                 ];
                 return { ...orderItem, products: newProductsArray };
@@ -148,11 +178,11 @@ function ProductBox(props) {
             table: props.tableActive,
             products: [
               {
-                id: props.product.productId,
-                name: props.product.name,
+                id: product.productId,
+                name: product.name,
                 quantity: productAmount,
-                price: props.product.price,
-                totalPrice: productAmount * props.product.price,
+                price: product.price,
+                totalPrice: productAmount * product.price,
               },
             ],
           };
@@ -164,55 +194,57 @@ function ProductBox(props) {
       }
       setIDIdentator(IDIdentator + 1);
     } else {
-      console.log('Please select a table');
+      window.alert('Por favor selecciona una mesa para adicionar el pedido');
     }
   };
-  return (
-    <div className={`ProductBox`}>
-      <p className='product-title'>{props.product.name}</p>
-      <div className='product-interface'>
-        <section className='product-details'>
-          <div className='product-img' onClick={() => getUrl()}>
-            <img
-              src={`http://localhost:2020/platzi-market/api/images/products/${imgURL}`}
-              alt={imgURL}
+  if (!!product) {
+    return (
+      <div className={`ProductBox`}>
+        <p className='product-title'>{product.name}</p>
+        <div className='product-interface'>
+          <section className='product-details'>
+            <div className='product-img'>
+              <img
+                src={`http://localhost:2020/platzi-market/api/images/products/${imgURL}`}
+                alt={imgURL}
+              />
+            </div>
+            <ProductDetails
+              product={product}
+              productOptionsData={productOptionsData}
+              setProductOptionsData={setProductOptionsData}
+              optionList={props.optionList}
+              typeProductActive={props.typeProductActive}
             />
-          </div>
-          <ProductDetails
-            product={props.product}
-            productOptionsData={productOptionsData}
-            setProductOptionsData={setProductOptionsData}
-            optionList={props.optionList}
-            typeProductActive={props.typeProductActive}
-          />
-        </section>
-        <div
-          className='addProduct'
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            position: 'relative',
-            justifyContent: 'end',
-            alignItems: 'end',
-          }}
-        >
-          {productDetail()}
-          <section
+          </section>
+          <div
+            className='addProduct'
             style={{
-              position: 'absolute',
-              bottom: '-24px',
-              padding: '8px',
-              right: '12px',
-              background: 'white',
+              display: 'flex',
+              flexDirection: 'column',
+              position: 'relative',
+              justifyContent: 'end',
+              alignItems: 'end',
             }}
           >
-            <button className='addToCart-button' onClick={() => handleAdd()}>
-              <span>Add product</span>
-            </button>
-          </section>
+            {productDetail()}
+            <section
+              style={{
+                position: 'absolute',
+                bottom: '-24px',
+                padding: '8px',
+                right: '12px',
+                background: 'white',
+              }}
+            >
+              <button className='addToCart-button' onClick={() => handleAdd()}>
+                <span>Add product</span>
+              </button>
+            </section>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 export { ProductBox };

@@ -15,7 +15,7 @@ function AppRoutes() {
       children: [{ path: ':productCategory', element: <ProductMenu /> }],
     },
     {
-      path: 'product/edit',
+      path: 'product/edit/:id',
       element: <EditPage />,
     },
   ]);

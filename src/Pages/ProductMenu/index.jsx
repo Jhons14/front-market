@@ -19,10 +19,12 @@ function ProductMenu() {
     productsByCategory,
     loading,
     tableActive,
+    authenticate,
   } = useContext(MainContext);
   if (typeProductActive !== location.pathname.substring(1)) {
     setTypeProductActive(location.pathname.substring(1));
   }
+
   const renderView = () => {
     if (!!error && !loading) {
       return <ScreenError />;
@@ -44,6 +46,7 @@ function ProductMenu() {
               tableActive={tableActive}
               typeProductActive={typeProductActive}
               optionList={['amount', 'size', 'edit']}
+              authenticate={authenticate}
             />
           )}
         </ProductList>

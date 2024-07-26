@@ -28,7 +28,7 @@ function Home() {
           setTableActive={setTableActive}
           orderList={orderList}
           setOrderList={setOrderList}
-        ></OrderSection>
+        />
       </div>
     </Layout>
   );

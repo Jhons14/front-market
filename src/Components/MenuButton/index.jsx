@@ -69,7 +69,6 @@ function MenuButton(props) {
       .finally(window.location.reload());
   }
 
-  // const categoriesID = categories.map((category) => category.categoryId);
   return (
     <div>
       <div

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import './index.css';
 
-function Modal({ children, closeModal }) {
+function Modal({ children }) {
   const navigate = useNavigate();
   return ReactDOM.createPortal(
     <div className='Modal-container'>
