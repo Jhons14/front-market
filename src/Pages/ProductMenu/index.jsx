@@ -19,7 +19,6 @@ function ProductMenu() {
     productsByCategory,
     loading,
     tableActive,
-    authenticate,
   } = useContext(MainContext);
   if (typeProductActive !== location.pathname.substring(1)) {
     setTypeProductActive(location.pathname.substring(1));
@@ -45,8 +44,7 @@ function ProductMenu() {
               orderList={orderList}
               tableActive={tableActive}
               typeProductActive={typeProductActive}
-              optionList={['amount', 'size', 'edit']}
-              authenticate={authenticate}
+              optionList={['amount', 'edit']}
             />
           )}
         </ProductList>

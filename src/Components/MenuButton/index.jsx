@@ -64,7 +64,6 @@ function MenuButton(props) {
         },
       }
     )
-      .then((data) => console.log(data))
       .catch((error) => console.log(error))
       .finally(window.location.reload());
   }

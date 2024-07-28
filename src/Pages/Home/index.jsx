@@ -9,6 +9,7 @@ import { OrderSection } from '../OrderSection';
 
 function Home() {
   const {
+    setError,
     setProductsActive,
     setLoading,
     tableActive,
@@ -19,7 +20,11 @@ function Home() {
   return (
     <Layout>
       <div className='home-container'>
-        <Menus setProductsActive={setProductsActive} setLoading={setLoading} />
+        <Menus
+          setError={setError}
+          setProductsActive={setProductsActive}
+          setLoading={setLoading}
+        />
         <div className={`product-menu-container`}>
           <Outlet />
         </div>

@@ -3,13 +3,11 @@ import { MenuButton } from '../MenuButton';
 import './Menus.css';
 
 function Menus(props) {
-  const [products, setProducts] = useState([]);
   const [isEditActive, setIsEditActive] = useState(false);
   const [categories, setCategories] = useState([]);
 
-  const GET_ALL_CATEGORIES = `http://localhost:2020/platzi-market/api/category/all`;
+  const GET_ALL_CATEGORIES_URL = `http://localhost:2020/platzi-market/api/category/all`;
 
-  const GET_ALL_PRODUCTS = `http://localhost:2020/platzi-market/api/products/all`;
   const AUTHENTICATION_URL =
     'http://localhost:2020/platzi-market/api/auth/authenticate';
   const credentials = {
@@ -32,42 +30,39 @@ function Menus(props) {
     return parsedToken;
   }
   async function getAllCategories(URL) {
-    const parsedToken = await authenticate();
-    await fetch(URL, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${parsedToken}`,
-      },
-    })
-      .then((data) => (data = data.json()))
-      .then((data) => setCategories(data))
-      .catch((error) => {
-        onSetError(error);
-      });
-  }
+    props.setError();
 
-  async function getAllProducts() {
     const parsedToken = await authenticate();
-    await fetch(GET_ALL_PRODUCTS, {
+    const response = await fetch(URL, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${parsedToken}`,
       },
     })
       .then((data) => (data = data.json()))
-      .then((data) => setProducts(data))
       .catch((error) => {
-        onSetError(error);
+        props.setError(error);
       });
+    return response;
   }
 
   useEffect(() => {
-    getAllProducts();
-    getAllCategories(GET_ALL_CATEGORIES);
+    const fetchCategories = async () => {
+      props.setLoading(true);
+      try {
+        const response = await getAllCategories(GET_ALL_CATEGORIES_URL);
+        setCategories(response);
+      } catch (error) {
+        setError(error);
+      }
+      props.setLoading(false);
+    };
+    fetchCategories();
   }, []);
+
   return (
     <div className='Menus'>
-      {categories.map((category) => {
+      {categories?.map((category) => {
         const categoryArray = [category];
 
         return (

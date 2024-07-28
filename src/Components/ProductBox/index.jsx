@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { ProductDetails } from '../ProductDetails';
 import './index.css';
 import { MainContext } from '../../Context';
+import { ShoppingCartIcon } from '@heroicons/react/24/solid';
 
 function ProductBox(props) {
   const { authenticate } = useContext(MainContext);
@@ -19,16 +20,11 @@ function ProductBox(props) {
     },
     {
       id: 2,
-      name: 'size',
-      value: '',
-    },
-    {
-      id: 3,
       name: 'upload',
       value: '',
     },
     {
-      id: 4,
+      id: 3,
       name: 'edit',
       value: '',
     },
@@ -62,22 +58,6 @@ function ProductBox(props) {
         console.log(error);
       });
   }
-  const productDetail = () => (
-    <section className='product-specification'>
-      <span>Details</span>
-      <section style={{ padding: '8px' }}>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
-      </section>
-    </section>
-  );
 
   //Funcion para obtener el id del producto que se agregara (El ID, no el index)
   function searchIdProduct(idToSearch, list) {
@@ -227,19 +207,20 @@ function ProductBox(props) {
               alignItems: 'end',
             }}
           >
-            {productDetail()}
             <section
               style={{
                 position: 'absolute',
                 bottom: '-24px',
                 padding: '8px',
                 right: '12px',
-                background: 'white',
+                background: 'rgb(41, 41, 41)',
+                width: 'min-content',
               }}
             >
-              <button className='addToCart-button' onClick={() => handleAdd()}>
-                <span>Add product</span>
-              </button>
+              <ShoppingCartIcon
+                className='addToCart-button'
+                onClick={() => handleAdd()}
+              />
             </section>
           </div>
         </div>

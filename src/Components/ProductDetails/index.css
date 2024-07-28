@@ -1,7 +1,4 @@
 .options-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
   padding: 12px 6px;
   gap: 6px;
 }
@@ -20,7 +17,7 @@
   position: absolute;
   left: 12px;
   top: -12px;
-  background: white;
+  background: rgb(41, 41, 41);
   padding: 0px 4px;
 }
 

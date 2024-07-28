@@ -79,36 +79,38 @@ export function MainProvider({ children }) {
   }
 
   async function getProductsByCategory() {
+    onSetError();
     const parsedToken = await authenticate();
-    await fetch(GET_PRODUCTS_BY_CATEGORY_URL, {
+    const products = await fetch(GET_PRODUCTS_BY_CATEGORY_URL, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${parsedToken}`,
       },
     })
       .then((data) => (data = data.json()))
-      .then((data) => {
-        onSetProducts(data);
-      })
       .catch((error) => {
         onSetError(error);
       });
     onSetLoading(false);
     onSetProductsActive();
+    return products;
   }
 
   useEffect(() => {
-    onSetLoading(true);
-    setTimeout(() => {
-      if (state.typeProductActive !== '') {
+    if (state.typeProductActive !== '') {
+      const fetchProducts = async () => {
+        onSetLoading(true);
         try {
-          getProductsByCategory();
+          const response = await getProductsByCategory();
+          onSetProducts(response);
         } catch (error) {
           onSetError(error);
         }
-      }
-      onSetLoading(false);
-    });
+        onSetLoading(false);
+        onSetProductsActive();
+      };
+      fetchProducts();
+    }
   }, [state.typeProductActive]);
 
   return (

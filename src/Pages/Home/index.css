@@ -1,5 +1,6 @@
 .home-container {
   display: grid;
+  color: lightyellow;
   grid-template-columns: 1fr 3fr 2fr;
   height: calc(100vh - 55px);
   box-sizing: border-box;
