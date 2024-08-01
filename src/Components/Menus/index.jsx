@@ -75,6 +75,7 @@ function Menus(props) {
         );
       })}
       <button
+        type='button'
         onClick={() => {
           setIsEditActive((prevState) => !prevState);
         }}

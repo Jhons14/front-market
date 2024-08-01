@@ -1,7 +1,8 @@
 import React from 'react';
-import { useState } from 'react';
+import { CiSquareMinus, CiSquarePlus } from 'react-icons/ci';
+
 import './index.css';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function ProductDetails({
   optionList,
@@ -39,7 +40,8 @@ function ProductDetails({
     setProductOptionsData(newProductOptionsData);
   };
 
-  const handleOption = (option, payload) => {
+  const handleOption = (event, option, payload) => {
+    event.stopPropagation();
     const optionIndex = productOptionsData.findIndex(
       (add) => add.id === option.id
     );
@@ -102,7 +104,6 @@ function ProductDetails({
         console.error('Error:', error);
       });
     const productBody = { img_url: fileInput.files[0].name };
-    console.log(productBody);
 
     fetch(`${UPDATE_PRODUCT_URL + product.productId}`, {
       method: 'POST',
@@ -119,15 +120,16 @@ function ProductDetails({
       case 'amount':
         return (
           <div className='product-option amount-option'>
-            <span>{productOption.name}</span>
             <section className='buttons-container amount-buttons-container'>
               <div>
-                <img
-                  onClick={() => handleOption(productOption, 'subtrack')}
+                <CiSquareMinus
+                  size={32}
+                  height='4em'
+                  onClick={(e) => handleOption(e, productOption, 'subtrack')}
                   className='option-button amount-button'
                   src='src\assets\minus.svg'
                   alt='substrack'
-                ></img>
+                />
               </div>
 
               <div>
@@ -137,12 +139,12 @@ function ProductDetails({
               </div>
 
               <div>
-                <img
+                <CiSquarePlus
+                  size={32}
                   className='option-button amount-button'
-                  src='src\assets\add.svg'
-                  onClick={() => handleOption(productOption, 'plus')}
+                  onClick={(e) => handleOption(e, productOption, 'plus')}
                   alt='plus'
-                ></img>
+                />
               </div>
             </section>
           </div>
@@ -151,7 +153,6 @@ function ProductDetails({
       case 'size':
         return (
           <div className='product-option size-option'>
-            <span>{productOption.name}</span>
             <section className='buttons-container size-buttons-container'>
               {sizesToShow.map((value) => (
                 <div>
@@ -170,7 +171,6 @@ function ProductDetails({
       case 'edit':
         return (
           <div className='product-option size-option'>
-            <span>Edit</span>
             <section className='buttons-container size-buttons-container'>
               <button
                 type='button'
@@ -208,7 +208,7 @@ function ProductDetails({
     productOptionsData.find((option) => option.name === optionName);
 
   const renderOptionList = () => (
-    <div className='options-container'>
+    <div className='options-div'>
       {optionList.map((option) => renderOption(findOptionByName(option)))}
     </div>
   );

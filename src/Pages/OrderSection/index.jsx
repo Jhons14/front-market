@@ -1,4 +1,6 @@
 import { useRef, useState } from 'react';
+import { RiWalletFill } from 'react-icons/ri';
+
 import './index.css';
 
 function OrderSection({
@@ -30,39 +32,21 @@ function OrderSection({
     {
       id: '6',
     },
-    {
-      id: '7',
-    },
-    {
-      id: '8',
-    },
-    {
-      id: '9',
-    },
-    {
-      id: '10',
-    },
   ]);
   const renderOrderSectionTitle = () => {
     if (!!tableActive) {
       const clientName = mesas.find(
         (element) => tableActive === element.id
-      ).nombreCliente;
-
+      )?.nombreCliente;
       const renderMesaTitle = () => (
-        <p className='order-section-title'>
-          <span>Mesa {tableActive}</span>
+        <span className='order-title_section'>
+          <h1>Mesa {tableActive}</h1>
           <span>{clientName ? clientName : 'Sin Registrar'}</span>
-        </p>
+        </span>
       );
 
       if (!!tableActive) {
-        return (
-          <section>
-            {renderMesaTitle()}
-            {createBill()}
-          </section>
-        );
+        return renderMesaTitle();
       }
     }
   };
@@ -112,46 +96,21 @@ function OrderSection({
   const listRender = () => {
     if (!!orderActive) {
       const renderOrderValues = orderActive.products.map((product) => (
-        <div className='order-list__product'>
-          <span>{product.name}</span>
-          <span>{product.quantity}</span>
-          <span>${product.price}</span>
+        <div className='order-list__item  order-list__product'>
+          <div>
+            <span>{product.name}</span>
+            <span> x{product.quantity}</span>
+          </div>
           <span>${product.totalPrice}</span>
         </div>
       ));
-      return (
-        <div className='order-list'>
-          <section className='order-list__titles'>
-            <span>Product</span>
-            <span>Quantity</span>
-            <span>Unity price</span>
-            <span>Total price</span>
-          </section>
-          <section className='order-list__products-list'>
-            {renderOrderValues}
-          </section>
-          <section className='order-list__total-to-pay'>
-            <span>Total to pay</span>
-            <span></span>
-            <span></span>
-            <span> ${totalToPay()}</span>
-          </section>
-        </div>
-      );
+      return <div className='order-list'>{renderOrderValues}</div>;
     }
   };
 
-  return (
-    <div className='order-section-container'>
-      {renderOrderSectionTitle()}
-      <div className='order-list'>{listRender()}</div>
-      {!!tableActive &&
-        !mesas[tableActive - 1].nombreCliente &&
-        !openCreateOrder && (
-          <button onClick={() => setOpenCreateOrder(true)}>
-            Check In mesa
-          </button>
-        )}
+  const fixedHandler = () => (
+    <div className='fixedHandler'>
+      {/* Rederiza los botones para cambiar entre los distintos menus declarados en el objeto de arriba para cada una de las mesas- 7/30/2024
       <ul className='table-buttons-container'>
         {mesas.map((mesa) => (
           <li>
@@ -167,7 +126,30 @@ function OrderSection({
             </button>
           </li>
         ))}
-      </ul>
+      </ul> */}
+      {!!totalToPay() && (
+        <p className='total-to-pay__container'>
+          <span>Total</span>
+          <span> ${totalToPay()}</span>
+        </p>
+      )}
+    </div>
+  );
+
+  return (
+    <div className='order-section-container'>
+      {renderOrderSectionTitle()}
+      {createBill()}
+      {listRender()}
+      {!!tableActive &&
+        !mesas[tableActive - 1].nombreCliente &&
+        !openCreateOrder && (
+          <button onClick={() => setOpenCreateOrder(true)}>
+            Check In mesa
+          </button>
+        )}
+
+      {fixedHandler()}
     </div>
   );
 }

@@ -1,16 +1,20 @@
 .MenuButton {
   display: flex;
-  height: 120px;
+  width: 90%;
+  height: 100px;
   font-size: 20px;
   font-weight: 400;
   border: none;
+  border-radius: 8px;
   font-family: 'Montserrat';
   z-index: 2;
   align-items: center;
   justify-content: center;
   position: relative;
-  opacity: 0.7;
-  transition: transform 0.4s ease; /* Transición suave al hacer hover */
+  opacity: 0.8;
+  transition: transform 0.3s ease; /* Transición suave al hacer hover */
+  background-color: #2b2b2b;
+  box-sizing: border-box;
 }
 
 .MenuButton:hover {
@@ -20,16 +24,14 @@
 }
 
 .MenuButton > span {
-  font-size: xx-large;
-  font-weight: bolder;
+  font-size: larger;
   font-family: 'Protest Riot', sans-serif;
-  object-fit: cover;
   text-align: center;
   z-index: 1;
 }
 
 .MenuButton > img {
-  border-radius: 20px;
+  border-radius: 8px;
   position: absolute;
   height: 100%;
   width: 100%;

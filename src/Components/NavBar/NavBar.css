@@ -7,7 +7,9 @@
   z-index: 10;
   padding: 10px 24px;
   top: 0;
-  background-color: #fda503;
+  color: lightyellow;
+  border-bottom: solid 1px rgba(255, 255, 224, 0.191);
+  background: #454545;
 }
 
 .searchValue {

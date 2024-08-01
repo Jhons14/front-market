@@ -6,9 +6,13 @@ export function MainProvider({ children }) {
   const AUTHENTICATION_URL =
     'http://localhost:2020/platzi-market/api/auth/authenticate';
 
+  const GET_PRODUCTS_BY_CATEGORY_URL = `http://localhost:2020/platzi-market/api/products/category/${window.location.pathname.substring(
+    window.location.pathname.lastIndexOf('/') + 1
+  )}`;
+
   const [state, dispatch] = useReducer(reducer, initialState());
 
-  const onSetProducts = (productsByCategory) =>
+  const onSetProductsByCategory = (productsByCategory) =>
     dispatch({
       type: actionTypes.setProductsByCategory,
       payload: productsByCategory,
@@ -54,10 +58,6 @@ export function MainProvider({ children }) {
     },
   ];
 
-  const GET_PRODUCTS_BY_CATEGORY_URL = `http://localhost:2020/platzi-market/api/products/category/${window.location.pathname.substring(
-    window.location.pathname.lastIndexOf('/') + 1
-  )}`;
-
   const credentials = {
     method: 'POST',
     headers: {
@@ -102,7 +102,7 @@ export function MainProvider({ children }) {
         onSetLoading(true);
         try {
           const response = await getProductsByCategory();
-          onSetProducts(response);
+          onSetProductsByCategory(response);
         } catch (error) {
           onSetError(error);
         }
@@ -126,7 +126,7 @@ export function MainProvider({ children }) {
         setProductsActive: onSetProductsActive,
         setError: onSetError,
         setLoading: onSetLoading,
-        setProductsByCategory: onSetProducts,
+        setProductsByCategory: onSetProductsByCategory,
         setTypeProductActive: onSetTypeProductActive,
         setOrderList: onSetOrderList,
         setTableActive: onSetTableActive,
@@ -147,6 +147,7 @@ const initialState = () => {
     productsByCategory: [],
     typeProductActive: '',
     orderList: [],
+    tableActive: '1',
   };
 };
 const reducerObject = (state, payload) => ({

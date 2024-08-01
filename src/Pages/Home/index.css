@@ -1,7 +1,9 @@
 .home-container {
   display: grid;
   color: lightyellow;
-  grid-template-columns: 1fr 3fr 2fr;
-  height: calc(100vh - 55px);
+  grid-template-columns: 1fr 5fr 1.5fr;
+  padding: 18px 8px 0 0;
+  height: calc(100vh - 73px);
+  min-height: calc(100vh - 73px);
   box-sizing: border-box;
 }

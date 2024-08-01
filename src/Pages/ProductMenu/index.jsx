@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { MainContext } from '../../Context';
 import { ProductList } from '../../Components/ProductList';
 import { ProductBox } from '../../Components/ProductBox';
@@ -6,7 +6,6 @@ import { ScreenLoading } from '../../common/ScreenLoading';
 import { ScreenError } from '../../common/ScreenError';
 
 import './index.css';
-import { Modal } from '../../Components/Modal';
 
 function ProductMenu() {
   const {

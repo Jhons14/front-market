@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import './MenuButton.css';
-import { isEnumDeclaration } from 'typescript';
 
 function MenuButton(props) {
   const navigate = useNavigate();
@@ -69,17 +68,19 @@ function MenuButton(props) {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}
+    >
       <div
         className={`MenuButton ${category.category}Button`}
         onClick={() => {
           navigate(category.categoryId.toString());
         }}
       >
-        <img
-          src={`http://localhost:2020/platzi-market/api/images/categories/${category.img}`}
-          alt={category.img}
-        />
         <span>{category.category}</span>
       </div>
       {!!props.isEditActive && (

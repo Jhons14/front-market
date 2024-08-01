@@ -1,16 +1,9 @@
 .options-container {
-  padding: 12px 6px;
   gap: 6px;
 }
 .product-option {
   position: relative;
-  border-radius: 8px;
-  border: solid 1px rgb(165, 180, 169);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
 }
 
 .product-option > span {
@@ -44,7 +37,7 @@
   align-items: center;
   justify-content: center;
   height: 24px;
-  transition: transform 0.4s ease; /* Transición suave al hacer hover */
+  transition: transform 0.2s ease; /* Transición suave al hacer hover */
 }
 .option-button:hover {
   cursor: pointer;
