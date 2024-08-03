@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { RiWalletFill } from 'react-icons/ri';
+import { useEffect, useRef, useState } from 'react';
+import { IoIosArrowUp } from 'react-icons/io';
 
 import './index.css';
 
@@ -9,8 +9,23 @@ function OrderSection({
   orderList,
   setOrderList,
 }) {
-  const formRef = useRef();
   const [openCreateOrder, setOpenCreateOrder] = useState(false);
+  const [showScrollUpArrow, setshowScrollUpArrow] = useState(false);
+
+  const orderListDiv = document.getElementById('order-list');
+
+  orderListDiv?.addEventListener('scroll', () =>
+    orderListDiv?.scrollTop !== 0
+      ? setshowScrollUpArrow(true)
+      : setshowScrollUpArrow(false)
+  );
+
+  if (!!showScrollUpArrow) {
+    console.log(showScrollUpArrow);
+    console.log(orderListDiv?.scrollTop);
+  }
+  const formRef = useRef();
+
   const [mesas, setMesas] = useState([
     {
       id: '1',
@@ -18,19 +33,6 @@ function OrderSection({
     },
     {
       id: '2',
-      nombreCliente: 'Pedro',
-    },
-    {
-      id: '3',
-    },
-    {
-      id: '4',
-    },
-    {
-      id: '5',
-    },
-    {
-      id: '6',
     },
   ]);
   const renderOrderSectionTitle = () => {
@@ -96,7 +98,7 @@ function OrderSection({
   const listRender = () => {
     if (!!orderActive) {
       const renderOrderValues = orderActive.products.map((product) => (
-        <div className='order-list__item  order-list__product'>
+        <div className='order-list__item '>
           <div>
             <span>{product.name}</span>
             <span> x{product.quantity}</span>
@@ -104,7 +106,24 @@ function OrderSection({
           <span>${product.totalPrice}</span>
         </div>
       ));
-      return <div className='order-list'>{renderOrderValues}</div>;
+      return (
+        <div
+          className='order-list-container'
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <span style={{ minHeight: '20px' }}>
+            {!!showScrollUpArrow && (
+              <IoIosArrowUp style={{ width: '100%', height: '100%' }} />
+            )}
+          </span>
+          <div className='order-list' id='order-list'>
+            {renderOrderValues}
+          </div>
+        </div>
+      );
     }
   };
 
@@ -127,29 +146,29 @@ function OrderSection({
           </li>
         ))}
       </ul> */}
-      {!!totalToPay() && (
-        <p className='total-to-pay__container'>
-          <span>Total</span>
-          <span> ${totalToPay()}</span>
-        </p>
-      )}
+      <p className='total-to-pay__container'>
+        <span>Total</span>
+        <span> ${totalToPay()}</span>
+      </p>
     </div>
   );
 
   return (
     <div className='order-section-container'>
-      {renderOrderSectionTitle()}
-      {createBill()}
-      {listRender()}
-      {!!tableActive &&
-        !mesas[tableActive - 1].nombreCliente &&
-        !openCreateOrder && (
-          <button onClick={() => setOpenCreateOrder(true)}>
-            Check In mesa
-          </button>
-        )}
+      <div>
+        {renderOrderSectionTitle()}
+        {createBill()}
 
-      {fixedHandler()}
+        {listRender()}
+        {!!tableActive &&
+          !mesas[tableActive - 1].nombreCliente &&
+          !openCreateOrder && (
+            <button onClick={() => setOpenCreateOrder(true)}>
+              Check In mesa
+            </button>
+          )}
+        {!!totalToPay() && fixedHandler()}
+      </div>
     </div>
   );
 }
