@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { IoIosArrowUp } from 'react-icons/io';
+import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 
 import './index.css';
 
@@ -10,21 +10,7 @@ function OrderSection({
   setOrderList,
 }) {
   const [openCreateOrder, setOpenCreateOrder] = useState(false);
-  const [showScrollUpArrow, setshowScrollUpArrow] = useState(false);
-
-  const orderListDiv = document.getElementById('order-list');
-
-  orderListDiv?.addEventListener('scroll', () =>
-    orderListDiv?.scrollTop !== 0
-      ? setshowScrollUpArrow(true)
-      : setshowScrollUpArrow(false)
-  );
-
-  if (!!showScrollUpArrow) {
-    console.log(showScrollUpArrow);
-    console.log(orderListDiv?.scrollTop);
-  }
-  const formRef = useRef();
+  const scrollListPointer = useState({});
 
   const [mesas, setMesas] = useState([
     {
@@ -35,6 +21,33 @@ function OrderSection({
       id: '2',
     },
   ]);
+
+  function handleScroll(target) {
+    const newScrollListPointer = {
+      ...scrollListPointer,
+      scrollTop: target.scrollTop,
+      clientHeight: target.clientHeight,
+      scrollHeight: target.scrollHeight,
+    };
+    updateArrows(newScrollListPointer);
+  }
+
+  const upArrow = document.getElementById('scroll-up-list-arrow');
+  const downArrow = document.getElementById('scroll-down-list-arrow');
+
+  function updateArrows(scroll) {
+    if (scroll.scrollTop === 0) {
+      upArrow.style.display = 'none';
+    } else {
+      upArrow.style.display = 'block';
+    }
+    if (scroll.scrollHeight - scroll.scrollTop - 10 <= scroll.clientHeight) {
+      downArrow.style.display = 'none';
+    } else {
+      downArrow.style.display = 'block';
+    }
+  }
+
   const renderOrderSectionTitle = () => {
     if (!!tableActive) {
       const clientName = mesas.find(
@@ -96,35 +109,54 @@ function OrderSection({
   };
 
   const listRender = () => {
-    if (!!orderActive) {
-      const renderOrderValues = orderActive.products.map((product) => (
+    const renderOrderValues = orderActive ? (
+      orderActive.products.map((product) => (
         <div className='order-list__item '>
           <div>
-            <span>{product.name}</span>
-            <span> x{product.quantity}</span>
+            <span>{product?.name}</span>
+            <span> x{product?.quantity}</span>
           </div>
-          <span>${product.totalPrice}</span>
+          <span>${product?.totalPrice}</span>
         </div>
-      ));
-      return (
+      ))
+    ) : (
+      <div className='order-list__item '>
+        <div>
+          <span></span>
+          <span> </span>
+        </div>
+        <span></span>
+      </div>
+    );
+    return (
+      <div
+        className='order-list-container'
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <div style={{ height: '20px' }}>
+          <IoIosArrowUp
+            style={{ width: '100%', height: '100%' }}
+            id='scroll-up-list-arrow'
+          />
+        </div>
         <div
-          className='order-list-container'
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}
+          className='order-list'
+          id='order-list'
+          onScroll={(e) => handleScroll(e.target)}
         >
-          <span style={{ minHeight: '20px' }}>
-            {!!showScrollUpArrow && (
-              <IoIosArrowUp style={{ width: '100%', height: '100%' }} />
-            )}
-          </span>
-          <div className='order-list' id='order-list'>
-            {renderOrderValues}
-          </div>
+          {renderOrderValues}
         </div>
-      );
-    }
+        <div style={{ height: '20px' }}>
+          <IoIosArrowDown
+            style={{ width: '100%', height: '100%' }}
+            id='scroll-down-list-arrow'
+          />
+        </div>
+      </div>
+    );
   };
 
   const fixedHandler = () => (

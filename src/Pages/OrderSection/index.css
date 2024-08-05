@@ -46,11 +46,13 @@
 
 .order-list-container {
   gap: 2px;
-  overflow-y: auto; /* Habilitar scroll vertical */
-  scrollbar-width: none;
+  min-height: min-content;
+
   margin: 8px 0;
 }
 .order-list {
+  overflow-y: auto; /* Habilitar scroll vertical */
+  scrollbar-width: none;
   display: flex;
   flex-direction: column;
   gap: 2px;
