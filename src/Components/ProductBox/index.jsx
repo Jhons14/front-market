@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from 'react';
 import { ProductDetails } from '../ProductDetails';
-import './index.css';
 import { MainContext } from '../../Context';
-
 import { handleAdd } from '../../utils';
+
+import './index.css';
 
 function ProductBox(props) {
   const { authenticate } = useContext(MainContext);
@@ -29,14 +29,14 @@ function ProductBox(props) {
     },
   ]);
 
-  // Ejemplo de uso
-
   useEffect(() => {
     if (!product) {
       getProductByID();
     }
   }, [product]);
-
+  if (!props.tableActive) {
+    props.setTableActive(1);
+  }
   async function getProductByID() {
     const parsedToken = await authenticate();
     await fetch(
@@ -61,13 +61,14 @@ function ProductBox(props) {
   if (!!product) {
     return (
       <div
-        className={`product-box`}
+        className='product-box'
         onClick={() =>
           handleAdd(
             product,
             productOptionsData,
             setProductOptionsData,
             props.tableActive,
+            props.setTableActive,
             props.orderList,
             props.setOrderList,
             IDIdentator,
@@ -76,6 +77,7 @@ function ProductBox(props) {
         }
       >
         <p className='product-title'>{product.name}</p>
+
         <ProductDetails
           product={product}
           productOptionsData={productOptionsData}

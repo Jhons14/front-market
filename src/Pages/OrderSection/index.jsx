@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
+import { RiDeleteBin6Line } from 'react-icons/ri';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 import './index.css';
 
@@ -14,14 +16,17 @@ function OrderSection({
 
   const [mesas, setMesas] = useState([
     {
-      id: '1',
+      id: 1,
       nombreCliente: 'Jhon',
     },
     {
-      id: '2',
+      id: 2,
     },
   ]);
 
+  const orderActive = orderList.find(
+    (listItem) => listItem.table === tableActive
+  );
   function handleScroll(target) {
     const newScrollListPointer = {
       ...scrollListPointer,
@@ -53,9 +58,26 @@ function OrderSection({
       const clientName = mesas.find(
         (element) => tableActive === element.id
       )?.nombreCliente;
+
       const renderMesaTitle = () => (
         <span className='order-title_section'>
-          <h1>Mesa {tableActive}</h1>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-evenly',
+            }}
+          >
+            <FaArrowLeft
+              className={`tables-arrow--${tableActive !== 1}`}
+              onClick={() => setTableActive(tableActive - 1)}
+            />
+            <h1>Mesa {tableActive}</h1>
+            <FaArrowRight
+              className={`tables-arrow--${tableActive !== mesas.length}`}
+              onClick={() => setTableActive(tableActive + 1)}
+            />
+          </div>
           <span>{clientName ? clientName : 'Sin Registrar'}</span>
         </span>
       );
@@ -83,10 +105,6 @@ function OrderSection({
     setOpenCreateOrder(false);
   };
 
-  const orderActive = orderList.find(
-    (listItem) => listItem.table === tableActive
-  );
-
   //Calcula el total a pagar del usuario y lo agrega al estado de la orden activa
   const totalToPay = () => {
     if (!!orderActive) {
@@ -109,25 +127,23 @@ function OrderSection({
   };
 
   const listRender = () => {
-    const renderOrderValues = orderActive ? (
-      orderActive.products.map((product) => (
-        <div className='order-list__item '>
-          <div>
-            <span>{product?.name}</span>
-            <span> x{product?.quantity}</span>
-          </div>
-          <span>${product?.totalPrice}</span>
+    const renderOrderValues = orderActive?.products.map((product) => (
+      <div className='order-list__item'>
+        <div id='delete-trash-can'>
+          <RiDeleteBin6Line
+            onClick={() => {
+              handleDelete(product);
+            }}
+          />
         </div>
-      ))
-    ) : (
-      <div className='order-list__item '>
         <div>
-          <span></span>
-          <span> </span>
+          <span>{product?.name}</span>
+          <span> x{product?.quantity}</span>
         </div>
-        <span></span>
+        <span>${product?.totalPrice}</span>
       </div>
-    );
+    ));
+
     return (
       <div
         className='order-list-container'
@@ -138,7 +154,7 @@ function OrderSection({
       >
         <div style={{ height: '20px' }}>
           <IoIosArrowUp
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: '100%', display: 'none' }}
             id='scroll-up-list-arrow'
           />
         </div>
@@ -151,7 +167,7 @@ function OrderSection({
         </div>
         <div style={{ height: '20px' }}>
           <IoIosArrowDown
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: '100%', display: 'none' }}
             id='scroll-down-list-arrow'
           />
         </div>

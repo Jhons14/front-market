@@ -1,17 +1,18 @@
 .options-container {
-  gap: 6px;
+  display: grid;
+  justify-items: center;
+  height: fit-content;
 }
+
+.product-img {
+  height: 100px;
+  width: 100px;
+  border-radius: 8px;
+}
+
 .product-option {
   position: relative;
   display: flex;
-}
-
-.product-option > span {
-  position: absolute;
-  left: 12px;
-  top: -12px;
-  background: rgb(41, 41, 41);
-  padding: 0px 4px;
 }
 
 .buttons-container {
@@ -19,7 +20,6 @@
   justify-content: center;
   height: 32px;
   align-items: center;
-  gap: 4px;
 }
 
 .buttons-container > div {

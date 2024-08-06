@@ -47,7 +47,6 @@
 .order-list-container {
   gap: 2px;
   min-height: min-content;
-
   margin: 8px 0;
 }
 .order-list {
@@ -55,28 +54,16 @@
   scrollbar-width: none;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 .order-list__item {
   display: flex;
-  height: 40px;
+  height: fit-content;
   justify-content: space-between;
   align-items: center;
-  padding: 8px;
+  padding: 4px;
   background-color: #2b2b2b;
-  border-radius: 4px;
   box-sizing: border-box;
-}
-
-.order-list__item > div {
-  display: flex;
-  height: inherit;
-  align-items: center;
-  gap: 4px;
-}
-.order-list__item > div > div:nth-child(2) {
-  opacity: 0.8;
-  color: red;
 }
 
 .order-list__titles {
@@ -103,6 +90,22 @@
   justify-content: space-between;
   border-top: solid 1px;
 }
+#delete-trash-can :hover {
+  color: red;
+  cursor: pointer;
+}
+
+.tables-arrow--true {
+  display: block;
+  cursor: pointer;
+}
+
+.tables-arrow--false {
+  display: none;
+}
+/* -Estilos para activar los botones de mesa
+
+
 .table-buttons-container {
   display: grid;
   padding: 10px;
@@ -124,9 +127,9 @@
   font-family: inherit;
   border: solid 1px lightyellow;
   color: lightyellow;
-  transition: transform 0.4s ease; /* Transición suave al hacer hover */
-}
-.table-button:hover {
+  transition: transform 0.4s ease;  Transición suave al hacer hover 
+} */
+/* .table-button:hover {
   cursor: pointer;
   transform: scale(1.1);
-}
+} */

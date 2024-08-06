@@ -20,6 +20,8 @@ function ProductDetails({
   const UPDATE_PRODUCT_URL =
     'http://localhost:2020/platzi-market/api/products/update/';
 
+  const IMG_URL = `http://localhost:2020/platzi-market/api/images/products/${product.img_url}`;
+
   const navigate = useNavigate();
   const sizesToShow = ['Small', 'Medium', 'Largue'];
 
@@ -119,53 +121,49 @@ function ProductDetails({
     switch (productOption.name) {
       case 'amount':
         return (
-          <div className='product-option amount-option'>
-            <section className='buttons-container amount-buttons-container'>
-              <div>
-                <CiSquareMinus
-                  size={32}
-                  height='4em'
-                  onClick={(e) => handleOption(e, productOption, 'subtrack')}
-                  className='option-button amount-button'
-                  src='src\assets\minus.svg'
-                  alt='substrack'
-                />
-              </div>
+          <div className='buttons-container amount-buttons-container'>
+            <div>
+              <CiSquareMinus
+                size={32}
+                height='4em'
+                onClick={(e) => handleOption(e, productOption, 'subtrack')}
+                className='option-button amount-button'
+                src='src\assets\minus.svg'
+                alt='substrack'
+              />
+            </div>
 
-              <div>
-                <span className='amount-button amount-counter'>
-                  {productOption.value}
-                </span>
-              </div>
+            <div>
+              <span className='amount-button amount-counter'>
+                {productOption.value}
+              </span>
+            </div>
 
-              <div>
-                <CiSquarePlus
-                  size={32}
-                  className='option-button amount-button'
-                  onClick={(e) => handleOption(e, productOption, 'plus')}
-                  alt='plus'
-                />
-              </div>
-            </section>
+            <div>
+              <CiSquarePlus
+                size={32}
+                className='option-button amount-button'
+                onClick={(e) => handleOption(e, productOption, 'plus')}
+                alt='plus'
+              />
+            </div>
           </div>
         );
 
       case 'size':
         return (
-          <div className='product-option size-option'>
-            <section className='buttons-container size-buttons-container'>
-              {sizesToShow.map((value) => (
-                <div>
-                  <span
-                    className='option-button size-button'
-                    onClick={() => setClickedSize(value)}
-                  >
-                    {value}
-                  </span>
-                </div>
-              ))}
-            </section>
-          </div>
+          <section className='buttons-container size-buttons-container'>
+            {sizesToShow.map((value) => (
+              <div>
+                <span
+                  className='option-button size-button'
+                  onClick={() => setClickedSize(value)}
+                >
+                  {value}
+                </span>
+              </div>
+            ))}
+          </section>
         );
 
       case 'edit':
@@ -208,8 +206,15 @@ function ProductDetails({
     productOptionsData.find((option) => option.name === optionName);
 
   const renderOptionList = () => (
-    <div className='options-div'>
-      {optionList.map((option) => renderOption(findOptionByName(option)))}
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <img
+        src={IMG_URL}
+        className='product-img'
+        alt='Imagen asociada al producto en el servidor'
+      ></img>
+      <div className='options-container'>
+        {optionList.map((option) => renderOption(findOptionByName(option)))}
+      </div>
     </div>
   );
 

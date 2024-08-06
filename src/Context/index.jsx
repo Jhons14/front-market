@@ -39,25 +39,6 @@ export function MainProvider({ children }) {
   const onSetTableActive = (tableActive) =>
     dispatch({ type: actionTypes.setTableActive, payload: tableActive });
 
-  const categoryHomologation = [
-    {
-      name: 'bebidas',
-      categoryId: 5,
-    },
-    {
-      name: 'comidas',
-      categoryId: 3,
-    },
-    {
-      name: 'pastelería',
-      categoryId: 1,
-    },
-    {
-      name: 'postres',
-      categoryId: 2,
-    },
-  ];
-
   const credentials = {
     method: 'POST',
     headers: {
@@ -147,7 +128,6 @@ const initialState = () => {
     productsByCategory: [],
     typeProductActive: '',
     orderList: [],
-    tableActive: '1',
   };
 };
 const reducerObject = (state, payload) => ({
