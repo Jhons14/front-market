@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+
+import { handleDelete } from '../../utils';
+
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
@@ -27,6 +30,11 @@ function OrderSection({
   const orderActive = orderList.find(
     (listItem) => listItem.table === tableActive
   );
+
+  const clientName = mesas.find(
+    (element) => tableActive === element.id
+  )?.nombreCliente;
+
   function handleScroll(target) {
     const newScrollListPointer = {
       ...scrollListPointer,
@@ -55,30 +63,23 @@ function OrderSection({
 
   const renderOrderSectionTitle = () => {
     if (!!tableActive) {
-      const clientName = mesas.find(
-        (element) => tableActive === element.id
-      )?.nombreCliente;
-
       const renderMesaTitle = () => (
         <span className='order-title_section'>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-evenly',
-            }}
-          >
-            <FaArrowLeft
-              className={`tables-arrow--${tableActive !== 1}`}
-              onClick={() => setTableActive(tableActive - 1)}
-            />
-            <h1>Mesa {tableActive}</h1>
-            <FaArrowRight
-              className={`tables-arrow--${tableActive !== mesas.length}`}
-              onClick={() => setTableActive(tableActive + 1)}
-            />
+          <div>
+            <span>
+              <FaArrowLeft
+                className={`tables-arrow--${tableActive !== 1}`}
+                onClick={() => setTableActive(tableActive - 1)}
+              />
+            </span>
+            <p>Mesa {tableActive}</p>
+            <span>
+              <FaArrowRight
+                className={`tables-arrow--${tableActive !== mesas.length}`}
+                onClick={() => setTableActive(tableActive + 1)}
+              />
+            </span>
           </div>
-          <span>{clientName ? clientName : 'Sin Registrar'}</span>
         </span>
       );
 
@@ -127,22 +128,23 @@ function OrderSection({
   };
 
   const listRender = () => {
-    const renderOrderValues = orderActive?.products.map((product) => (
-      <div className='order-list__item'>
-        <div id='delete-trash-can'>
-          <RiDeleteBin6Line
-            onClick={() => {
-              handleDelete(product);
-            }}
-          />
+    const renderOrderValues = (products) =>
+      products?.map((product) => (
+        <div className='order-list__item'>
+          <div id='delete-trash-can'>
+            <RiDeleteBin6Line
+              onClick={() => {
+                handleDelete(product.id, orderList, orderActive);
+              }}
+            />
+          </div>
+          <div>
+            <span>{product?.name}</span>
+            <span> x{product?.quantity}</span>
+          </div>
+          <span>${product?.totalPrice}</span>
         </div>
-        <div>
-          <span>{product?.name}</span>
-          <span> x{product?.quantity}</span>
-        </div>
-        <span>${product?.totalPrice}</span>
-      </div>
-    ));
+      ));
 
     return (
       <div
@@ -152,7 +154,7 @@ function OrderSection({
           flexDirection: 'column',
         }}
       >
-        <div style={{ height: '20px' }}>
+        <div className='arrow-div'>
           <IoIosArrowUp
             style={{ width: '100%', height: '100%', display: 'none' }}
             id='scroll-up-list-arrow'
@@ -163,9 +165,9 @@ function OrderSection({
           id='order-list'
           onScroll={(e) => handleScroll(e.target)}
         >
-          {renderOrderValues}
+          {renderOrderValues(orderActive?.products)}
         </div>
-        <div style={{ height: '20px' }}>
+        <div className='arrow-div'>
           <IoIosArrowDown
             style={{ width: '100%', height: '100%', display: 'none' }}
             id='scroll-down-list-arrow'
@@ -206,6 +208,8 @@ function OrderSection({
       <div>
         {renderOrderSectionTitle()}
         {createBill()}
+
+        <span>{clientName ? clientName : 'Sin Registrar'}</span>
 
         {listRender()}
         {!!tableActive &&

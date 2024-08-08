@@ -7,10 +7,7 @@ import './index.css';
 
 function ProductBox(props) {
   const { authenticate } = useContext(MainContext);
-  const [IDIdentator, setIDIdentator] = useState(0);
-  const [product, setProduct] = useState(
-    props.product ? props.product : getProductByID()
-  );
+  const [product, setProduct] = useState();
   const [productOptionsData, setProductOptionsData] = useState([
     {
       id: 1,
@@ -30,17 +27,16 @@ function ProductBox(props) {
   ]);
 
   useEffect(() => {
-    if (!product) {
-      getProductByID();
-    }
-  }, [product]);
-  if (!props.tableActive) {
-    props.setTableActive(1);
-  }
+    setProduct(props.product ? props.product : getProductByID());
+  }, []);
+  const currentURL = window.location.pathname;
+
+  const productIdInURL = currentURL.match(/[^/]+$/)[0];
+
   async function getProductByID() {
     const parsedToken = await authenticate();
     await fetch(
-      `http://localhost:2020/platzi-market/api/products/${product?.img_url}`,
+      `http://localhost:2020/platzi-market/api/products/${productIdInURL}`,
       {
         method: 'GET',
         headers: {
@@ -56,8 +52,6 @@ function ProductBox(props) {
       });
   }
 
-  //Funcion para obtener el id del producto que se agregara (El ID, no el index)
-
   if (!!product) {
     return (
       <div
@@ -68,11 +62,8 @@ function ProductBox(props) {
             productOptionsData,
             setProductOptionsData,
             props.tableActive,
-            props.setTableActive,
             props.orderList,
-            props.setOrderList,
-            IDIdentator,
-            setIDIdentator
+            props.setOrderList
           )
         }
       >

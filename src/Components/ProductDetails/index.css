@@ -28,9 +28,10 @@
   align-items: center;
 }
 
-.amount-buttons-container > div {
-  height: 32px;
-  width: 28px;
+#amount-counter {
+  display: flex;
+  justify-content: center;
+  width: 20px;
 }
 .option-button {
   display: flex;

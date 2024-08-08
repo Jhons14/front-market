@@ -14,17 +14,18 @@ function EditPage() {
     typeProductActive,
   } = useContext(MainContext);
 
-  const location = useLocation();
-  const productId = location.state.productId;
+  const currentURL = window.location.pathname;
+
+  const productIdInURL = currentURL.match(/[^/]+$/)[0];
 
   const product = productsByCategory.find(
-    (product) => product?.productId === productId
+    (product) => product?.productId === productIdInURL
   );
 
   return (
     <Modal>
       <ProductBox
-        key={productId}
+        key={product.productId}
         product={product}
         setOrderList={setOrderList}
         orderList={orderList}

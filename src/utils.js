@@ -37,17 +37,14 @@ async function getAllProducts() {
     });
 }
 
-const handleAdd = (
+function handleAdd(
   product,
   productOptionsData,
   setProductOptionsData,
   tableActive,
-  setTableActive,
   orderList,
-  setOrderList,
-  IDIdentator,
-  setIDIdentator
-) => {
+  setOrderList
+) {
   function searchIdProduct(idToSearch, list) {
     const orderToModify = list.find(
       (listOrder) => listOrder.table === tableActive
@@ -66,6 +63,7 @@ const handleAdd = (
   //Si ya se ha seleccionado una mesa, de lo contrario no podra mostrar data
 
   //Se copia el estado que contiene las opciones disponibles del menu de adiciones
+
   let newProductOptionsData = [...productOptionsData];
   const productAmount = productOptionsData[0].value;
   //Funcion para reinciar el contador de cantidad de producto a añadir
@@ -75,10 +73,10 @@ const handleAdd = (
   };
 
   //Busca index de lista en la mesa activa, si no existe retorna -1
+
   const indexInOrderToModify = orderList.findIndex(
     (order) => order.table === tableActive
   );
-
   //Si ya existe la orden en la mesa activa
   if (indexInOrderToModify !== -1) {
     //Obtener el index del producto que se agregara en base al id
@@ -89,11 +87,7 @@ const handleAdd = (
       //Crea una copia del arreglo y hace las modificaciones pertinentes en el estado para evitar modificar el estado de manera directa
 
       const newOrderListArray = orderList.map((listItem) => {
-        console.log('fjuniasdpfbsda');
-
         if (listItem.orderId === indexInOrderToModify) {
-          console.log(listItem);
-
           const newProductsArray = listItem.products.map((product, i) => {
             if (i === productIndex) {
               return {
@@ -104,13 +98,13 @@ const handleAdd = (
             }
             return product;
           });
+
           return { ...listItem, products: newProductsArray };
         }
         return listItem;
       });
-      //Actualiza estado
-      console.log();
 
+      //Actualiza estado
       setOrderList(newOrderListArray);
       //Reinicia contador de catidad a agregar
       restartAmountCounter();
@@ -135,6 +129,7 @@ const handleAdd = (
           return orderItem;
         });
         //Actualiza estado
+
         setOrderList(newOrderListArray);
         //Reinicia contador de catidad a agregar
         restartAmountCounter();
@@ -144,7 +139,7 @@ const handleAdd = (
     //Si la mesa no tiene una orden activa debe crearse
     if (productAmount !== 0) {
       const newOrderItem = {
-        orderId: IDIdentator,
+        orderId: orderList.length,
         table: tableActive,
         products: [
           {
@@ -162,7 +157,12 @@ const handleAdd = (
       restartAmountCounter();
     }
   }
-  setIDIdentator(IDIdentator + 1);
-};
 
-export { handleAdd, getAllProducts };
+  // setIDIdentator(IDIdentator + 1);
+}
+
+function handleDelete(id, orderList) {
+  const orderIndex = orderList.findIndex((orderItem) => orderItem.id === id);
+  console.log(orderIndex);
+}
+export { handleAdd, getAllProducts, handleDelete };

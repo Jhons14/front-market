@@ -134,9 +134,7 @@ function ProductDetails({
             </div>
 
             <div>
-              <span className='amount-button amount-counter'>
-                {productOption.value}
-              </span>
+              <span id='amount-counter'>{productOption.value}</span>
             </div>
 
             <div>

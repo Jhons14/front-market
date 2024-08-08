@@ -5,8 +5,6 @@ import { ProductBox } from '../../Components/ProductBox';
 import { ScreenLoading } from '../../common/ScreenLoading';
 import { ScreenError } from '../../common/ScreenError';
 
-import './index.css';
-
 function ProductMenu() {
   const {
     setOrderList,
