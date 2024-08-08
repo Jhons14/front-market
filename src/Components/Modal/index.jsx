@@ -7,10 +7,12 @@ function Modal({ children }) {
   const navigate = useNavigate();
   return ReactDOM.createPortal(
     <div className='Modal-container'>
-      <span className='CloseModal-button' onClick={() => navigate(-1)}>
-        X
-      </span>
-      {children}
+      <div>
+        <span className='CloseModal-button' onClick={() => navigate(-1)}>
+          X
+        </span>
+        {children}
+      </div>
     </div>,
     document.getElementById('modal')
   );

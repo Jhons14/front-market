@@ -150,7 +150,7 @@ function ProductDetails({
 
       case 'size':
         return (
-          <section className='buttons-container size-buttons-container'>
+          <section>
             {sizesToShow.map((value) => (
               <div>
                 <span
@@ -186,17 +186,17 @@ function ProductDetails({
         );
       case 'upload':
         return (
-          <div className='product-option size-option'>
+          <form
+            id='uploadForm'
+            enctype='multipart/form-data'
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
             <span>Upload</span>
-            <section className='buttons-container size-buttons-container'>
-              <form id='uploadForm' enctype='multipart/form-data'>
-                <input type='file' name='file' id={`fileInput`} />
-                <button type='button' onClick={() => uploadImg()}>
-                  Upload
-                </button>
-              </form>
-            </section>
-          </div>
+            <input type='file' name='file' id={`fileInput`} />
+            <button type='button' onClick={() => uploadImg()}>
+              Upload
+            </button>
+          </form>
         );
     }
   };

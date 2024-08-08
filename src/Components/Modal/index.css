@@ -1,17 +1,18 @@
 .Modal-container {
-  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
   padding: 10px;
-  height: 100%;
+  width: 100%;
   top: 55px;
   position: fixed;
   z-index: 2;
+  justify-content: center;
 }
 .CloseModal-button {
-  background-color: red;
   color: white;
   right: 0;
   padding: 4px;
   object-fit: cover;
+  width: 200px;
 }
 .CloseModal-button:hover {
   cursor: pointer;

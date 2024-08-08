@@ -6,27 +6,17 @@ import { useLocation } from 'react-router-dom';
 import './index.css';
 
 function EditPage() {
-  const {
-    productsByCategory,
-    setOrderList,
-    orderList,
-    tableActive,
-    typeProductActive,
-  } = useContext(MainContext);
+  const { setOrderList, orderList, tableActive, typeProductActive } =
+    useContext(MainContext);
 
   const currentURL = window.location.pathname;
 
   const productIdInURL = currentURL.match(/[^/]+$/)[0];
 
-  const product = productsByCategory.find(
-    (product) => product?.productId === productIdInURL
-  );
-
   return (
     <Modal>
       <ProductBox
-        key={product.productId}
-        product={product}
+        key={productIdInURL}
         setOrderList={setOrderList}
         orderList={orderList}
         tableActive={tableActive}
