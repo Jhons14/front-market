@@ -48,7 +48,7 @@ function ProductBox(props) {
       .then((data) => setProduct(data))
 
       .catch((error) => {
-        console.log(error);
+        window.alert(error);
       });
   }
 
@@ -67,8 +67,7 @@ function ProductBox(props) {
           )
         }
       >
-        <p className='product-title'>{product.name}</p>
-
+        <span className='product-title'>{product.name}</span>
         <ProductDetails
           product={product}
           productOptionsData={productOptionsData}

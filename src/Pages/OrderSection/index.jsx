@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { handleDelete } from '../../utils';
 
@@ -16,6 +16,7 @@ function OrderSection({
 }) {
   const [openCreateOrder, setOpenCreateOrder] = useState(false);
   const scrollListPointer = useState({});
+  const formRef = useRef();
 
   const [mesas, setMesas] = useState([
     {
@@ -88,6 +89,7 @@ function OrderSection({
       }
     }
   };
+
   const createBill = () => {
     if (!!openCreateOrder) {
       return (
@@ -134,7 +136,12 @@ function OrderSection({
           <div id='delete-trash-can'>
             <RiDeleteBin6Line
               onClick={() => {
-                handleDelete(product.id, orderList, orderActive);
+                handleDelete(
+                  product.id,
+                  orderActive.orderId,
+                  orderList,
+                  setOrderList
+                );
               }}
             />
           </div>

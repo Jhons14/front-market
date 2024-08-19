@@ -160,9 +160,18 @@ function handleAdd(
 
   // setIDIdentator(IDIdentator + 1);
 }
+function handleDelete(id, idOrderActive, orderList, setOrderList) {
+  const productIndex = orderList[idOrderActive].products.findIndex(
+    (orderItem) => orderItem.id === id
+  );
 
-function handleDelete(id, orderList) {
-  const orderIndex = orderList.findIndex((orderItem) => orderItem.id === id);
-  console.log(orderIndex);
+  const newList = orderList.map((order) => ({
+    ...order,
+    products: [...order.products],
+  }));
+
+  newList[idOrderActive].products.splice(productIndex, 1);
+
+  setOrderList(newList);
 }
 export { handleAdd, getAllProducts, handleDelete };

@@ -204,7 +204,13 @@ function ProductDetails({
     productOptionsData.find((option) => option.name === optionName);
 
   const renderOptionList = () => (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <div
+      style={{
+        display: 'flex',
+        height: '100%',
+        justifyContent: 'space-between',
+      }}
+    >
       <img
         src={IMG_URL}
         className='product-img'

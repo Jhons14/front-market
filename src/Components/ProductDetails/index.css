@@ -5,8 +5,8 @@
 }
 
 .product-img {
-  height: 100px;
-  width: 100px;
+  height: inherit;
+  width: 120px;
   border-radius: 8px;
 }
 

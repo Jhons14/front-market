@@ -7,6 +7,6 @@
   grid-template-rows: repeat(auto-fit, minmax(180px, 180px));
   justify-content: center;
   gap: 4px;
-  padding: 0 8px;
+  padding: 8px 8px;
   box-sizing: border-box;
 }

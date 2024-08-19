@@ -21,7 +21,6 @@ function ProductMenu() {
   if (typeProductActive !== location.pathname.substring(1)) {
     setTypeProductActive(location.pathname.substring(1));
   }
-
   const renderView = () => {
     if (!!error && !loading) {
       return <ScreenError />;
