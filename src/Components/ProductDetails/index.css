@@ -1,0 +1,57 @@
+.options-container {
+  display: grid;
+  justify-items: center;
+  height: fit-content;
+}
+
+.product-img {
+  height: inherit;
+  width: 120px;
+  border-radius: 8px;
+}
+
+.product-option {
+  position: relative;
+  display: flex;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  height: 32px;
+  align-items: center;
+}
+
+.buttons-container > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#amount-counter {
+  display: flex;
+  justify-content: center;
+  width: 20px;
+}
+.option-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  transition: transform 0.2s ease; /* Transición suave al hacer hover */
+}
+.option-button:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.size-buttons-container > div {
+  width: 80px;
+  height: 28px;
+}
+
+.size-button {
+  background-color: #fda503d3;
+  padding: 2px 12px;
+  border-radius: 4px;
+}

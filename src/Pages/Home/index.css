@@ -1,0 +1,15 @@
+.home-container {
+  display: grid;
+  color: lightyellow;
+  grid-template-columns: 2fr 3fr 3fr;
+  padding: 14px 8px 0 0;
+  height: calc(100vh - 73px);
+}
+.product-menu-container {
+  height: inherit;
+}
+@media (min-width: 900px) {
+  .home-container {
+    grid-template-columns: 1fr 5fr 1.5fr;
+  }
+}
