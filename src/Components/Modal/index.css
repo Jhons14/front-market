@@ -1,0 +1,19 @@
+.Modal-container {
+  display: flex;
+  padding: 10px;
+  width: 100%;
+  top: 55px;
+  position: fixed;
+  z-index: 2;
+  justify-content: center;
+}
+.CloseModal-button {
+  color: white;
+  right: 0;
+  padding: 4px;
+  object-fit: cover;
+  width: 200px;
+}
+.CloseModal-button:hover {
+  cursor: pointer;
+}
