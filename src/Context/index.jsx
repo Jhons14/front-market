@@ -4,9 +4,9 @@ export const MainContext = createContext();
 
 export function MainProvider({ children }) {
   const AUTHENTICATION_URL =
-    'http://localhost:2020/platzi-market/api/auth/authenticate';
+    'https://server-market-production.up.railway.app/platzi-market/api/auth/authenticate';
 
-  const GET_PRODUCTS_BY_CATEGORY_URL = `http://localhost:2020/platzi-market/api/products/category/${window.location.pathname.substring(
+  const GET_PRODUCTS_BY_CATEGORY_URL = `https://server-market-production.up.railway.app/platzi-market/api/products/category/${window.location.pathname.substring(
     window.location.pathname.lastIndexOf('/') + 1
   )}`;
 

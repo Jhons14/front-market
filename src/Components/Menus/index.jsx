@@ -6,10 +6,10 @@ function Menus(props) {
   const [isEditActive, setIsEditActive] = useState(false);
   const [categories, setCategories] = useState([]);
 
-  const GET_ALL_CATEGORIES_URL = `http://localhost:2020/platzi-market/api/category/all`;
+  const GET_ALL_CATEGORIES_URL = `https://server-market-production.up.railway.app/platzi-market/api/category/all`;
 
   const AUTHENTICATION_URL =
-    'http://localhost:2020/platzi-market/api/auth/authenticate';
+    'https://server-market-production.up.railway.app/platzi-market/api/auth/authenticate';
   const credentials = {
     method: 'POST',
     headers: {

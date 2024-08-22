@@ -14,8 +14,8 @@ function MenuButton(props) {
     }),
   };
   const AUTHENTICATION_URL =
-    'http://localhost:2020/platzi-market/api/auth/authenticate';
-  const UPDATE_CATEGORY_URL = `http://localhost:2020/platzi-market/api/category/update/${props.category[0].categoryId}`;
+    'http://https://server-market-production.up.railway.app/platzi-market/api/auth/authenticate';
+  const UPDATE_CATEGORY_URL = `http://https://server-market-production.up.railway.app/platzi-market/api/category/update/${props.category[0].categoryId}`;
 
   const category = props.category[0];
   async function authenticate(authURL) {
@@ -34,7 +34,7 @@ function MenuButton(props) {
 
     formData.append('file', fileInput.files[0]);
     fetch(
-      `http://localhost:2020/platzi-market/api/files/upload/image/category/${category.categoryId}`,
+      `http://https://server-market-production.up.railway.app/platzi-market/api/files/upload/image/category/${category.categoryId}`,
       {
         method: 'POST',
         body: formData,
@@ -53,7 +53,7 @@ function MenuButton(props) {
     const categoryBody = { img: fileInput.files[0].name };
 
     fetch(
-      `http://localhost:2020/platzi-market/api/category/update/${category.categoryId}`,
+      `http://https://server-market-production.up.railway.app/platzi-market/api/category/update/${category.categoryId}`,
       {
         method: 'POST',
         body: JSON.stringify(categoryBody),
