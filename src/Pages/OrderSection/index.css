@@ -1,5 +1,6 @@
 .order-section-container {
   height: inherit;
+  padding: 0 12px;
 }
 .order-section-container > div {
   display: grid;

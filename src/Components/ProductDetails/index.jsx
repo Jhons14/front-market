@@ -85,6 +85,8 @@ function ProductDetails({
   }
 
   async function uploadImg() {
+    console.log('gonorrea');
+
     const parsedToken = await authenticate();
     var formData = new FormData();
     var fileInput = document.getElementById(`fileInput`);
@@ -114,7 +116,8 @@ function ProductDetails({
         'Content-Type': 'application/json',
         Authorization: `Bearer ${parsedToken}`,
       },
-    }).finally(window.location.replace(`/${typeProductActive}`));
+    }).then((res) => console.log(res));
+    // .finally(window.location.replace(`/${typeProductActive}`));
   }
 
   const renderOption = (productOption) => {
