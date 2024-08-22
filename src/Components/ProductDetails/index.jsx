@@ -170,14 +170,7 @@ function ProductDetails({
             <section className='buttons-container size-buttons-container'>
               <button
                 type='button'
-                onClick={() =>
-                  navigate(
-                    `/product/edit/${window.location.pathname.substring(1)}`,
-                    {
-                      state: { productId: product.productId },
-                    }
-                  )
-                }
+                onClick={() => navigate(`/product/edit/${product.productId}`)}
               >
                 Edit
               </button>
