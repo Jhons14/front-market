@@ -1,6 +1,6 @@
-const GET_ALL_PRODUCTS = `http://localhost:2020/platzi-market/api/products/all`;
+const GET_ALL_PRODUCTS = `https://server-market-production.up.railway.app/platzi-market/api/products/all`;
 const AUTHENTICATION_URL =
-  'http://localhost:2020/platzi-market/api/auth/authenticate';
+  'https://server-market-production.up.railway.app/platzi-market/api/auth/authenticate';
 const credentials = {
   method: 'POST',
   headers: {
