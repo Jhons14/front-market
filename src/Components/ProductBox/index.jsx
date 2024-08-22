@@ -36,7 +36,7 @@ function ProductBox(props) {
   async function getProductByID() {
     const parsedToken = await authenticate();
     await fetch(
-      `http://https://server-market-production.up.railway.app/platzi-market/api/products/${productIdInURL}`,
+      `https://server-market-production.up.railway.app/platzi-market/api/products/${productIdInURL}`,
       {
         method: 'GET',
         headers: {
