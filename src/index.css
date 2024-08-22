@@ -1,4 +1,22 @@
 body {
+  padding: 20px;
   background: #454545;
   margin: 0;
+}
+
+/* Estilos para pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .navbar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content {
+    margin: 0;
+  }
 }

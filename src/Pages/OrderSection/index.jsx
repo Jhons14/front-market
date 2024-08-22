@@ -145,7 +145,7 @@ function OrderSection({
               }}
             />
           </div>
-          <div>
+          <div style={{ textAlign: 'center' }}>
             <span>{product?.name}</span>
             <span> x{product?.quantity}</span>
           </div>
