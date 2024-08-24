@@ -3,13 +3,14 @@ import { MenuButton } from '../MenuButton';
 import './Menus.css';
 
 function Menus(props) {
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
   const [isEditActive, setIsEditActive] = useState(false);
   const [categories, setCategories] = useState([]);
 
-  const GET_ALL_CATEGORIES_URL = `https://server-market-production.up.railway.app/platzi-market/api/category/all`;
+  const GET_ALL_CATEGORIES_URL = `${SERVER_URL}/platzi-market/api/category/all`;
 
-  const AUTHENTICATION_URL =
-    'https://server-market-production.up.railway.app/platzi-market/api/auth/authenticate';
+  const AUTHENTICATION_URL = `${SERVER_URL}/platzi-market/api/auth/authenticate`;
   const credentials = {
     method: 'POST',
     headers: {

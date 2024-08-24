@@ -6,6 +6,8 @@ import { handleAdd } from '../../utils';
 import './index.css';
 
 function ProductBox(props) {
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
   const { authenticate } = useContext(MainContext);
   const [product, setProduct] = useState();
   const [productOptionsData, setProductOptionsData] = useState([
@@ -35,15 +37,12 @@ function ProductBox(props) {
 
   async function getProductByID() {
     const parsedToken = await authenticate();
-    await fetch(
-      `https://server-market-production.up.railway.app/platzi-market/api/products/${productIdInURL}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${parsedToken}`,
-        },
-      }
-    )
+    await fetch(`${SERVER_URL}/platzi-market/api/products/${productIdInURL}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${parsedToken}`,
+      },
+    })
       .then((data) => (data = data.json()))
       .then((data) => setProduct(data))
 

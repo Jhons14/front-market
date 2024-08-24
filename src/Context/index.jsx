@@ -3,12 +3,15 @@ import { createContext, useEffect, useReducer } from 'react';
 export const MainContext = createContext();
 
 export function MainProvider({ children }) {
-  const AUTHENTICATION_URL =
-    'https://server-market-production.up.railway.app/platzi-market/api/auth/authenticate';
+  //Environment server URL
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-  const GET_PRODUCTS_BY_CATEGORY_URL = `https://server-market-production.up.railway.app/platzi-market/api/products/category/${window.location.pathname.substring(
+  const AUTHENTICATION_URL = `${SERVER_URL}/platzi-market/api/auth/authenticate`;
+
+  const categoryId = window.location.pathname.substring(
     window.location.pathname.lastIndexOf('/') + 1
-  )}`;
+  );
+  const GET_PRODUCTS_BY_CATEGORY_URL = `${SERVER_URL}/platzi-market/api/products/category/${categoryId}`;
 
   const [state, dispatch] = useReducer(reducer, initialState());
 

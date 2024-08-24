@@ -17,6 +17,7 @@ function Home() {
     setOrderList,
     orderList,
   } = React.useContext(MainContext);
+
   return (
     <Layout>
       <div className='home-container'>
