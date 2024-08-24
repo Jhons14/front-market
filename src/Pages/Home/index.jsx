@@ -1,10 +1,9 @@
 import React from 'react';
 import { MainContext } from '../../Context';
 import Layout from '../../Components/Layout';
-import { ScreenLoading } from '../../common/ScreenLoading';
 import { Menus } from '../../Components/Menus';
 import './index.css';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { OrderSection } from '../OrderSection';
 
 function Home() {
@@ -17,9 +16,6 @@ function Home() {
     setOrderList,
     orderList,
   } = React.useContext(MainContext);
-  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-  console.log(SERVER_URL);
-
   return (
     <Layout>
       <div className='home-container'>
