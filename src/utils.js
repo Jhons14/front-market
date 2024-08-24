@@ -1,6 +1,9 @@
-const GET_ALL_PRODUCTS = `https://server-market-production.up.railway.app/platzi-market/api/products/all`;
-const AUTHENTICATION_URL =
-  'https://server-market-production.up.railway.app/platzi-market/api/auth/authenticate';
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
+const GET_ALL_PRODUCTS = `${SERVER_URL}/platzi-market/api/products/all`;
+
+const AUTHENTICATION_URL = `${SERVER_URL}/platzi-market/api/auth/authenticate`;
+
 const credentials = {
   method: 'POST',
   headers: {

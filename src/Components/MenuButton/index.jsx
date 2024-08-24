@@ -13,11 +13,13 @@ function MenuButton(props) {
       password: 'Platzi#14',
     }),
   };
-  const AUTHENTICATION_URL =
-    'https://server-market-production.up.railway.app/platzi-market/api/auth/authenticate';
-  const UPDATE_CATEGORY_URL = `https://server-market-production.up.railway.app/platzi-market/api/category/update/${props.category[0].categoryId}`;
-
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
   const category = props.category[0];
+
+  const AUTHENTICATION_URL = `${SERVER_URL}/platzi-market/api/auth/authenticate`;
+  const UPDATE_CATEGORY_URL = `${SERVER_URL}/platzi-market/api/category/update/${props.category.categoryId}`;
+  const UPLOAD_CATEGORY_IMG_URL = `${SERVER_URL}/platzi-market/api/category/update/${props.category.categoryId}`;
+
   async function authenticate(authURL) {
     const parsedToken = await fetch(authURL, credentials)
       .then((res) => res.json().then((res) => res.jwt))
@@ -27,22 +29,19 @@ function MenuButton(props) {
     return parsedToken;
   }
 
-  async function updateCategory() {
-    const parsedToken = await authenticate(AUTHENTICATION_URL);
+  async function updateCategory(AUTH_URL, UPLOAD_IMG_URL, UPDATE_CATEGORY_URL) {
+    const parsedToken = await authenticate(AUTH_URL);
     var formData = new FormData();
     var fileInput = document.getElementById(`fileInput${category.categoryId}`);
 
     formData.append('file', fileInput.files[0]);
-    fetch(
-      `https://server-market-production.up.railway.app/platzi-market/api/files/upload/image/category/${category.categoryId}`,
-      {
-        method: 'POST',
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${parsedToken}`,
-        },
-      }
-    )
+    fetch(UPLOAD_IMG_URL, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${parsedToken}`,
+      },
+    })
       .then((response) => response.text())
       .then((data) => {
         console.log(data);
@@ -52,17 +51,14 @@ function MenuButton(props) {
       });
     const categoryBody = { img: fileInput.files[0].name };
 
-    fetch(
-      `https://server-market-production.up.railway.app/platzi-market/api/category/update/${category.categoryId}`,
-      {
-        method: 'POST',
-        body: JSON.stringify(categoryBody),
-        headers: {
-          Authorization: `Bearer ${parsedToken}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+    fetch(UPDATE_CATEGORY_URL, {
+      method: 'POST',
+      body: JSON.stringify(categoryBody),
+      headers: {
+        Authorization: `Bearer ${parsedToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
       .catch((error) => console.log(error))
       .finally(window.location.reload());
   }
@@ -93,7 +89,11 @@ function MenuButton(props) {
             />
             <span
               onClick={() => {
-                updateCategory(AUTHENTICATION_URL, UPDATE_CATEGORY_URL);
+                updateCategory(
+                  AUTHENTICATION_URL,
+                  UPLOAD_CATEGORY_IMG_URL,
+                  UPDATE_CATEGORY_URL
+                );
               }}
             >
               Upload

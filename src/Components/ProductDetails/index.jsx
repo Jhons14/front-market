@@ -11,16 +11,15 @@ function ProductDetails({
   product,
   typeProductActive,
 }) {
-  const AUTHENTICATION_URL =
-    'https://server-market-production.up.railway.app/platzi-market/api/auth/authenticate';
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-  const UPLOAD_PRODUCTIMG_URL =
-    'https://server-market-production.up.railway.app/platzi-market/api/files/upload/image/product/';
+  const AUTHENTICATION_URL = `${SERVER_URL}/platzi-market/api/auth/authenticate`;
 
-  const UPDATE_PRODUCT_URL =
-    'https://server-market-production.up.railway.app/platzi-market/api/products/update/';
+  const UPLOAD_PRODUCTIMG_URL = `${SERVER_URL}/platzi-market/api/files/upload/image/product/`;
 
-  const IMG_URL = `https://server-market-production.up.railway.app/platzi-market/api/images/products/${product.img_url}`;
+  const UPDATE_PRODUCT_URL = `${SERVER_URL}/platzi-market/api/products/update/`;
+
+  const IMG_URL = `${SERVER_URL}/platzi-market/api/images/products/${product.img_url}`;
 
   const navigate = useNavigate();
   const sizesToShow = ['Small', 'Medium', 'Largue'];
