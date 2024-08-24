@@ -17,6 +17,8 @@ function Home() {
     setOrderList,
     orderList,
   } = React.useContext(MainContext);
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+  console.log(SERVER_URL);
 
   return (
     <Layout>
