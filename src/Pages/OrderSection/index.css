@@ -1,6 +1,7 @@
 .order-section-container {
   height: inherit;
-  padding: 0 12px;
+  padding: 16px;
+  box-sizing: border-box;
 }
 .order-section-container > div {
   display: grid;
@@ -85,7 +86,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 4px;
-  background-color: #2b2b2b;
+  background-color: var(--light-bg-color);
   box-sizing: border-box;
 }
 
@@ -101,7 +102,7 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  background-color: #2b2b2b;
+  background-color: var(--light-bg-color);
   border-radius: 10px;
   padding: 0 12px;
   bottom: 0;
