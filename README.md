@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# Point Of Sale (POS) system
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Liberate de la gestion de tus ventas con esta herramienta que te permite almacenar tus productos. gestionar tus ventas, realizar metricas y mas.
 
-## Available Scripts
+## Descripción
 
-In the project directory, you can run:
+Este proyecto esta construiddo por 3 elementos principales, la interfaz de usuario que esta desarrollado principalmebnte las tecnologias Vite, Node.JS y React.JS.
 
-### `npm start`
+Por otro lado existe el servidor encargado conectar la base de datos con la interfaz por medio peticiones REST que se encargaran de realizar las consultas solicitadas por el usuario desde la interfaz.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Instalación
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/Jhons14/front-market.git
+   ```
+2. Navega al directorio del proyecto:
+   ```bash
+   cd front-market
+   ```
+3. Instala las dependencias necesarias:
+   ```bash
+   npm install
+   ```
+4. Configura las variables de entorno:
+   ```bash
+    cp .env.example .env
+   ```
+5. Configura las variables de entorno:
+   ```bash
+    npm run DEV
+   ```
+The frontend should now be running on http://localhost:5173.
 
-### `npm test`
+## Usage
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Access the System
 
-### `npm run build`
+1. **Login:**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   - Open your browser and navigate to `http://localhost:5173`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Dashboard:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   - After logging in, you will be taken to the dashboard, where you can view sales stats, manage inventory, and more.
 
-### `npm run eject`
+3. **Sales:**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   - Navigate to the "Sales" section to process transactions. Add items to the cart, apply discounts, and complete the sale.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Contributing
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+We welcome contributions! To contribute:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Fork the repository.**
+2. **Create a new branch** (`git checkout -b feature/your-feature`).
+3. **Make your changes.**
+4. **Commit your changes** (`git commit -m 'Add some feature'`).
+5. **Push to the branch** (`git push origin feature/your-feature`).
+6. **Open a Pull Request.**
 
-## Learn More
+Please make sure your code adheres to the coding conventions and standards used in the project.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## License
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This project is licensed under the MIT License
 
-### Code Splitting
+## Authors
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Jhon Orjuela** - _Initial work_ - [Jhon's GitHub](https://github.com/Jhons14)
 
-### Analyzing the Bundle Size
+## Acknowledgments
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- This project was inspired by the needs of small retail businesses to have an affordable and efficient POS system.

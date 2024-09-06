@@ -1,7 +1,29 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+
+### VisualStudioCode ###
+vscode/extension.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode
+
 # dependencies
-/node_modules
+node_modules
 /.pnp
 .pnp.js
 
@@ -21,3 +43,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+node_modules
+.env.*
+
