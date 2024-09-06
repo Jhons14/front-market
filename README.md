@@ -1,7 +1,7 @@
 # Point Of Sale (POS) system
 
 Easy management of your products, orders and bussiness.
-You're free to decide your owm bussines model.
+You're free to decide your own custom bussines model.
 
 ## Description
 This proyect is building by front, server and database:
