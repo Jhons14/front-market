@@ -1,6 +1,6 @@
-# Gestor de ventas (POS)
+# Point Of Sale (POS) system
 
-Una herramienta que permite gestionar las ventas y contabilidad de un comercio.
+Liberate de la gestion de tus ventas con esta herramienta que te permite almacenar tus productos. gestionar tus ventas, realizar metricas y mas.
 
 ## Descripción
 
@@ -30,7 +30,7 @@ Por otro lado existe el servidor encargado conectar la base de datos con la inte
    ```bash
     npm run DEV
    ```
-   The frontend should now be running on http://localhost:5173.
+The frontend should now be running on http://localhost:5173.
 
 ## Usage
 
