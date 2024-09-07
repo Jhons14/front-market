@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fontsource/poppins": "^5.0.15",
     "@heroicons/react": "^2.1.5",
     "@hugeicons/react-pro": "^0.3.2",
     "@types/react": "^18.2.43",

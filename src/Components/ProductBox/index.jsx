@@ -1,14 +1,13 @@
 import { useState, useEffect, useContext } from 'react';
 import { ProductDetails } from '../ProductDetails';
 import { MainContext } from '../../Context';
-import { handleAdd } from '../../utils';
+import { getProductById, handleAdd } from '../../utils';
 
 import './index.css';
 
 function ProductBox(props) {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-  const { authenticate } = useContext(MainContext);
   const [product, setProduct] = useState();
   const [productOptionsData, setProductOptionsData] = useState([
     {
@@ -29,27 +28,8 @@ function ProductBox(props) {
   ]);
 
   useEffect(() => {
-    setProduct(props.product ? props.product : getProductByID());
+    setProduct(props.product ? props.product : getProductById());
   }, []);
-  const currentURL = window.location.pathname;
-
-  const productIdInURL = currentURL.match(/[^/]+$/)[0];
-
-  async function getProductByID() {
-    const parsedToken = await authenticate();
-    await fetch(`${SERVER_URL}/platzi-market/api/products/${productIdInURL}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${parsedToken}`,
-      },
-    })
-      .then((data) => (data = data.json()))
-      .then((data) => setProduct(data))
-
-      .catch((error) => {
-        window.alert(error);
-      });
-  }
 
   if (!!product) {
     return (

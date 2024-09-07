@@ -204,12 +204,13 @@ function ProductDetails({
         display: 'flex',
         height: '100%',
         justifyContent: 'space-between',
+        alignItems: 'end',
       }}
     >
       <img
         src={IMG_URL}
         className='product-img'
-        alt='Imagen asociada al producto en el servidor'
+        alt='Imagen del producto obtenida desde el servidor'
       ></img>
       <div className='options-container'>
         {optionList.map((option) => renderOption(findOptionByName(option)))}

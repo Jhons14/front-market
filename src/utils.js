@@ -1,7 +1,5 @@
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-
 const GET_ALL_PRODUCTS = `${SERVER_URL}/platzi-market/api/products/all`;
-
 const AUTHENTICATION_URL = `${SERVER_URL}/platzi-market/api/auth/authenticate`;
 
 const credentials = {
@@ -40,6 +38,50 @@ async function getAllProducts() {
     });
 }
 
+//GET PRODUCTS BY CATEGORY
+async function getProductsByCategory(setProductsActive, setLoading, setError) {
+  const CATEGORY_ID = window.location.pathname.substring(
+    window.location.pathname.lastIndexOf('/') + 1
+  );
+  const GET_PRODUCTS_BY_CATEGORY_URL = `${SERVER_URL}/platzi-market/api/products/category/${CATEGORY_ID}`;
+  const parsedToken = await authenticate();
+  const products = await fetch(GET_PRODUCTS_BY_CATEGORY_URL, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${parsedToken}`,
+    },
+  })
+    .then((data) => (data = data.json()))
+    .catch((error) => {
+      setError(error);
+    });
+
+  setLoading(false);
+  setProductsActive();
+  return products;
+}
+
+//GET PRODUCT BY ID
+async function getProductById() {
+  const currentURL = window.location.pathname;
+  const productIdInURL = currentURL.match(/[^/]+$/)[0];
+
+  const GET_PRODUCT_BY_ID_URL = `${SERVER_URL}/platzi-market/api/products/${productIdInURL}`;
+  const parsedToken = await authenticate();
+  const product = await fetch(GET_PRODUCT_BY_ID_URL, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${parsedToken}`,
+    },
+  })
+    .then((data) => (data = data.json()))
+    .catch((error) => {
+      window.alert(error);
+    });
+  return product;
+}
+
+//ADD PRODUCT
 function handleAdd(
   product,
   productOptionsData,
@@ -163,6 +205,8 @@ function handleAdd(
 
   // setIDIdentator(IDIdentator + 1);
 }
+
+//DELETE PRODUCT
 function handleDelete(id, idOrderActive, orderList, setOrderList) {
   const productIndex = orderList[idOrderActive].products.findIndex(
     (orderItem) => orderItem.id === id
@@ -177,4 +221,12 @@ function handleDelete(id, idOrderActive, orderList, setOrderList) {
 
   setOrderList(newList);
 }
-export { handleAdd, getAllProducts, handleDelete };
+
+export {
+  handleAdd,
+  getAllProducts,
+  handleDelete,
+  authenticate,
+  getProductsByCategory,
+  getProductById,
+};
