@@ -1,15 +1,16 @@
 import { useState, useEffect, useContext } from 'react';
 import { ProductDetails } from '../ProductDetails';
 import { MainContext } from '../../Context';
-import { handleAdd } from '../../utils';
+import { getProductById, handleAdd } from '../../utils';
 
 import './index.css';
 
 function ProductBox(props) {
-  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-
-  const { authenticate } = useContext(MainContext);
   const [product, setProduct] = useState();
+
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+  const IMG_URL = `${SERVER_URL}/platzi-market/api/images/products/${product?.img_url}`;
+
   const [productOptionsData, setProductOptionsData] = useState([
     {
       id: 1,
@@ -29,27 +30,12 @@ function ProductBox(props) {
   ]);
 
   useEffect(() => {
-    setProduct(props.product ? props.product : getProductByID());
+    if (props.product) {
+      setProduct(props.product);
+    } else {
+      getProductById().then((data) => setProduct(data));
+    }
   }, []);
-  const currentURL = window.location.pathname;
-
-  const productIdInURL = currentURL.match(/[^/]+$/)[0];
-
-  async function getProductByID() {
-    const parsedToken = await authenticate();
-    await fetch(`${SERVER_URL}/platzi-market/api/products/${productIdInURL}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${parsedToken}`,
-      },
-    })
-      .then((data) => (data = data.json()))
-      .then((data) => setProduct(data))
-
-      .catch((error) => {
-        window.alert(error);
-      });
-  }
 
   if (!!product) {
     return (
@@ -66,7 +52,14 @@ function ProductBox(props) {
           )
         }
       >
-        <span className='product-title'>{product.name}</span>
+        <div className='product-img'>
+          <img
+            className='product-img'
+            src={IMG_URL}
+            alt='Imagen del producto obtenida desde el servidor'
+          />
+        </div>
+
         <ProductDetails
           product={product}
           productOptionsData={productOptionsData}

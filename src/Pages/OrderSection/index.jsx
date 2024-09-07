@@ -222,8 +222,11 @@ function OrderSection({
         {!!tableActive &&
           !mesas[tableActive - 1].nombreCliente &&
           !openCreateOrder && (
-            <button onClick={() => setOpenCreateOrder(true)}>
-              Check In mesa
+            <button
+              id='checkIn-button'
+              onClick={() => setOpenCreateOrder(true)}
+            >
+              Register table
             </button>
           )}
         {!!totalToPay() && fixedHandler()}

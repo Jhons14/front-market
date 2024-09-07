@@ -3,8 +3,8 @@
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-template-rows: repeat(auto-fit, minmax(180px, 180px));
+  grid-template-columns: repeat(auto-fit, minmax(212px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(min-content, 180px));
   justify-content: center;
   gap: 4px;
   padding: 16px;
