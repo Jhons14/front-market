@@ -1,6 +1,6 @@
 .home-container {
   display: grid;
-  grid-template-columns: auto 5fr 1.5fr;
+  grid-template-columns: auto 5fr aut;
   padding: 14px 8px 0 0;
   height: calc(100vh - 73px);
 }

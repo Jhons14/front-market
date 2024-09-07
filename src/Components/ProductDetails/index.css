@@ -1,13 +1,20 @@
+#product-details-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  height: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
 .options-container {
-  display: grid;
-  justify-items: center;
+  display: flex;
+  justify-content: space-between;
   height: fit-content;
 }
 
-.product-img {
-  height: 120px;
-  width: 120px;
-  border-radius: 8px;
+.product-title {
+  font-size: larger;
 }
 
 .product-option {

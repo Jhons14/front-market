@@ -3,6 +3,7 @@ import { CiSquareMinus, CiSquarePlus } from 'react-icons/ci';
 
 import './index.css';
 import { useNavigate } from 'react-router-dom';
+import { authenticate } from '../../utils';
 
 function ProductDetails({
   optionList,
@@ -18,8 +19,6 @@ function ProductDetails({
   const UPLOAD_PRODUCTIMG_URL = `${SERVER_URL}/platzi-market/api/files/upload/image/product/`;
 
   const UPDATE_PRODUCT_URL = `${SERVER_URL}/platzi-market/api/products/update/`;
-
-  const IMG_URL = `${SERVER_URL}/platzi-market/api/images/products/${product.img_url}`;
 
   const navigate = useNavigate();
   const sizesToShow = ['Small', 'Medium', 'Largue'];
@@ -73,15 +72,6 @@ function ProductDetails({
         break;
     }
   };
-
-  async function authenticate() {
-    const parsedToken = await fetch(AUTHENTICATION_URL, credentials)
-      .then((res) => res.json().then((res) => res.jwt))
-      .catch((error) => {
-        onSetError(error);
-      });
-    return parsedToken;
-  }
 
   async function uploadImg() {
     console.log('gonorrea');
@@ -199,19 +189,9 @@ function ProductDetails({
     productOptionsData.find((option) => option.name === optionName);
 
   const renderOptionList = () => (
-    <div
-      style={{
-        display: 'flex',
-        height: '100%',
-        justifyContent: 'space-between',
-        alignItems: 'end',
-      }}
-    >
-      <img
-        src={IMG_URL}
-        className='product-img'
-        alt='Imagen del producto obtenida desde el servidor'
-      ></img>
+    <div id='product-details-container'>
+      <span className='product-title'>{product.name}</span>
+
       <div className='options-container'>
         {optionList.map((option) => renderOption(findOptionByName(option)))}
       </div>
