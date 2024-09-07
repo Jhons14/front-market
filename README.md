@@ -1,13 +1,15 @@
 # Point Of Sale (POS) system
 
-Liberate de la gestion de tus ventas con esta herramienta que te permite almacenar tus productos. gestionar tus ventas, realizar metricas y mas.
+Easy management of your products, orders and bussiness.
+You're free to decide your own custom bussines model.
 
-## Descripción
+## Description
+This proyect is building by front, server and database:
+- Front-end uses React.js and Vite technologies.
+- The server (backend) uses JAVA Spring, implements security bearer auth token with credencials, and was built on graddle.
+- The database uses PostgreSQL.
 
-Este proyecto esta construiddo por 3 elementos principales, la interfaz de usuario que esta desarrollado principalmebnte las tecnologias Vite, Node.JS y React.JS.
-
-Por otro lado existe el servidor encargado conectar la base de datos con la interfaz por medio peticiones REST que se encargaran de realizar las consultas solicitadas por el usuario desde la interfaz.
-
+You can see an application's preview here https://front-market-nu.vercel.app/ 
 ## Instalación
 
 1. Clona el repositorio:

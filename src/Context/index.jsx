@@ -1,18 +1,9 @@
 import { createContext, useEffect, useReducer } from 'react';
+import { getProductsByCategory } from '../utils';
 
 export const MainContext = createContext();
 
 export function MainProvider({ children }) {
-  //Environment server URL
-  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-
-  const AUTHENTICATION_URL = `${SERVER_URL}/platzi-market/api/auth/authenticate`;
-
-  const categoryId = window.location.pathname.substring(
-    window.location.pathname.lastIndexOf('/') + 1
-  );
-  const GET_PRODUCTS_BY_CATEGORY_URL = `${SERVER_URL}/platzi-market/api/products/category/${categoryId}`;
-
   const [state, dispatch] = useReducer(reducer, initialState());
 
   const onSetProductsByCategory = (productsByCategory) =>
@@ -42,54 +33,16 @@ export function MainProvider({ children }) {
   const onSetTableActive = (tableActive) =>
     dispatch({ type: actionTypes.setTableActive, payload: tableActive });
 
-  const credentials = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username: 'jhon',
-      password: 'Platzi#14',
-    }),
-  };
-
-  async function authenticate() {
-    const parsedToken = await fetch(AUTHENTICATION_URL, credentials)
-      .then((res) => res.json().then((res) => res.jwt))
-      .catch((error) => {
-        onSetError(error);
-      });
-    return parsedToken;
-  }
-
-  async function getProductsByCategory() {
-    onSetError();
-    const parsedToken = await authenticate();
-    const products = await fetch(GET_PRODUCTS_BY_CATEGORY_URL, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${parsedToken}`,
-      },
-    })
-      .then((data) => (data = data.json()))
-      .catch((error) => {
-        onSetError(error);
-      });
-    onSetLoading(false);
-    onSetProductsActive();
-    return products;
-  }
-
   useEffect(() => {
     if (state.typeProductActive !== '') {
       const fetchProducts = async () => {
         onSetLoading(true);
-        try {
-          const response = await getProductsByCategory();
-          onSetProductsByCategory(response);
-        } catch (error) {
-          onSetError(error);
-        }
+        const response = await getProductsByCategory(
+          onSetProductsActive,
+          onSetLoading,
+          onSetError
+        );
+        onSetProductsByCategory(response);
         onSetLoading(false);
         onSetProductsActive();
       };
@@ -114,7 +67,6 @@ export function MainProvider({ children }) {
         setTypeProductActive: onSetTypeProductActive,
         setOrderList: onSetOrderList,
         setTableActive: onSetTableActive,
-        authenticate: authenticate,
       }}
     >
       {children}

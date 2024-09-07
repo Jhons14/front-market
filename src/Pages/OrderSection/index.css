@@ -119,6 +119,17 @@
   cursor: pointer;
 }
 
+#checkIn-button {
+  font-size: larger;
+  background-color: var(--hover-color);
+  border: none;
+  border-radius: 12px;
+  height: 72px;
+}
+
+#checkIn-button:hover {
+  cursor: pointer;
+}
 /* -Estilos para activar los botones de mesa
 
 
