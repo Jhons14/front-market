@@ -5,7 +5,7 @@
 }
 .order-section-container > div {
   display: grid;
-  grid-template-rows: auto auto 10fr 3fr;
+  grid-template-rows: auto auto 10fr auto;
   height: 100%;
 }
 
@@ -47,7 +47,7 @@
   display: none;
 }
 
-.name .register-client-form {
+.register-client-form {
   display: flex;
   flex-direction: column;
   padding: 40px;
@@ -85,38 +85,28 @@
   height: fit-content;
   justify-content: space-between;
   align-items: center;
-  padding: 4px;
+  padding: 4px 8px;
   background-color: var(--light-bg-color);
   box-sizing: border-box;
+  border-radius: 8px;
 }
 
-.order-list__titles {
-  font-weight: bold;
-  margin-bottom: 12px;
-  font-size: larger;
+#delete-trash-can {
+  display: flex;
+}
+
+#delete-trash-can :hover {
+  color: rgb(115, 1, 1);
+  cursor: pointer;
 }
 
 .fixedHandler {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
   width: 100%;
   position: relative;
   box-sizing: border-box;
   background-color: var(--light-bg-color);
   border-radius: 10px;
-  padding: 0 12px;
   bottom: 0;
-}
-
-.total-to-pay__container {
-  padding: 0 8px;
-  display: flex;
-  justify-content: space-between;
-  border-top: solid 1px;
-}
-#delete-trash-can :hover {
-  color: red;
-  cursor: pointer;
 }
 
 #checkIn-button {
@@ -130,33 +120,24 @@
 #checkIn-button:hover {
   cursor: pointer;
 }
-/* -Estilos para activar los botones de mesa
-
-
-.table-buttons-container {
-  display: grid;
-  padding: 10px;
-  margin: 0;
-  grid-template-columns: repeat(3, 1fr);
-  list-style: none;
-  gap: 8px;
+#total-to-pay {
+  padding: 0 8px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 1px var(--font-color);
 }
-.table-buttons-container > li {
-  justify-self: center;
-}
-
-.table-button {
-  background: #2b2b2b;
-  padding: 2px 12px;
-  border-radius: 4px;
-  height: 32px;
-  width: 78px;
-  font-family: inherit;
-  border: solid 1px lightyellow;
-  color: lightyellow;
-  transition: transform 0.4s ease;  Transición suave al hacer hover 
-} */
-/* .table-button:hover {
+#buttonToPay {
+  display: flex;
+  height: 72px;
+  padding: 8px;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
   cursor: pointer;
-  transform: scale(1.1);
-} */
+}
+
+#buttonToPay:hover {
+  color: var(--dark-bg-color);
+  background-color: var(--hover-color);
+}

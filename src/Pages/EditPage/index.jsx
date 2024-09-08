@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { Modal } from '../../Components/Modal';
 import { MainContext } from '../../Context';
 import { ProductBox } from '../../Components/ProductBox';
-import { useLocation } from 'react-router-dom';
 import './index.css';
 
 function EditPage() {
