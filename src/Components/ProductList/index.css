@@ -4,9 +4,9 @@
   overflow-y: auto;
   scrollbar-width: none;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  grid-template-rows: repeat(auto-fit, minmax(fit-content, 240px));
+  grid-template-rows: repeat(auto-fit, minmax(280px, 240px));
   justify-content: center;
-  gap: 4px;
+  gap: 8px;
   padding: 16px;
   box-sizing: border-box;
 }

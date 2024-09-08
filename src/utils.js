@@ -81,6 +81,44 @@ async function getProductById() {
   return product;
 }
 
+//UPDATE A PRODUCT
+
+async function updateCategory(categoryId) {
+  const UPDATE_CATEGORY_URL = `${SERVER_URL}/platzi-market/api/category/update/${categoryId}`;
+  const UPLOAD_CATEGORY_IMG_URL = `${SERVER_URL}/platzi-market/api/category/update/${categoryId}`;
+  const parsedToken = await authenticate();
+  var formData = new FormData();
+  var fileInput = document.getElementById(`fileInput${categoryId}`);
+
+  formData.append('file', fileInput.files[0]);
+  fetch(UPLOAD_CATEGORY_IMG_URL, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      Authorization: `Bearer ${parsedToken}`,
+    },
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  const categoryBody = { img: fileInput.files[0].name };
+
+  fetch(UPDATE_CATEGORY_URL, {
+    method: 'POST',
+    body: JSON.stringify(categoryBody),
+    headers: {
+      Authorization: `Bearer ${parsedToken}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .catch((error) => console.log(error))
+    .finally(window.location.reload());
+}
+
 //ADD PRODUCT
 function handleAdd(
   product,
@@ -229,4 +267,5 @@ export {
   authenticate,
   getProductsByCategory,
   getProductById,
+  updateCategory,
 };

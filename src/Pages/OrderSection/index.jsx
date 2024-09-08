@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { handleDelete } from '../../utils';
 
@@ -128,6 +128,13 @@ function OrderSection({
       return totalToPayValue;
     }
   };
+
+  //EFFECTS
+  useEffect(() => {
+    setOpenCreateOrder(false);
+  }, [tableActive]);
+
+  //RENDER OBJECTS
 
   const listRender = () => {
     const renderOrderValues = (products) =>
