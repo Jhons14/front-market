@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './index.css';
+import { authenticate } from '../../utils';
 
 function MenuButton(props) {
   const navigate = useNavigate();
@@ -16,21 +17,11 @@ function MenuButton(props) {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
   const category = props.category[0];
 
-  const AUTHENTICATION_URL = `${SERVER_URL}/platzi-market/api/auth/authenticate`;
   const UPDATE_CATEGORY_URL = `${SERVER_URL}/platzi-market/api/category/update/${props.category.categoryId}`;
   const UPLOAD_CATEGORY_IMG_URL = `${SERVER_URL}/platzi-market/api/category/update/${props.category.categoryId}`;
 
-  async function authenticate(authURL) {
-    const parsedToken = await fetch(authURL, credentials)
-      .then((res) => res.json().then((res) => res.jwt))
-      .catch((error) => {
-        console.log(error);
-      });
-    return parsedToken;
-  }
-
-  async function updateCategory(AUTH_URL, UPLOAD_IMG_URL, UPDATE_CATEGORY_URL) {
-    const parsedToken = await authenticate(AUTH_URL);
+  async function updateCategory(UPLOAD_IMG_URL, UPDATE_CATEGORY_URL) {
+    const parsedToken = await authenticate();
     var formData = new FormData();
     var fileInput = document.getElementById(`fileInput${category.categoryId}`);
 
@@ -89,11 +80,7 @@ function MenuButton(props) {
             />
             <span
               onClick={() => {
-                updateCategory(
-                  AUTHENTICATION_URL,
-                  UPLOAD_CATEGORY_IMG_URL,
-                  UPDATE_CATEGORY_URL
-                );
+                updateCategory(UPLOAD_CATEGORY_IMG_URL, UPDATE_CATEGORY_URL);
               }}
             >
               Upload

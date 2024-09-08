@@ -12,7 +12,6 @@
   position: relative;
   opacity: 0.8;
   transition: transform 0.3s ease; /* Transición suave al hacer hover */
-  background-color: var(--light-bg-color);
   box-sizing: border-box;
 }
 
@@ -20,6 +19,7 @@
   cursor: pointer;
   opacity: 1;
   transform: scale(1.1);
+  background-color: var(--light-bg-color);
 }
 
 .MenuButton > span {
