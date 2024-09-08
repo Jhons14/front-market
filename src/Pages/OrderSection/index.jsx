@@ -193,27 +193,11 @@ function OrderSection({
 
   const fixedHandler = () => (
     <div className='fixedHandler'>
-      {/* Rederiza los botones para cambiar entre los distintos menus declarados en el objeto de arriba para cada una de las mesas- 7/30/2024
-      <ul className='table-buttons-container'>
-        {mesas.map((mesa) => (
-          <li>
-            <button
-              className='table-button'
-              key={mesa.id}
-              onClick={() => {
-                setTableActive(mesa.id);
-                setOpenCreateOrder(false);
-              }}
-            >
-              Mesa {mesa.id}
-            </button>
-          </li>
-        ))}
-      </ul> */}
-      <p className='total-to-pay__container'>
-        <span>Total</span>
-        <span> ${totalToPay()}</span>
-      </p>
+      <span id='total-to-pay'>
+        <p>Total</p>
+        <p> ${totalToPay()}</p>
+      </span>
+      <span id='buttonToPay'>Go to Pay</span>
     </div>
   );
 
