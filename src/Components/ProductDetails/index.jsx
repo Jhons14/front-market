@@ -74,8 +74,6 @@ function ProductDetails({
   };
 
   async function uploadImg() {
-    console.log('gonorrea');
-
     const parsedToken = await authenticate();
     var formData = new FormData();
     var fileInput = document.getElementById(`fileInput`);
@@ -91,7 +89,7 @@ function ProductDetails({
     })
       .then((response) => response.text())
       .then((data) => {
-        console.log(data);
+        window.alert(data);
       })
       .catch((error) => {
         console.error('Error:', error);

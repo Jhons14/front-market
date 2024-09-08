@@ -1,7 +1,7 @@
 #product-details-container {
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: space-between;
   height: 100%;
   padding: 4px;
   box-sizing: border-box;
@@ -9,12 +9,13 @@
 
 .options-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   height: fit-content;
 }
 
 .product-title {
   font-size: larger;
+  text-align: center;
 }
 
 .product-option {
