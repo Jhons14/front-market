@@ -135,7 +135,6 @@ function ProductDetails({
   const renderOptionList = () => (
     <div id='product-details-container'>
       <span className='product-title'>{product.name}</span>
-
       <div className='options-container'>
         {optionList.map((option) => renderOption(findOptionByName(option)))}
       </div>

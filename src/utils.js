@@ -9,8 +9,8 @@ const UPDATE_PRODUCT_URL = `${SERVER_URL}/platzi-market/api/products/update/`;
 //CATEGORIES URL
 const GET_ALL_CATEGORIES_URL = `${SERVER_URL}/platzi-market/api/category/all`;
 
-//AUTHENTICATION
-async function authenticate(username, password) {
+//SIGN IN
+async function signIn(username, password) {
   const credentials = {
     method: 'POST',
     headers: {
@@ -22,15 +22,15 @@ async function authenticate(username, password) {
     }),
   };
   const parsedToken = await fetch(AUTHENTICATION_URL, credentials)
-    .then((res) => res.json().then((res) => res.jwt))
-    .catch((error) => {
-      console.log(error);
-    });
-  sessionStorage.setItem('token', parsedToken);
-  window.location.reload();
+    .then((res) => res.json())
+    .then((res) => res.jwt);
+
+  if (!!parsedToken) {
+    sessionStorage.setItem('token', parsedToken);
+  }
 }
 
-//SIGNOUT
+//SIGN OUT
 function signOut() {
   sessionStorage.removeItem('token');
   window.location.reload();
@@ -327,7 +327,7 @@ export {
   handleAdd,
   getAllProducts,
   handleDelete,
-  authenticate,
+  signIn,
   getProductsByCategory,
   getProductById,
   uploadImg,
