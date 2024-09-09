@@ -7,27 +7,10 @@ import './index.css';
 
 function ProductBox(props) {
   const [product, setProduct] = useState();
+  const [amountCounter, setAmountCounter] = useState(0);
 
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
   const IMG_URL = `${SERVER_URL}/platzi-market/api/images/products/${product?.img_url}`;
-
-  const [productOptionsData, setProductOptionsData] = useState([
-    {
-      id: 1,
-      name: 'amount',
-      value: 0,
-    },
-    {
-      id: 2,
-      name: 'upload',
-      value: '',
-    },
-    {
-      id: 3,
-      name: 'edit',
-      value: '',
-    },
-  ]);
 
   useEffect(() => {
     if (props.product) {
@@ -44,8 +27,8 @@ function ProductBox(props) {
         onClick={() =>
           handleAdd(
             product,
-            productOptionsData,
-            setProductOptionsData,
+            amountCounter,
+            setAmountCounter,
             props.tableActive,
             props.orderList,
             props.setOrderList
@@ -62,10 +45,9 @@ function ProductBox(props) {
 
         <ProductDetails
           product={product}
-          productOptionsData={productOptionsData}
-          setProductOptionsData={setProductOptionsData}
-          optionList={props.optionList}
           typeProductActive={props.typeProductActive}
+          amountCounter={amountCounter}
+          setAmountCounter={setAmountCounter}
         />
       </div>
     );

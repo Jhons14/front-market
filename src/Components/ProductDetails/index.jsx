@@ -1,105 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CiSquareMinus, CiSquarePlus } from 'react-icons/ci';
 
 import './index.css';
 import { useNavigate } from 'react-router-dom';
 import { uploadImg } from '../../utils';
 
-function ProductDetails({
-  optionList,
-  productOptionsData,
-  setProductOptionsData,
-  product,
-}) {
+function ProductDetails({ product, amountCounter, setAmountCounter }) {
   const navigate = useNavigate();
-  const sizesToShow = ['Small', 'Medium', 'Largue'];
-
-  const setClickedSize = (size) => {
-    const newProductOptionsData = [...productOptionsData];
-    newProductOptionsData[1].value = size;
-    setProductOptionsData(newProductOptionsData);
-  };
-
-  const handleOption = (event, option, payload) => {
-    event.stopPropagation();
-    const optionIndex = productOptionsData.findIndex(
-      (add) => add.id === option.id
-    );
-    let newProductOptionsData = [...productOptionsData];
-    const amountOption = () => {
-      if (payload === 'plus') {
-        newProductOptionsData[optionIndex].value += 1;
-        setProductOptionsData(newProductOptionsData);
-      } else {
-        if (newProductOptionsData[optionIndex].value > 0) {
-          newProductOptionsData[optionIndex].value -= 1;
-          setProductOptionsData(newProductOptionsData);
-        }
-      }
-    };
-
-    const sizeOption = () => {
-      newProductOptionsData[optionIndex].value = 'large';
-      setProductOptionsData(newProductOptionsData);
-    };
-
-    switch (optionIndex) {
-      case 0:
-        amountOption();
-        break;
-      case 1:
-        sizeOption();
-        break;
-    }
-  };
 
   const renderOption = (productOption) => {
     switch (productOption.name) {
-      case 'amount':
-        return (
-          <div className='buttons-container amount-buttons-container'>
-            <div>
-              <CiSquareMinus
-                size={32}
-                height='4em'
-                onClick={(e) => handleOption(e, productOption, 'subtrack')}
-                className='option-button amount-button'
-                src='src\assets\minus.svg'
-                alt='substrack'
-              />
-            </div>
-
-            <div>
-              <span id='amount-counter'>{productOption.value}</span>
-            </div>
-
-            <div>
-              <CiSquarePlus
-                size={32}
-                className='option-button amount-button'
-                onClick={(e) => handleOption(e, productOption, 'plus')}
-                alt='plus'
-              />
-            </div>
-          </div>
-        );
-
-      case 'size':
-        return (
-          <section>
-            {sizesToShow.map((value) => (
-              <div>
-                <span
-                  className='option-button size-button'
-                  onClick={() => setClickedSize(value)}
-                >
-                  {value}
-                </span>
-              </div>
-            ))}
-          </section>
-        );
-
       case 'edit':
         return (
           <div className='product-option size-option'>
@@ -129,14 +39,51 @@ function ProductDetails({
         );
     }
   };
-  const findOptionByName = (optionName) =>
-    productOptionsData.find((option) => option.name === optionName);
+
+  function handleAmount(e, action) {
+    e.stopPropagation();
+
+    switch (action) {
+      case 'add':
+        setAmountCounter(amountCounter + 1);
+        break;
+      case 'remove':
+        if (amountCounter > 0) {
+          setAmountCounter(amountCounter - 1);
+        }
+        break;
+    }
+  }
 
   const renderOptionList = () => (
     <div id='product-details-container'>
       <span className='product-title'>{product.name}</span>
       <div className='options-container'>
-        {optionList.map((option) => renderOption(findOptionByName(option)))}
+        <div className='buttons-container amount-buttons-container'>
+          <div>
+            <CiSquareMinus
+              size={32}
+              height='4em'
+              onClick={(e) => handleAmount(e, 'remove')}
+              className='option-button amount-button'
+              src='src\assets\minus.svg'
+              alt='substrack'
+            />
+          </div>
+
+          <div>
+            <span id='amount-counter'>{amountCounter}</span>
+          </div>
+
+          <div>
+            <CiSquarePlus
+              size={32}
+              className='option-button amount-button'
+              onClick={(e) => handleAmount(e, 'add')}
+              alt='plus'
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

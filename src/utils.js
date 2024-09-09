@@ -132,8 +132,8 @@ async function uploadImg() {
 //ADD PRODUCT
 function handleAdd(
   product,
-  productOptionsData,
-  setProductOptionsData,
+  amountCounter,
+  setAmountCounter,
   tableActive,
   orderList,
   setOrderList
@@ -157,13 +157,7 @@ function handleAdd(
 
   //Se copia el estado que contiene las opciones disponibles del menu de adiciones
 
-  let newProductOptionsData = [...productOptionsData];
-  const productAmount = productOptionsData[0].value;
   //Funcion para reinciar el contador de cantidad de producto a añadir
-  const restartAmountCounter = () => {
-    newProductOptionsData[0].value = 0;
-    setProductOptionsData(newProductOptionsData);
-  };
 
   //Busca index de lista en la mesa activa, si no existe retorna -1
 
@@ -185,8 +179,8 @@ function handleAdd(
             if (i === productIndex) {
               return {
                 ...product,
-                quantity: product.quantity + productAmount,
-                totalPrice: (product.quantity + productAmount) * product.price,
+                quantity: product.quantity + amountCounter,
+                totalPrice: (product.quantity + amountCounter) * product.price,
               };
             }
             return product;
@@ -200,11 +194,11 @@ function handleAdd(
       //Actualiza estado
       setOrderList(newOrderListArray);
       //Reinicia contador de catidad a agregar
-      restartAmountCounter();
+      setAmountCounter(0);
     } else {
       //Si el producto no existe en la lista activa, se hace necesario crearlo
       //Si la cantidad a agregar es diferente a cero, de lo contrario no suma nada ya que la seleccion es de cero
-      if (productAmount !== 0) {
+      if (amountCounter !== 0) {
         let newOrderListArray = orderList.map((orderItem) => {
           if (orderItem.orderId === indexInOrderToModify) {
             const newProductsArray = [
@@ -212,9 +206,9 @@ function handleAdd(
               {
                 id: product.productId,
                 name: product.name,
-                quantity: productAmount,
+                quantity: amountCounter,
                 price: product.price,
-                totalPrice: productAmount * product.price,
+                totalPrice: amountCounter * product.price,
               },
             ];
             return { ...orderItem, products: newProductsArray };
@@ -225,12 +219,12 @@ function handleAdd(
 
         setOrderList(newOrderListArray);
         //Reinicia contador de catidad a agregar
-        restartAmountCounter();
+        setAmountCounter(0);
       }
     }
   } else {
     //Si la mesa no tiene una orden activa debe crearse
-    if (productAmount !== 0) {
+    if (amountCounter !== 0) {
       const newOrderItem = {
         orderId: orderList.length,
         table: tableActive,
@@ -238,20 +232,18 @@ function handleAdd(
           {
             id: product.productId,
             name: product.name,
-            quantity: productAmount,
+            quantity: amountCounter,
             price: product.price,
-            totalPrice: productAmount * product.price,
+            totalPrice: amountCounter * product.price,
           },
         ],
       };
       //No se hace necesario copiar el estado debido a que se actualiza de manera directa al no requerir modificar un objeto existente, simplemente se esta gregando uno nuevo
       setOrderList([...orderList, newOrderItem]);
       //Reinicia contador de catidad a agregar
-      restartAmountCounter();
+      setAmountCounter(0);
     }
   }
-
-  // setIDIdentator(IDIdentator + 1);
 }
 
 //DELETE PRODUCT

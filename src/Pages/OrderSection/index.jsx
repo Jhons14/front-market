@@ -137,7 +137,7 @@ function OrderSection({
   //RENDER OBJECTS
 
   const listRender = () => {
-    const renderOrderValues = (products) =>
+    const renderOrderItems = (products) =>
       products?.map((product) => (
         <div className='order-list__item'>
           <div id='delete-trash-can'>
@@ -179,7 +179,7 @@ function OrderSection({
           id='order-list'
           onScroll={(e) => handleScroll(e.target)}
         >
-          {renderOrderValues(orderActive?.products)}
+          {renderOrderItems(orderActive?.products)}
         </div>
         <div className='arrow-div'>
           <IoIosArrowDown
