@@ -1,32 +1,46 @@
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-const GET_ALL_PRODUCTS = `${SERVER_URL}/platzi-market/api/products/all`;
 const AUTHENTICATION_URL = `${SERVER_URL}/platzi-market/api/auth/authenticate`;
 
-const credentials = {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    username: 'jhon',
-    password: 'Platzi#14',
-  }),
-};
+//PRODUCTS URL
+const GET_ALL_PRODUCTS_URL = `${SERVER_URL}/platzi-market/api/products/all`;
+const UPLOAD_PRODUCTIMG_URL = `${SERVER_URL}/platzi-market/api/files/upload/image/product/`;
+const UPDATE_PRODUCT_URL = `${SERVER_URL}/platzi-market/api/products/update/`;
 
-//AUTHORIZATION
-async function authenticate() {
+//CATEGORIES URL
+const GET_ALL_CATEGORIES_URL = `${SERVER_URL}/platzi-market/api/category/all`;
+
+//AUTHENTICATION
+async function authenticate(username, password) {
+  const credentials = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username: username,
+      password: password,
+    }),
+  };
   const parsedToken = await fetch(AUTHENTICATION_URL, credentials)
     .then((res) => res.json().then((res) => res.jwt))
     .catch((error) => {
-      window.alert(error);
+      console.log(error);
     });
-  return parsedToken;
+  sessionStorage.setItem('token', parsedToken);
+  window.location.reload();
+}
+
+//SIGNOUT
+function signOut() {
+  sessionStorage.removeItem('token');
+  window.location.reload();
 }
 
 //GET ALL PRODUCTS
 async function getAllProducts() {
-  const parsedToken = await authenticate();
-  return await fetch(GET_ALL_PRODUCTS, {
+  const parsedToken = sessionStorage.getItem('token');
+
+  return await fetch(GET_ALL_PRODUCTS_URL, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${parsedToken}`,
@@ -44,7 +58,7 @@ async function getProductsByCategory(setProductsActive, setLoading, setError) {
     window.location.pathname.lastIndexOf('/') + 1
   );
   const GET_PRODUCTS_BY_CATEGORY_URL = `${SERVER_URL}/platzi-market/api/products/category/${CATEGORY_ID}`;
-  const parsedToken = await authenticate();
+  const parsedToken = sessionStorage.getItem('token');
   const products = await fetch(GET_PRODUCTS_BY_CATEGORY_URL, {
     method: 'GET',
     headers: {
@@ -65,9 +79,8 @@ async function getProductsByCategory(setProductsActive, setLoading, setError) {
 async function getProductById() {
   const currentURL = window.location.pathname;
   const productIdInURL = currentURL.match(/[^/]+$/)[0];
-
   const GET_PRODUCT_BY_ID_URL = `${SERVER_URL}/platzi-market/api/products/${productIdInURL}`;
-  const parsedToken = await authenticate();
+  const parsedToken = sessionStorage.getItem('token');
   const product = await fetch(GET_PRODUCT_BY_ID_URL, {
     method: 'GET',
     headers: {
@@ -81,17 +94,15 @@ async function getProductById() {
   return product;
 }
 
-//UPDATE A PRODUCT
-
-async function updateCategory(categoryId) {
-  const UPDATE_CATEGORY_URL = `${SERVER_URL}/platzi-market/api/category/update/${categoryId}`;
-  const UPLOAD_CATEGORY_IMG_URL = `${SERVER_URL}/platzi-market/api/category/update/${categoryId}`;
-  const parsedToken = await authenticate();
+//UPLOAD (AND UPDATE A PRODUCT IMG)
+async function uploadImg() {
+  const parsedToken = sessionStorage.getItem('token');
   var formData = new FormData();
-  var fileInput = document.getElementById(`fileInput${categoryId}`);
+  var fileInput = document.getElementById(`fileInput`);
 
   formData.append('file', fileInput.files[0]);
-  fetch(UPLOAD_CATEGORY_IMG_URL, {
+
+  fetch(`${UPLOAD_PRODUCTIMG_URL + product.productId}`, {
     method: 'POST',
     body: formData,
     headers: {
@@ -100,23 +111,22 @@ async function updateCategory(categoryId) {
   })
     .then((response) => response.text())
     .then((data) => {
-      console.log(data);
+      window.alert(data);
     })
     .catch((error) => {
       console.error('Error:', error);
     });
-  const categoryBody = { img: fileInput.files[0].name };
+  const productBody = { img_url: fileInput.files[0].name };
 
-  fetch(UPDATE_CATEGORY_URL, {
+  fetch(`${UPDATE_PRODUCT_URL + product.productId}`, {
     method: 'POST',
-    body: JSON.stringify(categoryBody),
+    body: JSON.stringify(productBody),
     headers: {
-      Authorization: `Bearer ${parsedToken}`,
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${parsedToken}`,
     },
-  })
-    .catch((error) => console.log(error))
-    .finally(window.location.reload());
+  }).then((res) => console.log(res));
+  // .finally(window.location.replace(`/${typeProductActive}`));
 }
 
 //ADD PRODUCT
@@ -260,6 +270,59 @@ function handleDelete(id, idOrderActive, orderList, setOrderList) {
   setOrderList(newList);
 }
 
+//GET ALL CATEGORIES
+async function getAllCategories() {
+  const parsedToken = sessionStorage.getItem('token');
+  const categories = await fetch(GET_ALL_CATEGORIES_URL, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${parsedToken}`,
+    },
+  })
+    .then((data) => (data = data.json()))
+    .catch((error) => {
+      window.alert(error);
+    });
+  return categories;
+}
+
+//UPDATE A CATEGORY
+async function updateCategory(categoryId) {
+  const UPDATE_CATEGORY_URL = `${SERVER_URL}/platzi-market/api/category/update/${categoryId}`;
+  const UPLOAD_CATEGORY_IMG_URL = `${SERVER_URL}/platzi-market/api/category/update/${categoryId}`;
+  const parsedToken = sessionStorage.getItem('token');
+  var formData = new FormData();
+  var fileInput = document.getElementById(`fileInput${categoryId}`);
+
+  formData.append('file', fileInput.files[0]);
+  fetch(UPLOAD_CATEGORY_IMG_URL, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      Authorization: `Bearer ${parsedToken}`,
+    },
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  const categoryBody = { img: fileInput.files[0].name };
+
+  fetch(UPDATE_CATEGORY_URL, {
+    method: 'POST',
+    body: JSON.stringify(categoryBody),
+    headers: {
+      Authorization: `Bearer ${parsedToken}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .catch((error) => console.log(error))
+    .finally(window.location.reload());
+}
+
 export {
   handleAdd,
   getAllProducts,
@@ -267,5 +330,8 @@ export {
   authenticate,
   getProductsByCategory,
   getProductById,
+  uploadImg,
+  signOut,
   updateCategory,
+  getAllCategories,
 };

@@ -1,19 +1,32 @@
 import '@fontsource/poppins';
 
-import { useRoutes, BrowserRouter } from 'react-router-dom';
+import { useRoutes, BrowserRouter, Route } from 'react-router-dom';
+
 import { MainProvider } from '../../Context';
 import { Home } from '../Home';
-import { NavBar } from '../../Components/NavBar';
 import { ProductMenu } from '../ProductMenu';
 import { EditPage } from '../EditPage';
-
+import { SignIn } from '../SignIn';
 import './index.css';
 
 function AppRoutes() {
+  const ProtectedComponent = ({ component: Component, ...rest }) => (
+    <Route
+      {...rest}
+      render={(props) =>
+        sessionStorage.getItem('token') ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={SignIn} />
+        )
+      }
+    />
+  );
+
   let appRoutes = useRoutes([
     {
       path: '/',
-      element: <Home />,
+      element: sessionStorage.getItem('token') ? <Home /> : <SignIn />,
       children: [{ path: ':productCategory', element: <ProductMenu /> }],
     },
     {
@@ -28,7 +41,6 @@ function App() {
   return (
     <MainProvider>
       <BrowserRouter>
-        <NavBar />
         <AppRoutes />
       </BrowserRouter>
     </MainProvider>

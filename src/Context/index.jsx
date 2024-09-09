@@ -1,4 +1,5 @@
-import { createContext, useEffect, useReducer } from 'react';
+import { useState } from 'react';
+import { createContext, useContext, useEffect, useReducer } from 'react';
 import { getProductsByCategory } from '../utils';
 
 export const MainContext = createContext();
@@ -135,3 +136,14 @@ const actionTypes = {
 const reducer = (state, action) => {
   return reducerObject(state, action.payload)[action.type] || state;
 };
+
+export const authContext = createContext();
+export function AuthProvider({ children }) {
+  const [auth, setAuth] = useState({});
+
+  return (
+    <authContext.Provider value={{ auth, setAuth }}>
+      {children}
+    </authContext.Provider>
+  );
+}

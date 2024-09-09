@@ -18,6 +18,7 @@ function ProductMenu() {
     tableActive,
     setTableActive,
   } = useContext(MainContext);
+
   if (typeProductActive !== location.pathname.substring(1)) {
     setTypeProductActive(location.pathname.substring(1));
   }
