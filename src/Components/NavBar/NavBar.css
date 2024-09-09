@@ -3,7 +3,7 @@
   width: 100%;
   display: grid;
   align-items: center;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
   z-index: 10;
   padding: 10px 24px;
   top: 0;

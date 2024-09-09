@@ -1,0 +1,13 @@
+.signIn-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.signIn-container > form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}

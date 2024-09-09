@@ -1,12 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { getAllProducts } from '../../utils';
+import { getAllProducts, signOut } from '../../utils';
 import { MainContext } from '../../Context';
 import './NavBar.css';
 function NavBar() {
   const [searchField, setSearchField] = useState('');
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const { setProductsByCategory } = useContext(MainContext);
 
   useEffect(() => {
@@ -23,7 +22,6 @@ function NavBar() {
       const newFilteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(searchField.toLowerCase())
       );
-      setFilteredProducts(newFilteredProducts);
       setProductsByCategory(newFilteredProducts);
     }
   }, [searchField]);
@@ -41,6 +39,7 @@ function NavBar() {
         />
       </section>
       <div>go to perfil</div>
+      <button onClick={() => signOut()}>Sign Out</button>
     </nav>
   );
 }
