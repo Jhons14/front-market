@@ -28,6 +28,7 @@ function Menus(props) {
 
         return (
           <MenuButton
+            key={category.categoryId}
             setProductsActive={props.setProductsActive}
             category={categoryArray}
             setLoading={props.setLoading}
