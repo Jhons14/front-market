@@ -5,6 +5,7 @@ import { Menus } from '../../Components/Menus';
 import './index.css';
 import { Outlet } from 'react-router-dom';
 import { OrderSection } from '../OrderSection';
+import { NavBar } from '../../Components/NavBar';
 
 function Home() {
   const {
@@ -16,25 +17,29 @@ function Home() {
     setOrderList,
     orderList,
   } = React.useContext(MainContext);
+
   return (
-    <Layout>
-      <div className='home-container'>
-        <Menus
-          setError={setError}
-          setProductsActive={setProductsActive}
-          setLoading={setLoading}
-        />
-        <div className='product-menu-container'>
-          <Outlet />
+    <div className='home-container'>
+      <NavBar />
+      <Layout>
+        <div className='interface-container'>
+          <Menus
+            setError={setError}
+            setProductsActive={setProductsActive}
+            setLoading={setLoading}
+          />
+          <div className='product-menu-container'>
+            <Outlet />
+          </div>
+          <OrderSection
+            tableActive={tableActive}
+            setTableActive={setTableActive}
+            orderList={orderList}
+            setOrderList={setOrderList}
+          />
         </div>
-        <OrderSection
-          tableActive={tableActive}
-          setTableActive={setTableActive}
-          orderList={orderList}
-          setOrderList={setOrderList}
-        />
-      </div>
-    </Layout>
+      </Layout>
+    </div>
   );
 }
 export { Home };

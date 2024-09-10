@@ -1,20 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import './index.css';
-import { authenticate, updateCategory } from '../../utils';
+import { updateCategory } from '../../utils';
 
 function MenuButton(props) {
   const navigate = useNavigate();
-  const credentials = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username: 'jhon',
-      password: 'Platzi#14',
-    }),
-  };
-  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
   const category = props.category[0];
 
   return (

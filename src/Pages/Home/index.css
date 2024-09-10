@@ -1,4 +1,4 @@
-.home-container {
+.interface-container {
   display: grid;
   grid-template-columns: 200px auto 400px;
   padding: 14px 8px 0 0;
