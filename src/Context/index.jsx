@@ -41,7 +41,8 @@ export function MainProvider({ children }) {
         const response = await getProductsByCategory(
           onSetProductsActive,
           onSetLoading,
-          onSetError
+          onSetError,
+          state.typeProductActive
         );
         onSetProductsByCategory(response);
         onSetLoading(false);
@@ -82,7 +83,7 @@ const initialState = () => {
     loading: false,
     productsActive: '',
     productsByCategory: [],
-    typeProductActive: '',
+    typeProductActive: '5',
     orderList: [],
     tableActive: 1,
   };

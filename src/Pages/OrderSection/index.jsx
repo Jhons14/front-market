@@ -73,7 +73,7 @@ function OrderSection({
                 onClick={() => setTableActive(tableActive - 1)}
               />
             </span>
-            <p>Mesa {tableActive}</p>
+            <p>Order {tableActive}</p>
             <span>
               <FaArrowRight
                 className={`tables-arrow--${tableActive !== mesas.length}`}
@@ -109,7 +109,7 @@ function OrderSection({
   };
 
   //Calcula el total a pagar del usuario y lo agrega al estado de la orden activa
-  const totalToPay = () => {
+  const calculateTotalToPay = () => {
     if (!!orderActive) {
       let totalToPayValue = 0;
       orderActive.products.forEach((product) => {
@@ -195,7 +195,7 @@ function OrderSection({
     <div className='fixedHandler'>
       <span id='total-to-pay'>
         <p>Total</p>
-        <p> ${totalToPay()}</p>
+        <p> ${calculateTotalToPay() || 0}</p>
       </span>
       <span id='buttonToPay'>Go to Pay</span>
     </div>
@@ -206,21 +206,16 @@ function OrderSection({
       <div>
         {renderOrderSectionTitle()}
         {createBill()}
-
         <span>{clientName ? clientName : 'Sin Registrar'}</span>
-
         {listRender()}
-        {!!tableActive &&
-          !mesas[tableActive - 1].nombreCliente &&
-          !openCreateOrder && (
-            <button
-              id='checkIn-button'
-              onClick={() => setOpenCreateOrder(true)}
-            >
-              Register table
-            </button>
-          )}
-        {!!totalToPay() && fixedHandler()}
+        {!mesas[tableActive - 1].nombreCliente && !openCreateOrder && (
+          <button id='checkIn-button' onClick={() => setOpenCreateOrder(true)}>
+            New Order
+          </button>
+        )}
+        {mesas[tableActive - 1].nombreCliente &&
+          !openCreateOrder &&
+          fixedHandler()}
       </div>
     </div>
   );

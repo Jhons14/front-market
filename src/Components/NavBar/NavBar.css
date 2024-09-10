@@ -1,6 +1,6 @@
 .NavBar {
   position: fixed;
-  width: 100%;
+  width: 100vw;
   display: grid;
   align-items: center;
   grid-template-columns: 1fr 2fr 1fr 1fr;
@@ -9,6 +9,7 @@
   top: 0;
   border-bottom: solid 1px rgba(255, 255, 224, 0.191);
   background: var(--dark-bg-color);
+  box-sizing: border-box;
 }
 
 .searchValue {
@@ -29,4 +30,10 @@
 .searchvalue::placeholder {
   color: red;
   opacity: 1;
+}
+.signOut {
+  text-align: end;
+}
+.signOut > span {
+  cursor: pointer;
 }
