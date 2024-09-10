@@ -21,13 +21,17 @@ async function authenticate(username, password) {
       password: password,
     }),
   };
-  const parsedToken = await fetch(AUTHENTICATION_URL, credentials)
-    .then((res) => res.json().then((res) => res.jwt))
-    .catch((error) => {
-      console.log(error);
-    });
-  sessionStorage.setItem('token', parsedToken);
-  window.location.reload();
+  const parsedToken = await fetch(AUTHENTICATION_URL, credentials).then((res) =>
+    res
+      .json()
+      .then((res) => res.jwt)
+      .catch(() => window.alert('Invalid credentials'))
+  );
+
+  if (!!parsedToken) {
+    sessionStorage.setItem('token', parsedToken);
+    window.location.reload();
+  }
 }
 
 //SIGNOUT
@@ -53,11 +57,14 @@ async function getAllProducts() {
 }
 
 //GET PRODUCTS BY CATEGORY
-async function getProductsByCategory(setProductsActive, setLoading, setError) {
-  const CATEGORY_ID = window.location.pathname.substring(
-    window.location.pathname.lastIndexOf('/') + 1
-  );
-  const GET_PRODUCTS_BY_CATEGORY_URL = `${SERVER_URL}/platzi-market/api/products/category/${CATEGORY_ID}`;
+async function getProductsByCategory(
+  setProductsActive,
+  setLoading,
+  setError,
+  categoryId
+) {
+  const GET_PRODUCTS_BY_CATEGORY_URL = `${SERVER_URL}/platzi-market/api/products/category/${categoryId}`;
+
   const parsedToken = sessionStorage.getItem('token');
   const products = await fetch(GET_PRODUCTS_BY_CATEGORY_URL, {
     method: 'GET',

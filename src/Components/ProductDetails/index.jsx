@@ -57,7 +57,10 @@ function ProductDetails({
     switch (productOption.name) {
       case 'amount':
         return (
-          <div className='buttons-container amount-buttons-container'>
+          <div
+            key={productOption.name}
+            className='buttons-container amount-buttons-container'
+          >
             <div>
               <CiSquareMinus
                 size={32}
@@ -86,7 +89,7 @@ function ProductDetails({
 
       case 'size':
         return (
-          <section>
+          <section key={productOption.name}>
             {sizesToShow.map((value) => (
               <div>
                 <span
@@ -102,7 +105,7 @@ function ProductDetails({
 
       case 'edit':
         return (
-          <div className='product-option size-option'>
+          <div className='product-option size-option' key={productOption.name}>
             <section className='buttons-container size-buttons-container'>
               <button
                 type='button'
@@ -116,6 +119,7 @@ function ProductDetails({
       case 'upload':
         return (
           <form
+            key={productOption.name}
             id='uploadForm'
             enctype='multipart/form-data'
             style={{ display: 'flex', flexDirection: 'column' }}

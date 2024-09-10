@@ -124,7 +124,6 @@
   padding: 0 8px;
   display: flex;
   justify-content: space-between;
-  border-bottom: solid 1px var(--font-color);
 }
 #buttonToPay {
   display: flex;
@@ -134,6 +133,7 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  border-top: solid 1px var(--font-color);
   cursor: pointer;
 }
 

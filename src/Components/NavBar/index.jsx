@@ -39,7 +39,9 @@ function NavBar() {
         />
       </section>
       <div>go to perfil</div>
-      <button onClick={() => signOut()}>Sign Out</button>
+      <div className='signOut' onClick={() => signOut()}>
+        <span> Sign Out</span>
+      </div>
     </nav>
   );
 }
