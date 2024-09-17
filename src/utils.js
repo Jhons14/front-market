@@ -10,7 +10,7 @@ const UPDATE_PRODUCT_URL = `${SERVER_URL}/platzi-market/api/products/update/`;
 const GET_ALL_CATEGORIES_URL = `${SERVER_URL}/platzi-market/api/category/all`;
 
 //AUTHENTICATION
-async function authenticate(username, password) {
+async function authenticate(username, password, setError) {
   const credentials = {
     method: 'POST',
     headers: {
@@ -21,16 +21,20 @@ async function authenticate(username, password) {
       password: password,
     }),
   };
-  const parsedToken = await fetch(AUTHENTICATION_URL, credentials).then((res) =>
-    res
-      .json()
-      .then((res) => res.jwt)
-      .catch(() => window.alert('Invalid credentials'))
-  );
 
-  if (!!parsedToken) {
-    sessionStorage.setItem('token', parsedToken);
-    window.location.reload();
+  const response = await fetch(AUTHENTICATION_URL, credentials).catch(() =>
+    setError('Error desconocido, por favor intente mas tarde')
+  );
+  if (!!response) {
+    if (!response.ok) {
+      const jsonRes = await response.json();
+      console.log(jsonRes.message);
+      setError(jsonRes.message);
+    } else {
+      const jsonRes = await response.json();
+      sessionStorage.setItem('token', jsonRes.jwt);
+      window.location.reload();
+    }
   }
 }
 
@@ -78,7 +82,7 @@ async function getProductsByCategory(
     });
 
   setLoading(false);
-  setProductsActive();
+  productsActive();
   return products;
 }
 

@@ -23,19 +23,20 @@ function Menus(props) {
 
   return (
     <div className='Menus'>
-      {categories?.map((category) => {
-        const categoryArray = [category];
+      {!!categories.length > 0 &&
+        categories?.map((category) => {
+          const categoryArray = [category];
 
-        return (
-          <MenuButton
-            key={category.categoryId}
-            setProductsActive={props.setProductsActive}
-            category={categoryArray}
-            setLoading={props.setLoading}
-            isEditActive={isEditActive}
-          />
-        );
-      })}
+          return (
+            <MenuButton
+              key={category.categoryId}
+              setProductsActive={props.setProductsActive}
+              category={categoryArray}
+              setLoading={props.setLoading}
+              isEditActive={isEditActive}
+            />
+          );
+        })}
       <button
         type='button'
         onClick={() => {

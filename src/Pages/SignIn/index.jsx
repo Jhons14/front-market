@@ -1,19 +1,17 @@
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import './index.css';
 import { authenticate } from '../../utils';
 
 function SignIn() {
-  const navigate = useNavigate();
-
+  const [error, setError] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    authenticate(email, password);
+    await authenticate(email, password, setError);
   };
 
   return (
@@ -48,6 +46,7 @@ function SignIn() {
             </span>
           </div>
           <button type='submit'>Sign In</button>
+          {!!error && <p>{error}</p>}
         </form>
       </div>
     </div>

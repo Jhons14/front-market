@@ -10,19 +10,6 @@ import { SignIn } from '../SignIn';
 import './index.css';
 
 function AppRoutes() {
-  const ProtectedComponent = ({ component: Component, ...rest }) => (
-    <Route
-      {...rest}
-      render={(props) =>
-        sessionStorage.getItem('token') ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to={SignIn} />
-        )
-      }
-    />
-  );
-
   let appRoutes = useRoutes([
     {
       path: '/',
