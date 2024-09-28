@@ -109,14 +109,6 @@
   bottom: 0;
 }
 
-#checkIn-button {
-  font-size: larger;
-  background-color: var(--hover-color);
-  border: none;
-  border-radius: 12px;
-  height: 72px;
-}
-
 #checkIn-button:hover {
   cursor: pointer;
 }
@@ -125,7 +117,8 @@
   display: flex;
   justify-content: space-between;
 }
-#buttonToPay {
+#buttonToPay,
+#checkIn-button {
   display: flex;
   height: 72px;
   padding: 8px;

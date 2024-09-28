@@ -7,6 +7,7 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 import './index.css';
+import { CreateBill } from '../CreateBill';
 
 function OrderSection({
   tableActive,
@@ -16,7 +17,6 @@ function OrderSection({
 }) {
   const [openCreateOrder, setOpenCreateOrder] = useState(false);
   const scrollListPointer = useState({});
-  const formRef = useRef();
 
   const [mesas, setMesas] = useState([
     {
@@ -61,52 +61,6 @@ function OrderSection({
       downArrow.style.display = 'block';
     }
   }
-
-  const renderOrderSectionTitle = () => {
-    if (!!tableActive) {
-      const renderMesaTitle = () => (
-        <span className='order-title_section'>
-          <div>
-            <span>
-              <FaArrowLeft
-                className={`tables-arrow--${tableActive !== 1}`}
-                onClick={() => setTableActive(tableActive - 1)}
-              />
-            </span>
-            <p>Order {tableActive}</p>
-            <span>
-              <FaArrowRight
-                className={`tables-arrow--${tableActive !== mesas.length}`}
-                onClick={() => setTableActive(tableActive + 1)}
-              />
-            </span>
-          </div>
-        </span>
-      );
-
-      if (!!tableActive) {
-        return renderMesaTitle();
-      }
-    }
-  };
-
-  const createBill = () => {
-    if (!!openCreateOrder) {
-      return (
-        <form className='register-client-form' ref={formRef}>
-          <p>Nombre del cliente:</p>
-          <input type='text' name='nombre-cliente' id='nombre-cliente' />
-          <button onClick={() => checkInTable()}>Registrar</button>
-        </form>
-      );
-    }
-  };
-
-  const checkInTable = () => {
-    const formData = new FormData(formRef.current);
-    mesas[tableActive - 1].nombreCliente = formData.get('nombre-cliente');
-    setOpenCreateOrder(false);
-  };
 
   //Calcula el total a pagar del usuario y lo agrega al estado de la orden activa
   const calculateTotalToPay = () => {
@@ -191,31 +145,63 @@ function OrderSection({
     );
   };
 
-  const fixedHandler = () => (
-    <div className='fixedHandler'>
-      <span id='total-to-pay'>
-        <p>Total</p>
-        <p> ${calculateTotalToPay() || 0}</p>
-      </span>
-      <span id='buttonToPay'>Go to Pay</span>
-    </div>
-  );
+  const fixedHandler = () => {
+    if (clientName && !openCreateOrder) {
+      return (
+        <div className='fixedHandler'>
+          <span id='total-to-pay'>
+            <p>Total</p>
+            <p> ${calculateTotalToPay() || 0}</p>
+          </span>
+          <span id='buttonToPay'>Go to Pay</span>
+        </div>
+      );
+    }
+  };
 
+  function checkInTable(form) {
+    const formData = new FormData(form);
+    mesas[tableActive - 1].nombreCliente = formData.get('nombre-cliente');
+    setOpenCreateOrder(false);
+  }
   return (
     <div className='order-section-container'>
       <div>
-        {renderOrderSectionTitle()}
-        {createBill()}
-        <span>{clientName ? clientName : 'Sin Registrar'}</span>
+        {!!tableActive && (
+          <span className='order-title_section'>
+            <div>
+              <span>
+                <FaArrowLeft
+                  className={`tables-arrow--${tableActive !== 1}`}
+                  onClick={() => setTableActive(tableActive - 1)}
+                />
+              </span>
+              <p>Order {tableActive}</p>
+              <span>
+                <FaArrowRight
+                  className={`tables-arrow--${tableActive !== mesas.length}`}
+                  onClick={() => setTableActive(tableActive + 1)}
+                />
+              </span>
+            </div>
+          </span>
+        )}
+        <CreateBill
+          openCreateOrder={openCreateOrder}
+          setOpenCreateOrder={setOpenCreateOrder}
+          checkInTable={checkInTable}
+        />
+        {!openCreateOrder && (
+          <span>{clientName ? clientName : 'Sin Registrar'}</span>
+        )}
         {listRender()}
-        {!mesas[tableActive - 1].nombreCliente && !openCreateOrder && (
+
+        {!clientName && !openCreateOrder && (
           <button id='checkIn-button' onClick={() => setOpenCreateOrder(true)}>
             New Order
           </button>
         )}
-        {mesas[tableActive - 1].nombreCliente &&
-          !openCreateOrder &&
-          fixedHandler()}
+        {fixedHandler()}
       </div>
     </div>
   );

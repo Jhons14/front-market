@@ -7,14 +7,17 @@ function NavBar() {
   const [searchField, setSearchField] = useState('');
   const [products, setProducts] = useState([]);
   const { setProductsByCategory } = useContext(MainContext);
-
   useEffect(() => {
-    const fetch = async () => {
-      await getAllProducts()
-        .then((data) => setProducts(data))
-        .catch((e) => console.log(e));
-    };
-    fetch();
+    if (searchField.length > 0) {
+      console.log(searchField.length);
+
+      const fetch = async () => {
+        await getAllProducts()
+          .then((data) => setProducts(data))
+          .catch((e) => console.log(e));
+      };
+      fetch();
+    }
   }, []);
 
   useEffect(() => {
@@ -32,6 +35,7 @@ function NavBar() {
       <span>KHD</span>
       <section className='searchField'>
         <input
+          id='searchValue'
           onChange={(e) => onSearchingChange(e.target.value)}
           className='searchValue'
           type='text'

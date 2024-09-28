@@ -10,7 +10,13 @@ const UPDATE_PRODUCT_URL = `${SERVER_URL}/platzi-market/api/products/update/`;
 const GET_ALL_CATEGORIES_URL = `${SERVER_URL}/platzi-market/api/category/all`;
 
 //AUTHENTICATION
-async function authenticate(username, password) {
+async function authenticate(
+  username,
+  password,
+  setUserLogged,
+  setError,
+  userLogged
+) {
   const credentials = {
     method: 'POST',
     headers: {
@@ -21,16 +27,19 @@ async function authenticate(username, password) {
       password: password,
     }),
   };
-  const parsedToken = await fetch(AUTHENTICATION_URL, credentials).then((res) =>
-    res
-      .json()
-      .then((res) => res.jwt)
-      .catch(() => window.alert('Invalid credentials'))
-  );
 
-  if (!!parsedToken) {
-    sessionStorage.setItem('token', parsedToken);
-    window.location.reload();
+  const response = await fetch(AUTHENTICATION_URL, credentials).catch(() =>
+    setError('Error desconocido, por favor intente mas tarde')
+  );
+  if (!!response) {
+    if (!response.ok) {
+      const jsonRes = await response.json();
+      setError(jsonRes.message);
+    } else {
+      const jsonRes = await response.json();
+      sessionStorage.setItem('token', jsonRes.jwt);
+      setUserLogged(true);
+    }
   }
 }
 
@@ -51,35 +60,38 @@ async function getAllProducts() {
     },
   })
     .then((data) => (data = data.json()))
-    .catch((error) => {
-      window.alert(error);
-    });
+    .catch((error) => console.log(error));
 }
 
 //GET PRODUCTS BY CATEGORY
 async function getProductsByCategory(
-  setProductsActive,
   setLoading,
   setError,
-  categoryId
+  categoryId,
+  setProductsByCategory
 ) {
   const GET_PRODUCTS_BY_CATEGORY_URL = `${SERVER_URL}/platzi-market/api/products/category/${categoryId}`;
 
   const parsedToken = sessionStorage.getItem('token');
-  const products = await fetch(GET_PRODUCTS_BY_CATEGORY_URL, {
+  setLoading(true);
+
+  const response = await fetch(GET_PRODUCTS_BY_CATEGORY_URL, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${parsedToken}`,
     },
-  })
-    .then((data) => (data = data.json()))
-    .catch((error) => {
-      setError(error);
-    });
+  }).catch(() => setError('Error desconocido. Por favor intente mas tarde'));
 
+  if (!!response) {
+    if (!!response.ok) {
+      const jsonRes = await response.json();
+      setProductsByCategory(jsonRes);
+    } else if (response.status === 401) {
+      const jsonRes = await response.json();
+      setError(jsonRes.errorMessage);
+    }
+  }
   setLoading(false);
-  setProductsActive();
-  return products;
 }
 
 //GET PRODUCT BY ID
@@ -96,7 +108,7 @@ async function getProductById() {
   })
     .then((data) => (data = data.json()))
     .catch((error) => {
-      window.alert(error);
+      window.setError(error);
     });
   return product;
 }
@@ -115,14 +127,8 @@ async function uploadImg() {
     headers: {
       Authorization: `Bearer ${parsedToken}`,
     },
-  })
-    .then((response) => response.text())
-    .then((data) => {
-      window.alert(data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+  }).then((response) => response.text());
+
   const productBody = { img_url: fileInput.files[0].name };
 
   fetch(`${UPDATE_PRODUCT_URL + product.productId}`, {
@@ -288,7 +294,7 @@ async function getAllCategories() {
   })
     .then((data) => (data = data.json()))
     .catch((error) => {
-      window.alert(error);
+      setError(error);
     });
   return categories;
 }
