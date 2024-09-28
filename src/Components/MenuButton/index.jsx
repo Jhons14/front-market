@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import './index.css';
-import { updateCategory } from '../../utils';
 
 function MenuButton(props) {
   const navigate = useNavigate();
@@ -23,24 +22,6 @@ function MenuButton(props) {
       >
         <span>{category.category}</span>
       </div>
-      {!!props.isEditActive && (
-        <div>
-          <form id='uploadForm' enctype='multipart/form-data'>
-            <input
-              type='file'
-              name='file'
-              id={`fileInput${category.categoryId}`}
-            />
-            <span
-              onClick={() => {
-                updateCategory(category.categoryId);
-              }}
-            >
-              Upload
-            </span>
-          </form>
-        </div>
-      )}
     </div>
   );
 }

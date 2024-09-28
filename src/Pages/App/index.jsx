@@ -1,8 +1,9 @@
+import { useContext } from 'react';
 import '@fontsource/poppins';
 
-import { useRoutes, BrowserRouter, Route } from 'react-router-dom';
+import { useRoutes, BrowserRouter } from 'react-router-dom';
 
-import { MainProvider } from '../../Context';
+import { MainProvider, MainContext } from '../../Context';
 import { Home } from '../Home';
 import { ProductMenu } from '../ProductMenu';
 import { EditPage } from '../EditPage';
@@ -10,10 +11,12 @@ import { SignIn } from '../SignIn';
 import './index.css';
 
 function AppRoutes() {
+  const { userLogged } = useContext(MainContext);
+
   let appRoutes = useRoutes([
     {
       path: '/',
-      element: sessionStorage.getItem('token') ? <Home /> : <SignIn />,
+      element: userLogged ? <Home /> : <SignIn />,
       children: [{ path: ':productCategory', element: <ProductMenu /> }],
     },
     {

@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MainContext } from '../../Context';
 import Layout from '../../Components/Layout';
 import { Menus } from '../../Components/Menus';
 import './index.css';
 import { Outlet } from 'react-router-dom';
-import { OrderSection } from '../OrderSection';
+import { OrderSection } from '../../Components/OrderSection';
 import { NavBar } from '../../Components/NavBar';
 
 function Home() {
   const {
     setError,
-    setProductsActive,
     setLoading,
     tableActive,
     setTableActive,
@@ -23,11 +22,7 @@ function Home() {
       <NavBar />
       <Layout>
         <div className='interface-container'>
-          <Menus
-            setError={setError}
-            setProductsActive={setProductsActive}
-            setLoading={setLoading}
-          />
+          <Menus setError={setError} setLoading={setLoading} />
           <div className='product-menu-container'>
             <Outlet />
           </div>

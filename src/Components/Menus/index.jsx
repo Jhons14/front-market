@@ -30,21 +30,11 @@ function Menus(props) {
           return (
             <MenuButton
               key={category.categoryId}
-              setProductsActive={props.setProductsActive}
               category={categoryArray}
               setLoading={props.setLoading}
-              isEditActive={isEditActive}
             />
           );
         })}
-      <button
-        type='button'
-        onClick={() => {
-          setIsEditActive((prevState) => !prevState);
-        }}
-      >
-        Edit
-      </button>
     </div>
   );
 }
