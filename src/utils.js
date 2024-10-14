@@ -114,7 +114,7 @@ async function getProductById() {
 }
 
 //UPLOAD (AND UPDATE A PRODUCT IMG)
-async function uploadImg() {
+async function uploadImg(product) {
   const parsedToken = sessionStorage.getItem('token');
   var formData = new FormData();
   var fileInput = document.getElementById(`fileInput`);

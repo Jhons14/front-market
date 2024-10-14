@@ -55,7 +55,7 @@ function ProductBox(props) {
         <div className='product-img'>
           <img
             className='product-img'
-            src={IMG_URL}
+            src={!!product.img_url ? IMG_URL : ''}
             alt='Imagen del producto obtenida desde el servidor'
           />
         </div>
