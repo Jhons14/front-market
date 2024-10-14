@@ -121,12 +121,12 @@ function ProductDetails({
           <form
             key={productOption.name}
             id='uploadForm'
-            enctype='multipart/form-data'
+            encType='multipart/form-data'
             style={{ display: 'flex', flexDirection: 'column' }}
           >
             <span>Upload</span>
             <input type='file' name='file' id={`fileInput`} />
-            <button type='button' onClick={() => uploadImg()}>
+            <button type='button' onClick={() => uploadImg(product)}>
               Upload
             </button>
           </form>

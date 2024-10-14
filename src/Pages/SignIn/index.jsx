@@ -1,19 +1,23 @@
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import './index.css';
 import { authenticate } from '../../utils';
+import { MainContext } from '../../Context';
+import { useNavigate } from 'react-router-dom';
 
 function SignIn() {
   const navigate = useNavigate();
-
+  const [error, setError] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const { userLogged, setUserLogged } = useContext(MainContext);
+
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    authenticate(email, password);
+    await authenticate(email, password, setUserLogged, setError, userLogged);
+    navigate('/5');
   };
 
   return (
@@ -49,6 +53,7 @@ function SignIn() {
           </div>
           <button type='submit'>Sign In</button>
         </form>
+        {!!error && <p>{error}</p>}
       </div>
     </div>
   );

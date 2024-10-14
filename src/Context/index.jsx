@@ -7,6 +7,18 @@ export const MainContext = createContext();
 export function MainProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState());
 
+  //STATE UPDATERS
+  useEffect(() => {
+    sessionStorage.getItem('token') && onSetUserLogged(true);
+  }, []);
+  ////USER LOGIN
+  const onSetUserLogged = (userLogged) =>
+    dispatch({
+      type: actionTypes.setUserLogged,
+      payload: userLogged,
+    });
+
+  ////ProductsByCategory
   const onSetProductsByCategory = (productsByCategory) =>
     dispatch({
       type: actionTypes.setProductsByCategory,
@@ -18,9 +30,6 @@ export function MainProvider({ children }) {
 
   const onSetError = (error) =>
     dispatch({ type: actionTypes.setError, payload: error });
-
-  const onSetProductsActive = () =>
-    dispatch({ type: actionTypes.setProductsActive });
 
   const onSetTypeProductActive = (typeProductActive) =>
     dispatch({
@@ -34,35 +43,17 @@ export function MainProvider({ children }) {
   const onSetTableActive = (tableActive) =>
     dispatch({ type: actionTypes.setTableActive, payload: tableActive });
 
-  useEffect(() => {
-    if (state.typeProductActive !== '') {
-      const fetchProducts = async () => {
-        onSetLoading(true);
-        const response = await getProductsByCategory(
-          onSetProductsActive,
-          onSetLoading,
-          onSetError,
-          state.typeProductActive
-        );
-        onSetProductsByCategory(response);
-        onSetLoading(false);
-        onSetProductsActive();
-      };
-      fetchProducts();
-    }
-  }, [state.typeProductActive]);
-
   return (
     <MainContext.Provider
       value={{
+        userLogged: state.userLogged,
         error: state.error,
         loading: state.loading,
         productsByCategory: state.productsByCategory,
-        productsActive: state.productsActive,
         typeProductActive: state.typeProductActive,
         orderList: state.orderList,
         tableActive: state.tableActive,
-        setProductsActive: onSetProductsActive,
+        setUserLogged: onSetUserLogged,
         setError: onSetError,
         setLoading: onSetLoading,
         setProductsByCategory: onSetProductsByCategory,
@@ -78,17 +69,21 @@ export function MainProvider({ children }) {
 
 const initialState = () => {
   return {
+    userLogged: false,
     isModalOpen: false,
     error: false,
     loading: false,
-    productsActive: '',
     productsByCategory: [],
-    typeProductActive: '5',
+    typeProductActive: '',
     orderList: [],
     tableActive: 1,
   };
 };
 const reducerObject = (state, payload) => ({
+  [actionTypes.setUserLogged]: {
+    ...state,
+    userLogged: payload,
+  },
   [actionTypes.setError]: {
     ...state,
     error: payload,
@@ -105,10 +100,6 @@ const reducerObject = (state, payload) => ({
     ...state,
     productsByCategory: payload,
   },
-  [actionTypes.setProductsActive]: {
-    ...state,
-    isActive: true,
-  },
   [actionTypes.setOrderList]: {
     ...state,
     orderList: payload,
@@ -124,11 +115,11 @@ const reducerObject = (state, payload) => ({
 });
 
 const actionTypes = {
+  setUserLogged: 'SET_USER_LOGGED',
   setError: 'SET_ERROR',
   setLoading: 'SET_LOADING',
   setTypeProductActive: 'SET_TYPE_PRODUCT_ACTIVE',
   setProductsByCategory: 'SET_PRODUCTS_BY_CATEGORY',
-  setProductsActive: 'SET_PRODUCTS_ACTIVE',
   setOrderList: 'SET_ORDER_LIST',
   setTableActive: 'SET_TABLE_ACTIVE',
   isModalOpen: 'IS_MODAL_OPEN',
