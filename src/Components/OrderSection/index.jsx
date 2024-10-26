@@ -108,7 +108,7 @@ function OrderSection({
           </div>
           <div style={{ textAlign: 'center' }}>
             <span>{product?.name}</span>
-            <span> x{product?.quantity}</span>
+            <span> x {product?.quantity}</span>
           </div>
           <span>${product?.totalPrice}</span>
         </div>

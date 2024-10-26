@@ -17,6 +17,7 @@ function MenuButton(props) {
       <div
         className={`MenuButton ${category.category}Button`}
         onClick={() => {
+          props.setError(false);
           navigate(category.categoryId.toString());
         }}
       >

@@ -26,12 +26,12 @@ function Menus(props) {
       {!!categories.length > 0 &&
         categories?.map((category) => {
           const categoryArray = [category];
-
           return (
             <MenuButton
               key={category.categoryId}
               category={categoryArray}
               setLoading={props.setLoading}
+              setError={props.setError}
             />
           );
         })}

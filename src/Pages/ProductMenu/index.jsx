@@ -58,7 +58,7 @@ function ProductMenu() {
               orderList={orderList}
               tableActive={tableActive}
               typeProductActive={typeProductActive}
-              optionList={['amount', 'edit']}
+              optionList={['amount']}
               setTableActive={setTableActive}
             />
           )}

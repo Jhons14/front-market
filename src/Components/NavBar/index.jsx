@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom';
+import { FaSearch } from 'react-icons/fa';
+
 import { useContext, useEffect, useState } from 'react';
 import { getAllProducts, signOut } from '../../utils';
 import { MainContext } from '../../Context';
@@ -6,11 +7,10 @@ import './NavBar.css';
 function NavBar() {
   const [searchField, setSearchField] = useState('');
   const [products, setProducts] = useState([]);
-  const { setProductsByCategory } = useContext(MainContext);
-  useEffect(() => {
-    if (searchField.length > 0) {
-      console.log(searchField.length);
+  const { setProductsByCategory, setError } = useContext(MainContext);
 
+  useEffect(() => {
+    if (searchField.length >= 0) {
       const fetch = async () => {
         await getAllProducts()
           .then((data) => setProducts(data))
@@ -20,31 +20,42 @@ function NavBar() {
     }
   }, []);
 
-  useEffect(() => {
-    if (!!searchField) {
-      const newFilteredProducts = products.filter((product) =>
-        product.name.toLowerCase().includes(searchField.toLowerCase())
-      );
+  function useSearch(searchField) {
+    const newFilteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(searchField.toLowerCase())
+    );
+    if (newFilteredProducts.length === 0) {
+      setError('No products found');
+    } else {
       setProductsByCategory(newFilteredProducts);
     }
-  }, [searchField]);
+    setSearchField('');
+  }
 
   const onSearchingChange = (textToSearch) => setSearchField(textToSearch);
+
   return (
     <nav className='NavBar'>
       <span>KHD</span>
-      <section className='searchField'>
+      <section id='Search-section'>
         <input
-          id='searchValue'
+          id='Search-input'
           onChange={(e) => onSearchingChange(e.target.value)}
-          className='searchValue'
+          value={searchField}
           type='text'
           placeholder='Search a product'
         />
+        <span
+          id='Search-button'
+          type='button'
+          onClick={() => useSearch(searchField)}
+        >
+          <FaSearch />
+        </span>
       </section>
-      <div>go to perfil</div>
+      <div>Go to perfil</div>
       <div className='signOut' onClick={() => signOut()}>
-        <span> Sign Out</span>
+        <span>Sign Out</span>
       </div>
     </nav>
   );

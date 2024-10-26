@@ -8,9 +8,6 @@ import './index.css';
 function ProductBox(props) {
   const [product, setProduct] = useState();
 
-  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-  const IMG_URL = `${SERVER_URL}/platzi-market/api/images/products/${product?.img_url}`;
-
   const [productOptionsData, setProductOptionsData] = useState([
     {
       id: 1,
@@ -52,14 +49,6 @@ function ProductBox(props) {
           )
         }
       >
-        <div className='product-img'>
-          <img
-            className='product-img'
-            src={!!product.img_url ? IMG_URL : ''}
-            alt='Imagen del producto obtenida desde el servidor'
-          />
-        </div>
-
         <ProductDetails
           product={product}
           productOptionsData={productOptionsData}
