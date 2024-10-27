@@ -8,23 +8,11 @@ import './index.css';
 function ProductBox(props) {
   const [product, setProduct] = useState();
 
-  const [productOptionsData, setProductOptionsData] = useState([
-    {
-      id: 1,
-      name: 'amount',
-      value: 0,
-    },
-    {
-      id: 2,
-      name: 'upload',
-      value: '',
-    },
-    {
-      id: 3,
-      name: 'edit',
-      value: '',
-    },
-  ]);
+  const [productOptionsData, setProductOptionsData] = useState({
+    id: 1,
+    name: 'amount',
+    value: 0,
+  });
 
   useEffect(() => {
     if (props.product) {

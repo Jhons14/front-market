@@ -1,0 +1,24 @@
+.register-client-form {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  gap: 20px;
+  align-items: center;
+}
+.register-client-form > h2 {
+  width: 100%;
+  margin: 0;
+}
+.register-client-form > button {
+  width: 40%;
+  padding: 12px;
+  border-radius: 8px;
+  border: solid 1px #fda503d3;
+}
+.register-client-form > button:hover {
+  cursor: pointer;
+}
+
+.register-client-form > input {
+  width: 100%;
+}

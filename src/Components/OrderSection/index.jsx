@@ -107,6 +107,7 @@ function OrderSection({
             />
           </div>
           <div style={{ textAlign: 'center' }}>
+            {console.log(products)}
             <span>{product?.name}</span>
             <span> x {product?.quantity}</span>
           </div>
@@ -153,7 +154,7 @@ function OrderSection({
             <p>Total</p>
             <p> ${calculateTotalToPay() || 0}</p>
           </span>
-          <span id='buttonToPay'>Go to Pay</span>
+          <button id='buttonToPay'>Go to Pay</button>
         </div>
       );
     }
@@ -176,7 +177,7 @@ function OrderSection({
                   onClick={() => setTableActive(tableActive - 1)}
                 />
               </span>
-              <p>Order {tableActive}</p>
+              <h1>Order {tableActive}</h1>
               <span>
                 <FaArrowRight
                   className={`tables-arrow--${tableActive !== mesas.length}`}

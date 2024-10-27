@@ -170,11 +170,11 @@ function handleAdd(
 
   //Se copia el estado que contiene las opciones disponibles del menu de adiciones
 
-  let newProductOptionsData = [...productOptionsData];
-  const productAmount = productOptionsData[0].value;
+  let newProductOptionsData = { ...productOptionsData };
+  const productAmount = productOptionsData.value;
   //Funcion para reinciar el contador de cantidad de producto a añadir
   const restartAmountCounter = () => {
-    newProductOptionsData[0].value = 0;
+    newProductOptionsData.value = 0;
     setProductOptionsData(newProductOptionsData);
   };
 
