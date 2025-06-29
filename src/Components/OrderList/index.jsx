@@ -1,36 +1,36 @@
-import { useState, useEffect, useRef } from 'react'
-import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io'
-import { MdOutlineModeEditOutline } from 'react-icons/md'
+import { useState, useEffect, useRef } from 'react';
+import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
+import { MdOutlineModeEditOutline } from 'react-icons/md';
 
-import { OrderItems } from '../OrderItems'
+import { OrderItems } from '../OrderItems';
 
-import './Index.css'
-import { EditOrderList } from '../EditOrderList'
+import './index.css';
+import { EditOrderList } from '../EditOrderList';
 
 export function OrderList({ orderActive }) {
-  const [showUpArrow, setShowUpArrow] = useState(false)
-  const [showDownArrow, setShowDownArrow] = useState(false)
-  const [openEditOrder, setOrderEditable] = useState(false)
-  const [order, setOrder] = useState({})
+  const [showUpArrow, setShowUpArrow] = useState(false);
+  const [showDownArrow, setShowDownArrow] = useState(false);
+  const [openEditOrder, setOrderEditable] = useState(false);
+  const [order, setOrder] = useState({});
 
-  const orderListRef = useRef(null)
+  const orderListRef = useRef(null);
 
   useEffect(() => {
-    handleScroll()
-    setOrder({ ...orderActive })
-  }, [orderActive])
+    handleScroll();
+    setOrder({ ...orderActive });
+  }, [orderActive]);
 
   function handleScroll() {
-    const container = orderListRef.current
+    const container = orderListRef.current;
     if (container) {
-      const { scrollTop, clientHeight, scrollHeight } = container
-      setShowUpArrow(scrollTop > 0)
-      setShowDownArrow(scrollHeight - scrollTop > clientHeight)
+      const { scrollTop, clientHeight, scrollHeight } = container;
+      setShowUpArrow(scrollTop > 0);
+      setShowDownArrow(scrollHeight - scrollTop > clientHeight);
     }
   }
 
   return (
-    <div className="order-list-container">
+    <div className='order-list-container'>
       {orderActive.products.length > 0 && (
         <MdOutlineModeEditOutline
           className={`edit-icon edit-icon--${openEditOrder}`}
@@ -38,7 +38,9 @@ export function OrderList({ orderActive }) {
           onClick={() => setOrderEditable((prev) => !prev)}
         />
       )}
-      <div className="arrow_div">{!!showUpArrow && <IoIosArrowUp id="scroll-up-list-arrow" />}</div>
+      <div className='arrow_div'>
+        {!!showUpArrow && <IoIosArrowUp id='scroll-up-list-arrow' />}
+      </div>
 
       <OrderItems
         handleScroll={handleScroll}
@@ -61,9 +63,9 @@ export function OrderList({ orderActive }) {
         />
       )}
 
-      <div className="arrow_div">
-        {!!showDownArrow && <IoIosArrowDown id="scroll-down-list-arrow" />}
+      <div className='arrow_div'>
+        {!!showDownArrow && <IoIosArrowDown id='scroll-down-list-arrow' />}
       </div>
     </div>
-  )
+  );
 }
