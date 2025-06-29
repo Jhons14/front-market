@@ -1,56 +1,66 @@
-import { createContext, useEffect, useReducer, useState } from 'react'
+import { createContext, useEffect, useReducer, useState } from 'react';
 
-export const authContext = createContext()
+export const authContext = createContext();
 
 export function AuthProvider({ children }): JSX.Element {
-  const [auth, setAuth] = useState({})
+  const [auth, setAuth] = useState({});
 
-  return <authContext.Provider value={{ auth, setAuth }}>{children}</authContext.Provider>
+  return (
+    <authContext.Provider value={{ auth, setAuth }}>
+      {children}
+    </authContext.Provider>
+  );
 }
 
-export const MainContext = createContext()
+export const MainContext = createContext();
 
 export function MainProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, initialState())
+  const [state, dispatch] = useReducer(reducer, initialState());
 
   //STATE UPDATERS
   useEffect(() => {
-    sessionStorage.getItem('token') && onSetUserLogged(true)
-  }, [])
+    sessionStorage.getItem('token') && onSetUserLogged(true);
+  }, []);
   ////USER LOGIN
   const onSetUserLogged = (userLogged) =>
     dispatch({
       type: actionTypes.setUserLogged,
-      payload: userLogged
-    })
+      payload: userLogged,
+    });
 
   ////ProductsByCategory
   const onSetProductsByCategory = (productsByCategory) =>
     dispatch({
       type: actionTypes.setProductsByCategory,
-      payload: productsByCategory
-    })
+      payload: productsByCategory,
+    });
 
-  const onSetLoading = (isActive) => dispatch({ type: actionTypes.setLoading, payload: isActive })
+  const onSetLoading = (isActive) =>
+    dispatch({ type: actionTypes.setLoading, payload: isActive });
 
-  const onSetError = (error) => dispatch({ type: actionTypes.setError, payload: error })
+  const onSetError = (error) =>
+    dispatch({ type: actionTypes.setError, payload: error });
 
-  const onSetWarning = (warning) => dispatch({ type: actionTypes.setWarning, payload: warning })
+  const onSetWarning = (warning) =>
+    dispatch({ type: actionTypes.setWarning, payload: warning });
 
   const onSetTypeProductActive = (typeProductActive) =>
     dispatch({
       type: actionTypes.setTypeProductActive,
-      payload: typeProductActive
-    })
+      payload: typeProductActive,
+    });
 
   const onSetOrderList = (productsByCategory) =>
-    dispatch({ type: actionTypes.setOrderList, payload: productsByCategory })
+    dispatch({ type: actionTypes.setOrderList, payload: productsByCategory });
 
   const onSetTableActive = (tableActive) =>
-    dispatch({ type: actionTypes.setTableActive, payload: tableActive })
+    dispatch({ type: actionTypes.setTableActive, payload: tableActive });
 
   const onsetOpenModal = (openCreateOrder) =>
-    dispatch({ type: actionTypes.setOpenCreateOrder, payload: openCreateOrder })
+    dispatch({
+      type: actionTypes.setOpenCreateOrder,
+      payload: openCreateOrder,
+    });
 
   return (
     <MainContext.Provider
@@ -73,12 +83,12 @@ export function MainProvider({ children }) {
         setTypeProductActive: onSetTypeProductActive,
         setOrderList: onSetOrderList,
         setTableActive: onSetTableActive,
-        setOpenCreateOrder: onsetOpenModal
+        setOpenCreateOrder: onsetOpenModal,
       }}
     >
       {children}
     </MainContext.Provider>
-  )
+  );
 }
 
 const initialState = () => {
@@ -90,47 +100,47 @@ const initialState = () => {
     loading: false,
     productsByCategory: [],
     typeProductActive: '',
-    orderList: []
-  }
-}
+    orderList: [],
+  };
+};
 const reducerObject = (state, payload) => ({
   [actionTypes.setUserLogged]: {
     ...state,
-    userLogged: payload
+    userLogged: payload,
   },
   [actionTypes.setError]: {
     ...state,
-    error: payload
+    error: payload,
   },
   [actionTypes.setWarning]: {
     ...state,
-    warning: payload
+    warning: payload,
   },
   [actionTypes.setLoading]: {
     ...state,
-    loading: payload
+    loading: payload,
   },
   [actionTypes.setTypeProductActive]: {
     ...state,
-    typeProductActive: payload
+    typeProductActive: payload,
   },
   [actionTypes.setProductsByCategory]: {
     ...state,
-    productsByCategory: payload
+    productsByCategory: payload,
   },
   [actionTypes.setOrderList]: {
     ...state,
-    orderList: payload
+    orderList: payload,
   },
   [actionTypes.setTableActive]: {
     ...state,
-    tableActive: payload
+    tableActive: payload,
   },
   [actionTypes.setOpenCreateOrder]: {
     ...state,
-    openCreateOrder: payload
-  }
-})
+    openCreateOrder: payload,
+  },
+});
 
 const actionTypes = {
   setUserLogged: 'USER_LOGGED',
@@ -141,9 +151,9 @@ const actionTypes = {
   setProductsByCategory: 'PRODUCTS_BY_CATEGORY',
   setOrderList: 'ORDER_LIST',
   setTableActive: 'TABLE_ACTIVE',
-  setOpenCreateOrder: 'OPEN_MODAL'
-}
+  setOpenCreateOrder: 'OPEN_MODAL',
+};
 
 const reducer = (state, action) => {
-  return reducerObject(state, action.payload)[action.type] || state
-}
+  return reducerObject(state, action.payload)[action.type] || state;
+};
