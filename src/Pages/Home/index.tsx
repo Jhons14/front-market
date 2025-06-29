@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Layout from '../../components/Layout';
 import { MainContext } from '../../Context';
-import { Menus } from '../../Components/Menus';
+import { Menus } from '../../components/Menus';
 import { OrderSection } from '../../components/OrderSection';
 import { NavBar } from '../../components/NavBar';
 import './index.css';

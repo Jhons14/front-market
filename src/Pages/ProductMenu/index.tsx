@@ -1,14 +1,14 @@
-import { useContext, useEffect } from 'react'
-import { MainContext } from '../../Context'
-import { ProductList } from '../../Components/ProductList'
-import { ProductBox } from '../../Components/ProductBox'
-import { OrdersViewer } from '../../Components/OrdersViewer'
-import { ScreenWarning } from '../../common/ScreenWarning'
-import { ScreenLoading } from '../../common/ScreenLoading'
-import { ScreenError } from '../../common/ScreenError'
-import { getProductsByCategory } from '../../utils'
+import { useContext, useEffect } from 'react';
+import { MainContext } from '../../Context';
+import { ProductList } from '../../components/ProductList';
+import { ProductBox } from '../../components/ProductBox';
+import { OrdersViewer } from '../../components/OrdersViewer';
+import { ScreenWarning } from '../../common/ScreenWarning';
+import { ScreenLoading } from '../../common/ScreenLoading';
+import { ScreenError } from '../../common/ScreenError';
+import { getProductsByCategory } from '../../utils';
 
-import './index.css'
+import './index.css';
 
 function ProductMenu(): JSX.Element {
   const {
@@ -25,35 +25,40 @@ function ProductMenu(): JSX.Element {
     setLoading,
     tableActive,
     setTableActive,
-    setProductsByCategory
-  } = useContext(MainContext)
+    setProductsByCategory,
+  } = useContext(MainContext);
 
   useEffect(() => {
-    setTypeProductActive(location.pathname.substring(1))
-  }, [location.pathname])
+    setTypeProductActive(location.pathname.substring(1));
+  }, [location.pathname]);
 
   useEffect(() => {
     if (userLogged && typeProductActive) {
       const fetchProducts = async () => {
-        await getProductsByCategory(setLoading, setError, typeProductActive, setProductsByCategory)
-      }
-      fetchProducts()
+        await getProductsByCategory(
+          setLoading,
+          setError,
+          typeProductActive,
+          setProductsByCategory
+        );
+      };
+      fetchProducts();
     }
-  }, [typeProductActive])
+  }, [typeProductActive]);
 
   const renderView = () => {
     if (!!error && !loading) {
-      return <ScreenError error={error} />
+      return <ScreenError error={error} />;
     }
     if (!!warning && !loading) {
-      return <ScreenWarning warning={warning} />
+      return <ScreenWarning warning={warning} />;
     }
 
     if (loading) {
-      return <ScreenLoading />
+      return <ScreenLoading />;
     } else {
       return (
-        <div className="product-menu-container">
+        <div className='product-menu-container'>
           <ProductList productsByCategory={productsByCategory}>
             {(product) => (
               <ProductBox
@@ -71,10 +76,10 @@ function ProductMenu(): JSX.Element {
             setTableActive={setTableActive}
           />
         </div>
-      )
+      );
     }
-  }
-  return renderView()
+  };
+  return renderView();
 }
 
-export { ProductMenu }
+export { ProductMenu };
