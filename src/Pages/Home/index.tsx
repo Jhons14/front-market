@@ -1,36 +1,54 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import Layout from '../../components/Layout'
-import { MainContext } from '../../Context'
-import { Menus } from '../../Components/Menus'
-import { OrderSection } from '../../components/OrderSection'
-import { NavBar } from '../../components/NavBar'
-import './index.css'
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Layout from '../../components/Layout';
+import { MainContext } from '../../Context';
+import { Menus } from '../../Components/Menus';
+import { OrderSection } from '../../components/OrderSection';
+import { NavBar } from '../../components/NavBar';
+import './index.css';
 
-interface Order {
-  id: string
-  orders: Array<{ id: string; name: string }>
-  table: string
-}
+type Product = {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  totalPrice: number;
+};
+type Order = {
+  table: string;
+  clientName: string;
+  products: Product[];
+  totalToPay: number;
+};
 
 function Home(): JSX.Element {
-  const { setError, setLoading, tableActive, setTableActive, orderList, setWarning } =
-    React.useContext(MainContext) as {
-      error: boolean
-      setError: (error: string) => void
-      setWarning: (warning: string) => void
-      setLoading: (isLoading: boolean) => void
-      setTableActive: (table: string) => void
-      tableActive: string
-      orderList: Array<Order>
-    }
+  const {
+    setError,
+    setLoading,
+    tableActive,
+    setTableActive,
+    orderList,
+    setWarning,
+  } = React.useContext(MainContext) as {
+    error: boolean;
+    setError: (error: string) => void;
+    setWarning: (warning: string) => void;
+    setLoading: (isLoading: boolean) => void;
+    setTableActive: (table: string) => void;
+    tableActive: string;
+    orderList: Array<Order>;
+  };
 
   return (
     <div>
       <NavBar />
       <Layout>
-        <div className="home-container">
-          <Menus setError={setError} setLoading={setLoading} setWarning={setWarning} />
+        <div className='home-container'>
+          <Menus
+            setError={setError}
+            setLoading={setLoading}
+            setWarning={setWarning}
+          />
           <Outlet />
           <OrderSection
             tableActive={tableActive}
@@ -40,6 +58,6 @@ function Home(): JSX.Element {
         </div>
       </Layout>
     </div>
-  )
+  );
 }
-export { Home }
+export { Home };
