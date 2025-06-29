@@ -1,51 +1,45 @@
-import { useState, useEffect, useContext } from 'react';
-import { ProductDetails } from '../ProductDetails';
-import { MainContext } from '../../Context';
-import { getProductById, handleAdd } from '../../utils';
+import { useState, useEffect } from 'react'
+import { ProductDetails } from '../ProductDetails'
+import { getProductById, handleProductInOrderList } from '../../utils'
 
-import './index.css';
+import './index.css'
 
 function ProductBox(props) {
-  const [product, setProduct] = useState();
+  const [product, setProduct] = useState()
 
-  const [productOptionsData, setProductOptionsData] = useState({
-    id: 1,
-    name: 'amount',
-    value: 0,
-  });
+  const [productAmount, setProductAmount] = useState(0)
+
+  //Funcion para reinciar el contador de cantidad de producto a añadir
+
+  function onAddProductToOrderList() {
+    handleProductInOrderList(
+      product,
+      productAmount,
+      props.tableActive,
+      props.orderList,
+      props.setOrderList
+    )
+    setProductAmount(0)
+  }
 
   useEffect(() => {
     if (props.product) {
-      setProduct(props.product);
+      setProduct(props.product)
     } else {
-      getProductById().then((data) => setProduct(data));
+      getProductById().then((data) => setProduct(data))
     }
-  }, []);
+  }, [])
 
-  if (!!product) {
+  if (product) {
     return (
-      <div
-        className='product-box'
-        onClick={() =>
-          handleAdd(
-            product,
-            productOptionsData,
-            setProductOptionsData,
-            props.tableActive,
-            props.orderList,
-            props.setOrderList
-          )
-        }
-      >
+      <div className="product-box" onClick={() => onAddProductToOrderList()}>
         <ProductDetails
           product={product}
-          productOptionsData={productOptionsData}
-          setProductOptionsData={setProductOptionsData}
-          optionList={props.optionList}
-          typeProductActive={props.typeProductActive}
+          productAmount={productAmount}
+          setProductAmount={setProductAmount}
         />
       </div>
-    );
+    )
   }
 }
-export { ProductBox };
+export { ProductBox }

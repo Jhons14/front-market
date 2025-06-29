@@ -12,14 +12,14 @@
   position: relative;
   opacity: 0.8;
   transition: transform 0.3s ease; /* Transición suave al hacer hover */
-  box-sizing: border-box;
+  border: 2px solid var(--button-color-menu);
 }
 
 .MenuButton:hover {
   cursor: pointer;
   opacity: 1;
   transform: scale(1.1);
-  background-color: var(--light-bg-color);
+  color: var(--button-color-menu);
 }
 
 .MenuButton > span {

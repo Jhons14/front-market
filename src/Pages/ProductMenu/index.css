@@ -1,4 +1,5 @@
-.product-menu {
-  background-color: aqua;
-  min-width: 100%;
+.product-menu-container {
+  display: grid;
+  grid-template-rows: auto 68px;
+  height: inherit;
 }
