@@ -1,78 +1,80 @@
-import { useContext } from 'react'
-import { MainContext } from '../../Context'
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
-import { FixedHandler } from '../FixedHandler'
-import { CreateBill } from '../CreateBill'
-import { OrderList } from '../OrderList'
-import { Modal } from '../Modal'
+import { useContext } from 'react';
+import { MainContext } from '../../Context';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FixedHandler } from '../FixedHandler';
+import { CreateBill } from '../CreateBill';
+import { OrderList } from '../OrderList';
+import { Modal } from '../Modal';
 
-import './index.css'
+import './index.css';
 
 type Product = {
-  id: string
-  name: string
-  price: number
-  quantity: number
-  totalPrice: number
-}
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  totalPrice: number;
+};
 
 type Order = {
-  table: number
-  clientName: string
-  products: Product[]
-  totalToPay: number
-}
+  table: string;
+  clientName: string;
+  products: Product[];
+  totalToPay: number;
+};
 
 function OrderSection({
   tableActive,
   setTableActive,
-  orderList
+  orderList,
 }: {
-  tableActive: number
-  setTableActive: (tableActive: number) => void
-  orderList: Order[]
+  tableActive: string;
+  setTableActive: (tableActive: string) => void;
+  orderList: Order[];
 }): JSX.Element {
-  const { setOpenCreateOrder } = useContext(MainContext) as MainContextType
+  const { setOpenCreateOrder } = useContext(MainContext);
 
   //EFFECTS
 
-  const orderActiveIndex = orderList?.findIndex((listItem) => listItem.table === tableActive)
-  const orderActive = orderList?.[orderActiveIndex]
+  const orderActiveIndex = orderList?.findIndex(
+    (listItem) => listItem.table === tableActive
+  );
+  const orderActive = orderList?.[orderActiveIndex];
 
-  const showLeftArrow = orderActiveIndex > 0
-  const showRightArrow = orderActiveIndex < orderList?.length - 1
+  const showLeftArrow = orderActiveIndex > 0;
+  const showRightArrow = orderActiveIndex < orderList?.length - 1;
 
-  const clientName = orderActive?.clientName
+  const clientName = orderActive?.clientName;
 
   //Calcula el total a pagar del usuario y lo agrega al estado de la orden activa
 
   function handleTableArrow(arrow: string) {
     if (arrow === 'left') {
-      setTableActive(orderList[orderActiveIndex - 1].table)
+      setTableActive(orderList[orderActiveIndex - 1].table);
     } else {
-      setTableActive(orderList[orderActiveIndex + 1].table)
+      setTableActive(orderList[orderActiveIndex + 1].table);
     }
   }
 
   const orderPrice = (): number => {
-    let totalToPayValue = 0
+    let totalToPayValue = 0;
     orderActive.products.forEach((product) => {
-      totalToPayValue += product.totalPrice
-    })
+      totalToPayValue += product.totalPrice;
+    });
 
-    return totalToPayValue
-  }
+    return totalToPayValue;
+  };
 
   if (!tableActive) {
     return (
       <Modal stateUpdater={setOpenCreateOrder}>
         <CreateBill />
       </Modal>
-    )
+    );
   } else {
     return (
-      <div className="order-section-container">
-        <div className="order-title_section">
+      <div className='order-section-container'>
+        <div className='order-title_section'>
           <span>
             <FaArrowLeft
               size={24}
@@ -90,10 +92,10 @@ function OrderSection({
           </span>
         </div>
         <span>{clientName ? clientName : 'Sin Registrar'}</span>
-        <OrderList orderActive={orderActive} orderActiveIndex={orderActiveIndex} />
+        <OrderList orderActive={orderActive} />
         <FixedHandler orderPrice={orderPrice()} />
       </div>
-    )
+    );
   }
 }
-export { OrderSection }
+export { OrderSection };
