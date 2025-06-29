@@ -1,12 +1,8 @@
 .product-list {
   display: grid;
-  height: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   overflow-y: auto;
   scrollbar-width: none;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  grid-template-rows: repeat(auto-fit, minmax(280px, 240px));
-  justify-content: center;
+  grid-auto-rows: 80px; /* Todas las filas dinámicas tendrán 240px */
   gap: 8px;
-  padding: 16px;
-  box-sizing: border-box;
 }

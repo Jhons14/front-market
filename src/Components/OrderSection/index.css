@@ -1,136 +1,53 @@
 .order-section-container {
-  height: inherit;
-  padding: 16px;
-  box-sizing: border-box;
-}
-.order-section-container > div {
   display: grid;
-  grid-template-rows: auto auto 10fr auto;
-  height: 100%;
+  overflow-y: auto;
+  padding: 0 16px;
+  gap: 4px;
+  grid-template-rows: auto auto 10fr;
+}
+
+.order-section-container > span {
+  padding: 16px 0;
+  text-align: center;
+  border-radius: 8px;
 }
 
 .order-title_section {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-}
-
-.order-title_section > div {
-  display: flex;
+  padding: 20px 0;
+  height: 52px;
+  border-bottom: groove 1px #b5838d88;
   align-items: center;
   justify-content: space-evenly;
-  gap: 16px;
 }
 
-.order-title_section > div > p {
+.order-title_section > h1 {
+  user-select: none;
+  width: 200px;
+  text-align: center;
+  margin: 0;
+}
+
+.order-title_section > p {
   font-size: 28px;
   font-weight: bold;
   align-content: center;
   margin: 0;
 }
 
-.order-title_section > div > span {
-  width: 20px;
-}
-
-.arrow-div {
-  min-height: 20px;
-  max-height: 20px;
+.order-title_section > span {
+  width: 24px;
 }
 
 .tables-arrow--true {
   display: block;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.tables-arrow--true:hover {
+  transform: scale(1.2);
 }
 
 .tables-arrow--false {
   display: none;
-}
-
-.register-client-form {
-  display: flex;
-  flex-direction: column;
-  padding: 40px;
-  gap: 20px;
-  align-items: center;
-}
-.register-client-form > button {
-  width: 40%;
-  padding: 12px;
-  border-radius: 8px;
-  border: solid 1px #fda503d3;
-}
-.register-client-form > button:hover {
-  cursor: pointer;
-}
-
-.register-client-form > input {
-  width: 100%;
-}
-
-.order-list-container {
-  gap: 2px;
-  min-height: min-content;
-  margin: 8px 0;
-}
-.order-list {
-  overflow-y: auto; /* Habilitar scroll vertical */
-  scrollbar-width: none;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.order-list__item {
-  display: flex;
-  height: fit-content;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 8px;
-  background-color: var(--light-bg-color);
-  box-sizing: border-box;
-  border-radius: 8px;
-}
-
-#delete-trash-can {
-  display: flex;
-}
-
-#delete-trash-can :hover {
-  color: rgb(115, 1, 1);
-  cursor: pointer;
-}
-
-.fixedHandler {
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  background-color: var(--light-bg-color);
-  border-radius: 10px;
-  bottom: 0;
-}
-
-#checkIn-button:hover {
-  cursor: pointer;
-}
-#total-to-pay {
-  padding: 0 8px;
-  display: flex;
-  justify-content: space-between;
-}
-#buttonToPay,
-#checkIn-button {
-  display: flex;
-  height: 72px;
-  padding: 8px;
-  border-radius: 12px;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  border-top: solid 1px var(--font-color);
-  cursor: pointer;
-}
-
-#buttonToPay:hover {
-  color: var(--dark-bg-color);
-  background-color: var(--hover-color);
 }

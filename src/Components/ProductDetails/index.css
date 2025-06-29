@@ -1,15 +1,15 @@
 #product-details-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   height: 100%;
   padding: 4px;
-  box-sizing: border-box;
 }
 
 .options-container {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   height: fit-content;
 }
 
@@ -36,19 +36,30 @@
   align-items: center;
 }
 
-#amount-counter {
+#quantity-counter {
   display: flex;
   justify-content: center;
-  width: 20px;
+  height: 24px;
+  width: 28px;
 }
-.option-button {
+#quantity-counter::selection {
+  all: unset;
+}
+
+.quantity-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
   transition: transform 0.2s ease; /* Transición suave al hacer hover */
 }
-.option-button:hover {
+
+.quantity-button-minus {
+  color: var(--button-color-minus);
+}
+.quantity-button-plus {
+  color: var(--button-color-plus);
+}
+.quantity-button:hover {
   cursor: pointer;
   transform: scale(1.1);
 }
